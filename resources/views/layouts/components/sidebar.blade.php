@@ -12,10 +12,10 @@
                 <a href="{{ route('home') }}" class="nav-link"><i
                         class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'reports.index' ? 'active' : (
+            {{-- <li class="{{ Request::route()->getName() == 'reports.index' ? 'active' : (
                 Request::route()->getName() == 'reports.create' ? 'active' : '') }}">
-                <a href="{{ route('reports.index') }}" class="nav-link"><i
-                        class="fas fa-file-contract"></i><span>{{ __('Pengumpulan') }}</span></a>
+            <a href="{{ route('reports.index') }}" class="nav-link"><i
+                    class="fas fa-file-contract"></i><span>{{ __('Pengumpulan') }}</span></a>
             </li>
             @if (Auth::user()->roles == 2)
             <li class="menu-header">{{ __('Master') }}</li>
@@ -35,7 +35,7 @@
                 <a href="{{ route('reports-employee.index') }}" class="nav-link"><i
                         class="fas fa-users"></i><span>{{ __('Pengumpulan') }}</span></a>
             </li>
-            @endif
+            @endif --}}
         </ul>
     </aside>
 </div>
