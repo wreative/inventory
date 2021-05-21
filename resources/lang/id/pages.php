@@ -13,8 +13,11 @@ return [
     |
     */
 
-    'title' => 'Report BatuBeling',
-    'brand' => 'RBB',
+    'title' => 'System Inventory',
+    'brand' => 'Inven',
     'edit' => 'Simpan Perubahan',
-    'save' => 'Simpan'
+    'save' => 'Simpan',
+    'add' => 'Tambah',
+    'editItem' => 'Edit',
+    'delItem' => 'Hapus'
 ];

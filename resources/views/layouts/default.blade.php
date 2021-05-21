@@ -9,6 +9,7 @@
             <div class="main-content">
                 <section class="section">
                     <div class="section-header">
+                        @yield('headerBack')
                         <h1>@yield('titleContent')</h1>
                         <div class="section-header-breadcrumb">
                             <div class="breadcrumb-item active">@yield('breadcrumb')</div>
@@ -32,6 +33,7 @@
         </div>
     </div>
     @include('layouts.components.footer')
+    <script src="{{ asset('pages/index.js') }}"></script>
     @yield('script')
 </body>
 
