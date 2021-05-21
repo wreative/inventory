@@ -22,12 +22,8 @@ Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
     ->name('home');
-Route::post('/check', [App\Http\Controllers\HomeController::class, 'checkTransaction'])
-    ->name('checkTransaction');
 
-Route::resource('items', App\Http\Controllers\ItemsController::class)->except([
-    'show',
-]);
+Route::resource('production', App\Http\Controllers\ProductionController::class);
 
 Route::resource('class', App\Http\Controllers\StudentClassController::class)->except([
     'show',

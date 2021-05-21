@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'System Inventory',
+    'title' => 'Data Inventory',
     'brand' => 'Inven',
     'edit' => 'Simpan Perubahan',
     'save' => 'Simpan',
