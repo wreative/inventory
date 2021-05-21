@@ -21,10 +21,10 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Total Transaksi') }}</h4>
+                    <h4>{{ __('Total Alat Produksi') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ $transaction }}
+                    {{ $production }}
                 </div>
             </div>
         </div>
@@ -36,10 +36,10 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Total Barang') }}</h4>
+                    <h4>{{ __('Total Perlengkapan') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ $items }}
+                    {{ $equipment }}
                 </div>
             </div>
         </div>
@@ -51,10 +51,10 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Total Kelas') }}</h4>
+                    <h4>{{ __('Total Persewaan Gedung') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ $items }}
+                    {{ __('20') }}
                 </div>
             </div>
         </div>
@@ -66,41 +66,41 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Total Pelajar') }}</h4>
+                    <h4>{{ __('Total Kendaraan') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ $items }}
+                    {{ __('20') }}
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="card">
+{{-- <div class="card">
     <form method="POST" action="{{ route('checkTransaction') }}">
-        @csrf
-        <div class="card-body pb-0">
-            <p class="text-muted">
-                {{ __('Untuk mengecek data masukkan nomor transaksi ke dalam kolom yang tersedia.') }}
-            </p>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </div>
-                <input type="text" class="form-control @error('code') is-invalid @enderror" name="code"
-                    placeholder="Nomor Transaksi" required autofocus>
+@csrf
+<div class="card-body pb-0">
+    <p class="text-muted">
+        {{ __('Untuk mengecek data masukkan nomor transaksi ke dalam kolom yang tersedia.') }}
+    </p>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <i class="fas fa-search"></i>
             </div>
-            @error('code')
-            <span class="text-danger" role="alert">
-                {{ $message }}
-            </span>
-            @enderror
         </div>
-        <div class="card-footer">
-            <button type="submit" class="btn btn-primary">{{ __('Cek') }}</button>
-        </div>
-    </form>
+        <input type="text" class="form-control @error('code') is-invalid @enderror" name="code"
+            placeholder="Nomor Transaksi" required autofocus>
+    </div>
+    @error('code')
+    <span class="text-danger" role="alert">
+        {{ $message }}
+    </span>
+    @enderror
+</div>
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary">{{ __('Cek') }}</button>
+</div>
+</form>
 </div>
 <div class="card card-hero">
     <div class="card-header">
@@ -138,5 +138,5 @@
             </a>
         </div>
     </div>
-</div>
+</div> --}}
 @endsection

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Equipment;
+use App\Models\Production;
 use Illuminate\Http\Request;
-use App\Models\Items;
-use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -28,16 +28,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $items = Items::count();
-        $history = DB::table('student')
-            ->select('student.id', 'student.code', 'student.name', 'history.*')
-            ->selectRaw('JSON_LENGTH(history.i_id) as total_items')
-            ->join('history', 'student.id', '=', 'history.s_id')
-            ->limit(7)
-            ->get();
-        $transaction = Transaction::count();
+        $production = Production::count();
+        $equipment = Equipment::count();
         return view('home', [
-            'items' => $items, 'transaction' => $transaction, 'history' => $history
+            'production' => $production,
+            'equipment' => $equipment
         ]);
     }
 
