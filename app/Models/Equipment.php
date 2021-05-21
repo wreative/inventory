@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Workshop extends Model
+class Equipment extends Model
 {
     use HasFactory;
     /**
@@ -14,17 +14,18 @@ class Workshop extends Model
      * @var array
      */
 
-    protected $table = 'workshop';
+    protected $table = 'production';
     public $remember_token = false;
     public $timestamps = false;
 
     protected $fillable = [
+        'code',
         'name',
-        'cupboard'
+        'brand',
+        'qty',
+        'condition',
+        'img',
+        'info',
+        'location'
     ];
-
-    public function relationTransaction()
-    {
-        return $this->hasOne('App\Models\Transaction', 'id', 'w_id');
-    }
 }
