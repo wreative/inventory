@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStudent extends Migration
+class CreateProduction extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class CreateStudent extends Migration
      */
     public function up()
     {
-        Schema::create('student', function (Blueprint $table) {
+        Schema::create('production', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('code');
-            $table->foreignId('c_id');
+            $table->string('name');
+            $table->string('brand');
+            $table->integer('qty');
+            $table->enum('condition', ['Ada', 'Tidak Ada', 'Rusak', 'Hilang']);
+            $table->json('img');
+            $table->longText('info');
         });
     }
 
@@ -28,6 +32,6 @@ class CreateStudent extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student');
+        Schema::dropIfExists('production');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWorkshop extends Migration
+class CreateRoom extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateWorkshop extends Migration
      */
     public function up()
     {
-        Schema::create('workshop', function (Blueprint $table) {
+        Schema::create('room', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('cupboard');
         });
     }
 
@@ -27,6 +26,6 @@ class CreateWorkshop extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('workshop');
+        Schema::dropIfExists('room');
     }
 }

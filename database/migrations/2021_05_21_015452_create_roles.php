@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBorrow extends Migration
+class CreateRoles extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateBorrow extends Migration
      */
     public function up()
     {
-        Schema::create('borrow', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('barcode');
-            $table->string('code');
-            $table->date('date');
-            $table->string('info')->nullable();
+            $table->string('name');
         });
     }
 
@@ -29,6 +26,6 @@ class CreateBorrow extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('borrow');
+        Schema::dropIfExists('roles');
     }
 }
