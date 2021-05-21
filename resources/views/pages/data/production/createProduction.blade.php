@@ -10,7 +10,7 @@
 @section('content')
 <h2 class="section-title">{{ $code }}</h2>
 <p class="section-lead">
-    {{ __('ID yang digunakan untuk mengidentifikasi setiap item.') }}
+    {{ __('ID yang digunakan untuk mengidentifikasi setiap item') }}
 </p>
 <div class="card">
     <form method="POST" action="{{ route('production.store') }}" enctype="multipart/form-data">

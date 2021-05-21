@@ -60,8 +60,10 @@
                                 <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
                             </button>
                             <div class="dropdown-menu">
+                                @if (Auth::user()->roles == 1)
                                 <a class="dropdown-item"
                                     href="{{ route('production.edit',$p->id) }}">{{ __('pages.editItem') }}</a>
+                                @endif
                                 <form id="del-data{{ $p->id }}" action="{{ route('production.destroy',$p->id) }}"
                                     method="POST" class="d-inline">
                                     @csrf

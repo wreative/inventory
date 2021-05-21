@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -83,5 +84,20 @@ class FunctionController extends Controller
             array_push($dataIMG, $photoName);
         }
         return $dataIMG;
+    }
+
+    public function authSuper()
+    {
+        return Auth::user()->roles == 1 ? true : false;
+    }
+
+    public function authAdmin()
+    {
+        return Auth::user()->roles == 2 ? true : false;
+    }
+
+    public function authUser()
+    {
+        return Auth::user()->roles != 3 ? true : false;
     }
 }

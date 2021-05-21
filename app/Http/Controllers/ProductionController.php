@@ -78,8 +78,13 @@ class ProductionController extends Controller
 
     public function edit($id)
     {
-        $production = Production::find($id);
-        return view('pages.data.production.updateProduction', ['items' => $items]);
+        if ($this->FunctionController->authUser() == true) {
+            $production = Production::find($id);
+            return view('pages.data.production.updateProduction', ['production' => $production]);
+        } else {
+            return Redirect::route('home')
+                ->with(['status' => 'Anda tidak punya akses disini.']);
+        }
     }
 
     public function update($id, Request $req)
