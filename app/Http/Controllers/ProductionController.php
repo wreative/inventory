@@ -108,4 +108,10 @@ class ProductionController extends Controller
         $production->delete();
         return Redirect::route('production.index');
     }
+
+    public function show($id)
+    {
+        $production = Production::find($id);
+        return view('pages.data.production.showProduction', ['production' => $production]);
+    }
 }

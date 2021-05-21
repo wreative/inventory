@@ -54,7 +54,8 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary">{{ __('Lihat') }}</button>
+                            <a href="{{ route('production.show',$p->id) }}"
+                                class="btn btn-primary">{{ __('Lihat') }}</a>
                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                 data-toggle="dropdown">
                                 <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
