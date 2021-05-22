@@ -84,8 +84,8 @@ class ProductionController extends Controller
             'condition' => $this->FunctionController->condition($req->condition),
             'img' => $dataIMG,
             'info' => $req->info,
-            'add' => $addPermissions == false ? 1 : null,
-            'edit' => null,
+            'add' => $addPermissions == false ? 1 : 0,
+            'edit' => 0,
         ]);
 
         return Redirect::route('production.index');
@@ -132,9 +132,10 @@ class ProductionController extends Controller
 
     public function approv()
     {
-        $production = Production::where('add', '!=', null)
-            ->where('edit', '!=', null)
+        $production = Production::where('add', '==', 0)
+            ->where('edit', '==', 0)
             ->get();
+        dd($production);
         return view('pages.approval.indexproduction', ['production' => $production]);
     }
 }
