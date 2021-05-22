@@ -13,12 +13,15 @@
                         class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Data') }}</li>
+            @if (Auth::user()->roles == 2 or Auth::user()->roles == 6 or Auth::user()->roles == 1)
             <li class="{{ Request::route()->getName() == 'production.index' ? 'active' : (
                 Request::route()->getName() == 'production.create' ? 'active' : (
-                    Request::route()->getName() == 'production.edit' ? 'active' : '')) }}">
+                    Request::route()->getName() == 'production.edit' ? 'active' : (
+                        Request::route()->getName() == 'production.show' ? 'active' : ''))) }}">
                 <a class="nav-link" href="{{ route('production.index') }}"><i class="fas fa-users"></i>
                     <span>{{ __('Alat Produksi') }}</span></a>
             </li>
+            @endif
             {{-- <li class="{{ Request::route()->getName() == 'items.index' ? 'active' : (
                     Request::route()->getName() == 'items.create' ? 'active' : (
                         Request::route()->getName() == 'items.edit' ? 'active' : '')) }}">
@@ -35,6 +38,14 @@
                     Request::route()->getName() == 'class.edit' ? 'active' : '')) }}">
                 <a class="nav-link" href="{{ route('class.index') }}"><i class="fas fa-chalkboard-teacher"></i>
                     <span>{{ __('Kendaraan') }}</span></a>
+            </li>
+            <li class="menu-header">{{ __('Persetujuan') }}</li>
+            <li class="{{ Request::route()->getName() == 'production.index' ? 'active' : (
+                Request::route()->getName() == 'production.create' ? 'active' : (
+                    Request::route()->getName() == 'production.edit' ? 'active' : (
+                        Request::route()->getName() == 'production.show' ? 'active' : ''))) }}">
+                <a class="nav-link" href="{{ route('production.index') }}"><i class="fas fa-users"></i>
+                    <span>{{ __('Alat Produksi') }}</span></a>
             </li>
         </ul>
     </aside>

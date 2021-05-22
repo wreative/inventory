@@ -50,6 +50,8 @@ class ProductionController extends Controller
             'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
         ])->validate();
 
+        dd($req->date_acq);
+
         // Image
         if ($req->hasFile('img')) {
             $dataIMG = json_encode(

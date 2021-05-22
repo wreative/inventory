@@ -19,6 +19,8 @@ class CreateProduction extends Migration
             $table->string('name');
             $table->string('brand');
             $table->integer('qty');
+            $table->bigInteger('price_acq');
+            $table->date('date_acq');
             $table->enum('condition', ['Ada', 'Tidak Ada', 'Rusak', 'Hilang']);
             $table->json('img');
             $table->longText('info');

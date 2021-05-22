@@ -23,6 +23,8 @@ class Production extends Model
         'name',
         'brand',
         'qty',
+        'price_acq',
+        'date_acq',
         'condition',
         'img',
         'info'

@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
                 'roles' => '2'
             ],
             [
-                'id' => '3',
+                'id' => '6',
                 'name' => 'User',
                 'username' => 'user',
                 'password' => Hash::make('user'),

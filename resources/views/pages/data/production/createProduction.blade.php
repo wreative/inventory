@@ -54,6 +54,39 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>{{ __('Harga Perolehan') }}<code>*</code></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input type="text" class="form-control currency @error('price_acq') is-invalid @enderror"
+                                name="price_acq" required>
+                        </div>
+                        @error('price_acq')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>{{ __('Tanggal Perolehan') }}<code>*</code></label>
+                        <input type="month" class="form-control @error('date_acq') is-invalid @enderror" name="date_acq"
+                            required>
+                        @error('date_acq')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="form-label">{{ __('Kondisi') }}<code>*</code></label>
                 <div class="selectgroup w-100" id="condition">
@@ -120,6 +153,11 @@ $("#img").on("change", function () {
         imgList.push(img.files[i]);
     }
     $("#img_label").html(imgList.length + " Foto");
+});
+    new Cleave('.currency', {
+        numeral: true,
+            numeralDecimalMark: ".",
+            delimiter: ","
 });
 </script>
 @endsection

@@ -17,11 +17,11 @@ class RoomSeeder extends Seeder
         DB::table('room')->insert([
             [
                 'id' => '1',
-                'name' => 'Ruang 1 - Utama 1',
+                'name' => 'Ruang 1 - Utama 1 [105]',
             ],
             [
                 'id' => '2',
-                'name' => 'Ruang 2 - Utama 2',
+                'name' => 'Ruang 2 - Utama 2 [105]',
             ],
             [
                 'id' => '3',
@@ -45,19 +45,23 @@ class RoomSeeder extends Seeder
             ],
             [
                 'id' => '8',
-                'name' => 'Ruang 8 - Utama 3',
+                'name' => 'Ruang 8 - Utama 3 [100]',
             ],
             [
                 'id' => '9',
-                'name' => 'Ruang 9 - Produksi',
+                'name' => 'Ruang 9 - Utama 4 [100]',
             ],
             [
                 'id' => '10',
-                'name' => 'Ruang 10 - Kenjeran',
+                'name' => 'Ruang 10 - Produksi',
             ],
             [
                 'id' => '11',
-                'name' => 'Ruang 11 - Merr',
+                'name' => 'Ruang 11 - Kenjeran',
+            ],
+            [
+                'id' => '12',
+                'name' => 'Ruang 12 - Merr',
             ],
         ]);
     }
