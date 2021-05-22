@@ -26,8 +26,9 @@
                         class="fas fa-columns"></i>
                     <span>{{ __('Alat Produksi') }}</span></a>
                 <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{ route('production.index') }}">{{ __('Daftar') }}</a></li>
                     <li><a class="nav-link" href="{{ route('production.create') }}">{{ __('Tambah') }}</a></li>
-                    <li><a class="nav-link" href="javascript:void(0)">{{ __('Persetujuan') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('production.approv') }}">{{ __('Persetujuan') }}</a></li>
                 </ul>
             </li>
             @endif

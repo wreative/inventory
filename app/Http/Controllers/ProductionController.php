@@ -29,7 +29,9 @@ class ProductionController extends Controller
 
     public function index()
     {
-        $production = Production::all();
+        $production = Production::where('add', null)
+            ->where('edit', null)
+            ->get();
         return view('pages.data.production.indexProduction', ['production' => $production]);
     }
 
@@ -82,7 +84,7 @@ class ProductionController extends Controller
             'condition' => $this->FunctionController->condition($req->condition),
             'img' => $dataIMG,
             'info' => $req->info,
-            'add' => $addPermissions == false ? 0 : null,
+            'add' => $addPermissions == false ? 1 : null,
             'edit' => null,
         ]);
 
@@ -126,5 +128,13 @@ class ProductionController extends Controller
     {
         $production = Production::find($id);
         return view('pages.data.production.showProduction', ['production' => $production]);
+    }
+
+    public function approv()
+    {
+        $production = Production::where('add', '!=', null)
+            ->where('edit', '!=', null)
+            ->get();
+        return view('pages.approval.indexproduction', ['production' => $production]);
     }
 }

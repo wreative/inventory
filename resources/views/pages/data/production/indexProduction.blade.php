@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Master Alat Produksi'))
+@section('title', __('pages.title').__(' | Data Alat Produksi'))
 @section('titleContent', __('Alat Produksi'))
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')

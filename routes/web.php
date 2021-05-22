@@ -24,6 +24,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
     ->name('home');
 
 Route::resource('production', App\Http\Controllers\ProductionController::class);
+Route::get('/approve/production', [App\Http\Controllers\ProductionController::class, 'approv'])
+    ->name('production.approv');
 
 Route::resource('class', App\Http\Controllers\StudentClassController::class)->except([
     'show',

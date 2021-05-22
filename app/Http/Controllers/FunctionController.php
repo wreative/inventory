@@ -113,6 +113,8 @@ class FunctionController extends Controller
             Auth::user()->roles != 8 || Auth::user()->roles != 9
         ) {
             return false;
+        } else {
+            return true;
         }
     }
 }
