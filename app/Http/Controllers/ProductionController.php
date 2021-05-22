@@ -69,6 +69,9 @@ class ProductionController extends Controller
             $dataIMG = null;
         }
 
+        // Permissions
+        $addPermissions = $this->FunctionController->add();
+
         Production::create([
             'code' => $req->code,
             'name' => $req->name,
@@ -78,7 +81,9 @@ class ProductionController extends Controller
             'qty' => $qty,
             'condition' => $this->FunctionController->condition($req->condition),
             'img' => $dataIMG,
-            'info' => $req->info
+            'info' => $req->info,
+            'add' => $addPermissions == false ? 0 : null,
+            'edit' => null,
         ]);
 
         return Redirect::route('production.index');

@@ -27,6 +27,8 @@ class Production extends Model
         'date_acq',
         'condition',
         'img',
-        'info'
+        'info',
+        'add',
+        'edit'
     ];
 }

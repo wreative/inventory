@@ -105,4 +105,14 @@ class FunctionController extends Controller
     {
         return str_replace(',', '', $number);
     }
+
+    public function add()
+    {
+        if (
+            Auth::user()->roles != 6 || Auth::user()->roles != 7 ||
+            Auth::user()->roles != 8 || Auth::user()->roles != 9
+        ) {
+            return false;
+        }
+    }
 }
