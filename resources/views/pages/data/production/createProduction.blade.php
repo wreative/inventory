@@ -45,7 +45,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label>{{ __('Jumlah') }}<code>*</code></label>
-                        <input type="text" class="form-control @error('qty') is-invalid @enderror" name="qty" required>
+                        <input type="text" class="form-control currency @error('qty') is-invalid @enderror" name="qty"
+                            required>
                         @error('qty')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -154,10 +155,14 @@ $("#img").on("change", function () {
     }
     $("#img_label").html(imgList.length + " Foto");
 });
-    new Cleave('.currency', {
-        numeral: true,
-            numeralDecimalMark: ".",
-            delimiter: ","
-});
+
+$(".currency")
+    .toArray()
+    .forEach(function(field) {
+        new Cleave(field, {
+            numeral: true,
+            numeralThousandsGroupStyle: "thousand"
+        });
+    });
 </script>
 @endsection

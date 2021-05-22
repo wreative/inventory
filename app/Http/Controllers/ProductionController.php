@@ -45,12 +45,16 @@ class ProductionController extends Controller
             'code' => 'required',
             'name' => 'required',
             'brand' => 'required',
-            'qty' => 'required|integer',
+            'price_acq' => 'required',
+            'date_acq' => 'required|date',
+            'qty' => 'required',
             'condition' => 'required',
             'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
         ])->validate();
 
-        dd($req->date_acq);
+        // Remove Comma
+        $price_acq = $this->FunctionController->removeComma($req->price_acq);
+        $qty = $this->FunctionController->removeComma($req->qty);
 
         // Image
         if ($req->hasFile('img')) {
@@ -69,7 +73,9 @@ class ProductionController extends Controller
             'code' => $req->code,
             'name' => $req->name,
             'brand' => $req->brand,
-            'qty' => $req->qty,
+            'price_acq' => $price_acq,
+            'date_acq' => $req->date_acq,
+            'qty' => $qty,
             'condition' => $this->FunctionController->condition($req->condition),
             'img' => $dataIMG,
             'info' => $req->info

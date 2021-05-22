@@ -100,4 +100,9 @@ class FunctionController extends Controller
     {
         return Auth::user()->roles != 3 ? true : false;
     }
+
+    public function removeComma($number)
+    {
+        return str_replace(',', '', $number);
+    }
 }
