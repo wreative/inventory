@@ -24,6 +24,8 @@
                     </th>
                     <th>{{ __('Nama') }}</th>
                     <th>{{ __('Merk') }}</th>
+                    <th>{{ __('Harga Perolehan') }}</th>
+                    <th>{{ __('Tanggal Perolehan') }}</th>
                     <th>{{ __('Qty') }}</th>
                     <th>{{ __('Kondisi') }}</th>
                     <th>{{ __('Aksi') }}</th>
@@ -43,6 +45,12 @@
                     </td>
                     <td>
                         {{ $p->brand }}
+                    </td>
+                    <td>
+                        {{ __('Rp.').number_format($p->price_acq) }}
+                    </td>
+                    <td>
+                        {{ date("m-Y", strtotime($p->date_acq)) }}
                     </td>
                     <td>
                         {{ $p->qty }}

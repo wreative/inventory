@@ -24,6 +24,8 @@ class CreateProduction extends Migration
             $table->enum('condition', ['Ada', 'Tidak Ada', 'Rusak', 'Hilang']);
             $table->json('img');
             $table->longText('info');
+            $table->boolean('add')->nullable();
+            $table->boolean('edit')->nullable();
         });
     }
 
