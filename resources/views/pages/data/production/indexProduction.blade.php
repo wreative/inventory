@@ -28,7 +28,9 @@
                     <th>{{ __('Tanggal Perolehan') }}</th>
                     <th>{{ __('Qty') }}</th>
                     <th>{{ __('Kondisi') }}</th>
+                    @isset($notuser)
                     <th>{{ __('Aksi') }}</th>
+                    @endisset
                 </tr>
             </thead>
             <tbody>
@@ -60,6 +62,7 @@
                             {{ $p->condition }}
                         </span>
                     </td>
+                    @isset($notuser)
                     <td>
                         <div class="btn-group">
                             <a href="{{ route('production.show',$p->id) }}"
@@ -84,6 +87,7 @@
                             </div>
                         </div>
                     </td>
+                    @endisset
                 </tr>
                 @endforeach
             </tbody>

@@ -29,10 +29,20 @@ class ProductionController extends Controller
 
     public function index()
     {
-        $production = Production::where('add', 0)
-            ->where('edit', 0)
-            ->get();
-        return view('pages.data.production.indexProduction', ['production' => $production]);
+        if ($this->FunctionController->authUser() == true) {
+            $production = Production::where('add', 1)
+                ->get();
+            return view('pages.approval.indexproduction', [
+                'production' => $production, 'user' => true
+            ]);
+        } else {
+            $production = Production::where('add', 0)
+                ->where('edit', 0)
+                ->get();
+            return view('pages.data.production.indexProduction', [
+                'production' => $production
+            ]);
+        }
     }
 
     public function create()
@@ -165,7 +175,6 @@ class ProductionController extends Controller
 
     public function approv()
     {
-        // dd($this->FunctionController->authSuper());
         if ($this->FunctionController->authAdmin() == true) {
             $production = Production::where('add', 1)
                 ->get();
