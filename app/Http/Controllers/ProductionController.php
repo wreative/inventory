@@ -181,15 +181,18 @@ class ProductionController extends Controller
 
     public function acceptAdd($id)
     {
+        $production = Production::find($id);
+
         if ($this->FunctionController->authAdmin() == true) {
+            $production->add = 0;
+            $production->save();
+            return Redirect::route('production.index');
         } elseif ($this->FunctionController->authSuper() == true) {
+            $production->edit = 0;
+            $production->save();
+            return Redirect::route('production.index');
         } else {
             return Redirect::route('production.index');
         }
-
-        $production = Production::find($id);
-        $production->add = 0;
-        $production->save();
-        return Redirect::route('production.index');
     }
 }
