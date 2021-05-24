@@ -93,12 +93,12 @@ class FunctionController extends Controller
 
     public function authAdmin()
     {
-        return Auth::user()->roles == 2 ? true : false;
+        return Auth::user()->roles == 2 ? true : (Auth::user()->roles == 3 ? true : (Auth::user()->roles == 4 ? true : (Auth::user()->roles == 5 ? true : false)));
     }
 
     public function authUser()
     {
-        return Auth::user()->roles != 3 ? true : false;
+        return Auth::user()->roles == 6 ? true : (Auth::user()->roles == 7 ? true : (Auth::user()->roles == 8 ? true : (Auth::user()->roles == 9 ? true : false)));
     }
 
     public function removeComma($number)
@@ -108,13 +108,22 @@ class FunctionController extends Controller
 
     public function add()
     {
-        if (
-            Auth::user()->roles != 6 || Auth::user()->roles != 7 ||
-            Auth::user()->roles != 8 || Auth::user()->roles != 9
-        ) {
+        if ($this->authUser() == false) {
             return false;
         } else {
             return true;
         }
+    }
+
+    public function edit()
+    {
+    }
+
+    public function approve()
+    {
+    }
+
+    public function decline()
+    {
     }
 }
