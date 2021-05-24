@@ -29,8 +29,8 @@ class ProductionController extends Controller
 
     public function index()
     {
-        $production = Production::where('add', null)
-            ->where('edit', null)
+        $production = Production::where('add', 0)
+            ->where('edit', 0)
             ->get();
         return view('pages.data.production.indexProduction', ['production' => $production]);
     }
@@ -84,7 +84,7 @@ class ProductionController extends Controller
             'condition' => $this->FunctionController->condition($req->condition),
             'img' => $dataIMG,
             'info' => $req->info,
-            'add' => $addPermissions == false ? 1 : 0,
+            'add' => $addPermissions == true ? 1 : 0,
             'edit' => 0,
         ]);
 
@@ -93,7 +93,7 @@ class ProductionController extends Controller
 
     public function edit($id)
     {
-        if ($this->FunctionController->authUser() == true) {
+        if ($this->FunctionController->authAdmin() == true or $this->FunctionController->authSuper() == true) {
             $production = Production::find($id);
             return view('pages.data.production.updateProduction', ['production' => $production]);
         } else {
@@ -106,14 +106,39 @@ class ProductionController extends Controller
     {
         Validator::make($req->all(), [
             'name' => 'required',
-            'condition' => 'required'
+            'brand' => 'required',
+            'price_acq' => 'required',
+            'date_acq' => 'required|date',
+            'qty' => 'required',
+            'condition' => 'required',
+            'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
         ])->validate();
 
-        $items = Items::find($id);
-        $items->name = $req->name;
-        $items->condition = $req->condition == 1 ? 'Bagus' : 'Buruk';
-        $items->save();
-        return Redirect::route('items.index');
+        // Remove Comma
+        $price_acq = $this->FunctionController->removeComma($req->price_acq);
+        $qty = $this->FunctionController->removeComma($req->qty);
+
+        // Image
+        if ($req->hasFile('img')) {
+            $dataIMG = json_encode(
+                $this->FunctionController->storedIMG(
+                    $req->code,
+                    $req->img,
+                    $req->file('img')
+                )
+            );
+        } else {
+            $dataIMG = null;
+        }
+
+        // Permissions
+        $editPermissions = $this->FunctionController->edit();
+
+        $production = Production::find($id);
+        $production->name = $req->name;
+        $production->condition = $req->condition == 1 ? 'Bagus' : 'Buruk';
+        $production->save();
+        return Redirect::route('production.index');
     }
 
     public function destroy($id)
@@ -132,10 +157,24 @@ class ProductionController extends Controller
 
     public function approv()
     {
-        $production = Production::where('add', '==', 0)
-            ->where('edit', '==', 0)
-            ->get();
-        dd($production);
-        return view('pages.approval.indexproduction', ['production' => $production]);
+        // dd($this->FunctionController->authUser());
+        if ($this->FunctionController->authAdmin() == true) {
+            $production = Production::where('add', 1)
+                ->get();
+            return view('pages.approval.indexproduction', ['production' => $production]);
+        }
+        // elseif ($this->FunctionController->authSuper() == true) {
+        // } 
+        else {
+            return Redirect::route('production.index');
+        }
+    }
+
+    public function acceptAdd($id)
+    {
+        $production = Production::find($id);
+        $production->add = 0;
+        $production->save();
+        return Redirect::route('production.index');
     }
 }

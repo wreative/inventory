@@ -79,6 +79,9 @@
                                         {{ __('pages.delItem') }}
                                     </a>
                                 </form>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                    href="{{ route('production.acc',$p->id) }}">{{ __('Setujui') }}</a>
                             </div>
                         </div>
                     </td>
