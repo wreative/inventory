@@ -13,7 +13,7 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap item') }}
 </p>
 <div class="card">
-    <form method="POST" action="{{ route('production.update',$production->id) }}">
+    <form method="POST" action="{{ route('production.update',$production->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="card-body">
@@ -48,6 +48,40 @@
                         <input type="text" class="form-control @error('qty') is-invalid @enderror"
                             value="{{ $production->qty }}" name="qty" required>
                         @error('qty')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>{{ __('Harga Perolehan') }}<code>*</code></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input type="text" value="{{ $production->price_acq }}"
+                                class="form-control currency @error('price_acq') is-invalid @enderror" name="price_acq"
+                                required>
+                        </div>
+                        @error('price_acq')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>{{ __('Tanggal Perolehan') }}<code>*</code></label>
+                        <input type="month" value="{{ $production->date_acq }}"
+                            class="form-control @error('date_acq') is-invalid @enderror" name="date_acq" required>
+                        @error('date_acq')
                         <span class="text-danger" role="alert">
                             {{ $message }}
                         </span>
@@ -97,7 +131,6 @@
                 </span>
                 @enderror
             </div>
-            @if($production->img != null)
             <div class="section-title mt-0">{{ __('Gambar') }}</div>
             <div class="gallery" data-item-height="100">
                 @foreach(json_decode($production->img) as $i )
@@ -105,11 +138,35 @@
                 </div>
                 @endforeach
             </div>
-            @endif
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="img[]"
+                        accept="image/png, image/jpeg, image/jpg, image/svg" id="img" multiple>
+                    <label class="custom-file-label" for="img" id="img_label">{{ __('Pilih File') }}</label>
+                </div>
+                @error('img')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+                <div class="fileListDisplay"></div>
+            </div>
         </div>
         <div class="card-footer text-right">
             <button class="btn btn-primary mr-1" type="submit">{{ __('pages.edit') }}</button>
         </div>
     </form>
 </div>
+@endsection
+@section('script')
+<script>
+    $(".currency")
+    .toArray()
+    .forEach(function(field) {
+        new Cleave(field, {
+            numeral: true,
+            numeralThousandsGroupStyle: "thousand"
+        });
+    });
+</script>
 @endsection

@@ -88,7 +88,7 @@ class FunctionController extends Controller
 
     public function authSuper()
     {
-        return Auth::user()->roles != 1 ? true : false;
+        return Auth::user()->roles == 1 ? true : false;
     }
 
     public function authAdmin()
@@ -117,6 +117,11 @@ class FunctionController extends Controller
 
     public function edit()
     {
+        if ($this->authAdmin() == false) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function approve()

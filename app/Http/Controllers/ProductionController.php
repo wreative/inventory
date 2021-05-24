@@ -111,7 +111,7 @@ class ProductionController extends Controller
             'date_acq' => 'required|date',
             'qty' => 'required',
             'condition' => 'required',
-            'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
+            'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|nullable',
         ])->validate();
 
         // Remove Comma
@@ -127,8 +127,6 @@ class ProductionController extends Controller
                     $req->file('img')
                 )
             );
-        } else {
-            $dataIMG = null;
         }
 
         // Permissions
@@ -136,7 +134,17 @@ class ProductionController extends Controller
 
         $production = Production::find($id);
         $production->name = $req->name;
-        $production->condition = $req->condition == 1 ? 'Bagus' : 'Buruk';
+        $production->brand = $req->brand;
+        $production->price_acq = $price_acq;
+        $production->date_acq = $req->date_acq;
+        $production->qty = $qty;
+        $production->condition = $this->FunctionController->condition($req->condition);
+        if ($req->hasFile('img')) {
+            $production->img = $dataIMG;
+        }
+        $production->info = $req->info;
+        $production->add = 0;
+        $production->edit = $editPermissions == true ? 1 : 0;
         $production->save();
         return Redirect::route('production.index');
     }
@@ -157,21 +165,28 @@ class ProductionController extends Controller
 
     public function approv()
     {
-        // dd($this->FunctionController->authUser());
+        // dd($this->FunctionController->authSuper());
         if ($this->FunctionController->authAdmin() == true) {
             $production = Production::where('add', 1)
                 ->get();
             return view('pages.approval.indexproduction', ['production' => $production]);
-        }
-        // elseif ($this->FunctionController->authSuper() == true) {
-        // } 
-        else {
+        } elseif ($this->FunctionController->authSuper() == true) {
+            $production = Production::where('edit', 1)
+                ->get();
+            return view('pages.approval.indexproduction', ['production' => $production]);
+        } else {
             return Redirect::route('production.index');
         }
     }
 
     public function acceptAdd($id)
     {
+        if ($this->FunctionController->authAdmin() == true) {
+        } elseif ($this->FunctionController->authSuper() == true) {
+        } else {
+            return Redirect::route('production.index');
+        }
+
         $production = Production::find($id);
         $production->add = 0;
         $production->save();
