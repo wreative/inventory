@@ -31,13 +31,16 @@
                     <li><a class="nav-link" href="{{ route('production.approv') }}">{{ __('Persetujuan') }}</a></li>
                 </ul>
             </li>
-            {{-- @endif --}}
-            {{-- <li class="{{ Request::route()->getName() == 'items.index' ? 'active' : (
-                    Request::route()->getName() == 'items.create' ? 'active' : (
-                        Request::route()->getName() == 'items.edit' ? 'active' : '')) }}">
-            <a class="nav-link" href="{{ route('items.index') }}"><i class="fas fa-boxes"></i>
-                <span>{{ __('Perlengkapan') }}</span></a>
-            </li> --}}
+            <li class="nav-item dropdown">
+                <a href="{{ route('production.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                        class="fas fa-columns"></i>
+                    <span>{{ __('Perlengkapan') }}</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{ route('production.index') }}">{{ __('Daftar') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('production.create') }}">{{ __('Tambah') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('production.approv') }}">{{ __('Persetujuan') }}</a></li>
+                </ul>
+            </li>
             <li class="{{ Request::route()->getName() == 'workshop.index' ? 'active' : (
                 Request::route()->getName() == 'workshop.create' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ route('workshop.index') }}"><i class="fas fa-archive"></i>

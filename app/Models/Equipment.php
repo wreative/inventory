@@ -26,6 +26,8 @@ class Equipment extends Model
         'condition',
         'img',
         'info',
-        'location'
+        'location',
+        'add',
+        'edit'
     ];
 }

@@ -23,16 +23,17 @@ Auth::routes(['register' => false]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
     ->name('home');
 
+// Production
 Route::resource('production', App\Http\Controllers\ProductionController::class);
 Route::get('/approve/production', [App\Http\Controllers\ProductionController::class, 'approv'])
     ->name('production.approv');
 Route::get('production/approve/{id}', [App\Http\Controllers\ProductionController::class, 'acceptAdd'])
     ->name('production.acc');
 
-Route::resource('class', App\Http\Controllers\StudentClassController::class)->except([
-    'show',
-]);
+// Equipment
+Route::resource('equipment', App\Http\Controllers\EquipmentClassController::class);
 
+// 
 Route::resource('student', App\Http\Controllers\StudentController::class)->except([
     'show',
 ]);

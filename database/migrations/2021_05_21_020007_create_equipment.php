@@ -23,6 +23,8 @@ class CreateEquipment extends Migration
             $table->json('img');
             $table->longText('info');
             $table->foreignId('location');
+            $table->boolean('add')->nullable();
+            $table->boolean('edit')->nullable();
         });
     }
 
