@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Equipment extends Model
+class Room extends Model
 {
     use HasFactory;
     /**
@@ -14,22 +14,11 @@ class Equipment extends Model
      * @var array
      */
 
-    protected $table = 'equipment';
+    protected $table = 'room';
     public $remember_token = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'code',
-        'name',
-        'brand',
-        'qty',
-        'price_acq',
-        'date_acq',
-        'condition',
-        'img',
-        'info',
-        'location',
-        'add',
-        'edit'
+        'name'
     ];
 }

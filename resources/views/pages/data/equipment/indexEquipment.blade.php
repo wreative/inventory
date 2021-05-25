@@ -1,16 +1,16 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Data Alat Produksi'))
-@section('titleContent', __('Alat Produksi'))
+@section('title', __('pages.title').__(' | Data Perlengkapan'))
+@section('titleContent', __('Perlengkapan'))
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
+<div class="breadcrumb-item active">{{ __('Perlengkapan') }}</div>
 @endsection
 
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a href="{{ route('production.create') }}" class="btn btn-icon icon-left btn-primary">
-            <i class="far fa-edit"></i>{{ __(' Tambah Alat Produksi') }}</a>
+        <a href="{{ route('equipment.create') }}" class="btn btn-icon icon-left btn-primary">
+            <i class="far fa-edit"></i>{{ __(' Tambah Perlengkapan') }}</a>
     </div>
     <div class="card-body">
         <table class="table-striped table" id="tables" width="100%">
@@ -28,44 +28,48 @@
                     <th>{{ __('Tanggal Perolehan') }}</th>
                     <th>{{ __('Qty') }}</th>
                     <th>{{ __('Kondisi') }}</th>
+                    <th>{{ __('Lokasi') }}</th>
                     @isset($notuser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
                 </tr>
             </thead>
             <tbody>
-                @foreach($production as $number => $p)
+                @foreach($equipment as $number => $e)
                 <tr>
                     <td class="text-center">
                         {{ $number+1 }}
                     </td>
                     <td class="text-center">
-                        {{ $p->code }}
+                        {{ $e->code }}
                     </td>
                     <td>
-                        {{ $p->name }}
+                        {{ $e->name }}
                     </td>
                     <td>
-                        {{ $p->brand }}
+                        {{ $e->brand }}
                     </td>
                     <td>
-                        {{ __('Rp.').number_format($p->price_acq) }}
+                        {{ __('Rp.').number_format($e->price_acq) }}
                     </td>
                     <td>
-                        {{ date("m-Y", strtotime($p->date_acq)) }}
+                        {{ date("m-Y", strtotime($e->date_acq)) }}
                     </td>
                     <td>
-                        {{ $p->qty }}
+                        {{ $e->qty }}
                     </td>
                     <td>
                         <span class="badge badge-info">
-                            {{ $p->condition }}
+                            {{ $e->condition }}
                         </span>
+                    </td>
+                    <td>
+                        {{ $e->location }}
                     </td>
                     @isset($notuser)
                     <td>
                         <div class="btn-group">
-                            <a href="{{ route('production.show',$p->id) }}"
+                            <a href="{{ route('production.show',$e->id) }}"
                                 class="btn btn-primary">{{ __('Lihat') }}</a>
                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                 data-toggle="dropdown">
@@ -73,14 +77,14 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item"
-                                    href="{{ route('production.edit',$p->id) }}">{{ __('pages.editItem') }}</a>
-                                <form id="del-data{{ $p->id }}" action="{{ route('production.destroy',$p->id) }}"
+                                    href="{{ route('production.edit',$e->id) }}">{{ __('pages.editItem') }}</a>
+                                <form id="del-data{{ $e->id }}" action="{{ route('production.destroy',$e->id) }}"
                                     method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <a class="dropdown-item" style="cursor: pointer"
                                         data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                        data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();">
+                                        data-confirm-yes="document.getElementById('del-data{{ $e->id }}').submit();">
                                         {{ __('pages.delItem') }}
                                     </a>
                                 </form>

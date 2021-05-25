@@ -19,10 +19,12 @@ class CreateEquipment extends Migration
             $table->string('name');
             $table->string('brand');
             $table->integer('qty');
+            $table->bigInteger('price_acq');
+            $table->string('date_acq');
             $table->enum('condition', ['Ada', 'Tidak Ada', 'Rusak', 'Hilang']);
             $table->json('img');
-            $table->longText('info');
-            $table->foreignId('location');
+            $table->longText('info')->nullable();
+            $table->foreignId('location')->default(1);
             $table->boolean('add')->nullable();
             $table->boolean('edit')->nullable();
         });

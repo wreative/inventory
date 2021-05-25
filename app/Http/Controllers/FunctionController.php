@@ -64,11 +64,11 @@ class FunctionController extends Controller
         }
     }
 
-    function storedIMG($code, $photoFile, $photo)
+    function storedIMG($code, $photoFile, $photo, $folderName)
     {
         // Create User Collection
         Storage::disk('public')->makeDirectory(
-            "production/" . $code
+            $folderName . "/" . $code
         );
         // Upload Files
         $dataIMG = array();
@@ -76,7 +76,7 @@ class FunctionController extends Controller
             // putFileAs It is okay
             $photoName = $number . '.' . $photoFile[$number]->getClientOriginalExtension();
             Storage::disk('public')->putFileAs(
-                "production/" . $code,
+                $folderName . "/" . $code,
                 $file,
                 $photoName
             );

@@ -74,7 +74,8 @@ class ProductionController extends Controller
                 $this->FunctionController->storedIMG(
                     $req->code,
                     $req->img,
-                    $req->file('img')
+                    $req->file('img'),
+                    'production'
                 )
             );
         } else {
@@ -134,7 +135,8 @@ class ProductionController extends Controller
                 $this->FunctionController->storedIMG(
                     $req->code,
                     $req->img,
-                    $req->file('img')
+                    $req->file('img'),
+                    'production'
                 )
             );
         }

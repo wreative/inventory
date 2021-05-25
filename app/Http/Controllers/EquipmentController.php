@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Production;
+use App\Models\Room;
+use App\Models\Equipment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -29,26 +30,29 @@ class EquipmentController extends Controller
 
     public function index()
     {
-        if ($this->FunctionController->authUser() == true) {
-            $production = Production::where('add', 1)
-                ->get();
-            return view('pages.approval.indexproduction', [
-                'production' => $production, 'user' => true
-            ]);
-        } else {
-            $production = Production::where('add', 0)
-                ->where('edit', 0)
-                ->get();
-            return view('pages.data.production.indexProduction', [
-                'production' => $production
-            ]);
-        }
+        // if ($this->FunctionController->authUser() == true) {
+        //     $equipment = Production::where('add', 1)
+        //         ->get();
+        //     return view('pages.approval.indexproduction', [
+        //         'production' => $equipment, 'user' => true
+        //     ]);
+        // } else {
+        //     $equipment = Production::where('add', 0)
+        //         ->where('edit', 0)
+        //         ->get();
+        //     return view('pages.data.production.indexProduction', [
+        //         'production' => $equipment
+        //     ]);
+        // }
+        $equipment = Equipment::all();
+        return view('pages.data.equipment.indexEquipment', ['equipment' => $equipment]);
     }
 
     public function create()
     {
-        $code = "AP-" . str_pad($this->FunctionController->getRandom('production'), 5, '0', STR_PAD_LEFT);
-        return view('pages.data.production.createProduction', ['code' => $code]);
+        $code = "EQ-" . str_pad($this->FunctionController->getRandom('equipment'), 5, '0', STR_PAD_LEFT);
+        $room = Room::all();
+        return view('pages.data.equipment.createEquipment', ['code' => $code, 'room' => $room]);
     }
 
     public function store(Request $req)
@@ -61,6 +65,7 @@ class EquipmentController extends Controller
             'date_acq' => 'required|date',
             'qty' => 'required',
             'condition' => 'required',
+            'room' => 'required',
             'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
         ])->validate();
 
@@ -74,7 +79,8 @@ class EquipmentController extends Controller
                 $this->FunctionController->storedIMG(
                     $req->code,
                     $req->img,
-                    $req->file('img')
+                    $req->file('img'),
+                    'equipment'
                 )
             );
         } else {
@@ -84,7 +90,7 @@ class EquipmentController extends Controller
         // Permissions
         $addPermissions = $this->FunctionController->add();
 
-        Production::create([
+        Equipment::create([
             'code' => $req->code,
             'name' => $req->name,
             'brand' => $req->brand,
@@ -94,11 +100,12 @@ class EquipmentController extends Controller
             'condition' => $this->FunctionController->condition($req->condition),
             'img' => $dataIMG,
             'info' => $req->info,
+            'location' => $req->room,
             'add' => $addPermissions == true ? 1 : 0,
             'edit' => 0,
         ]);
 
-        return Redirect::route('production.index');
+        return Redirect::route('equipment.index');
     }
 
     public function edit($id)
@@ -121,6 +128,7 @@ class EquipmentController extends Controller
             'date_acq' => 'required|date',
             'qty' => 'required',
             'condition' => 'required',
+            'room' => 'required',
             'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|nullable',
         ])->validate();
 
@@ -134,7 +142,8 @@ class EquipmentController extends Controller
                 $this->FunctionController->storedIMG(
                     $req->code,
                     $req->img,
-                    $req->file('img')
+                    $req->file('img'),
+                    'equipment'
                 )
             );
         }
@@ -152,6 +161,7 @@ class EquipmentController extends Controller
         if ($req->hasFile('img')) {
             $production->img = $dataIMG;
         }
+        $production->location = $req->room;
         $production->info = $req->info;
         $production->add = 0;
         $production->edit = $editPermissions == true ? 1 : 0;

@@ -31,7 +31,9 @@ Route::get('production/approve/{id}', [App\Http\Controllers\ProductionController
     ->name('production.acc');
 
 // Equipment
-Route::resource('equipment', App\Http\Controllers\EquipmentClassController::class);
+Route::resource('equipment', App\Http\Controllers\EquipmentController::class);
+Route::get('/approve/equipment', [App\Http\Controllers\EquipmentController::class, 'approv'])
+    ->name('equipment.approv');
 Route::get('equipment/approve/{id}', [App\Http\Controllers\EquipmentController::class, 'acceptAdd'])
     ->name('equipment.acc');
 
