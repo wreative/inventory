@@ -131,4 +131,34 @@ class FunctionController extends Controller
     public function decline()
     {
     }
+
+    public function onlyUserProduction()
+    {
+    }
+
+    public function onlyUserEquipment()
+    {
+    }
+
+    // public function onlyUserProduction(){
+
+    // }
+    // public function onlyUserProduction(){
+
+    // }
+    public function onlyAdminProduction()
+    {
+    }
+
+    public function onlyAdminEquipment()
+    {
+    }
+
+    // public function onlyAdminEquipment()
+    // {
+    // }
+
+    // public function onlyAdminEquipment()
+    // {
+    // }
 }

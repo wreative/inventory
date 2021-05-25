@@ -30,22 +30,24 @@ class EquipmentController extends Controller
 
     public function index()
     {
-        // if ($this->FunctionController->authUser() == true) {
-        //     $equipment = Production::where('add', 1)
-        //         ->get();
-        //     return view('pages.approval.indexproduction', [
-        //         'production' => $equipment, 'user' => true
-        //     ]);
-        // } else {
-        //     $equipment = Production::where('add', 0)
-        //         ->where('edit', 0)
-        //         ->get();
-        //     return view('pages.data.production.indexProduction', [
-        //         'production' => $equipment
-        //     ]);
-        // }
-        $equipment = Equipment::all();
-        return view('pages.data.equipment.indexEquipment', ['equipment' => $equipment]);
+        if ($this->FunctionController->authSuper() == true) {
+            $equipment = Equipment::where('add', 0)
+                ->where('edit', 0)
+                ->get();
+            return view('pages.data.equipment.indexEquipment', [
+                'equipment' => $equipment
+            ]);
+        } elseif ($this->FunctionController->authAdmin() == true) {
+            $equipment = Equipment::where('add', 0)
+                ->where('edit', 0)
+                ->get();
+            return view('pages.data.equipment.indexEquipment', [
+                'equipment' => $equipment, 'admin' => true
+            ]);
+        } else {
+            return Redirect::route('home')
+                ->with(['status' => 'Anda tidak punya akses disini.']);
+        }
     }
 
     public function create()
@@ -110,13 +112,19 @@ class EquipmentController extends Controller
 
     public function edit($id)
     {
-        if ($this->FunctionController->authAdmin() == true or $this->FunctionController->authSuper() == true) {
-            $production = Production::find($id);
-            return view('pages.data.production.updateProduction', ['production' => $production]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        // if ($this->FunctionController->authAdmin() == true or $this->FunctionController->authSuper() == true) {
+        //     $production = Production::find($id);
+        //     return view('pages.data.production.updateProduction', ['production' => $production]);
+        // } else {
+        //     return Redirect::route('home')
+        //         ->with(['status' => 'Anda tidak punya akses disini.']);
+        // }
+        $equipment = Equipment::find($id);
+        $room = Room::all();
+        return view('pages.data.equipment.updateEquipment', [
+            'equipment' => $equipment,
+            'room' => $room
+        ]);
     }
 
     public function update($id, Request $req)
@@ -151,36 +159,36 @@ class EquipmentController extends Controller
         // Permissions
         $editPermissions = $this->FunctionController->edit();
 
-        $production = Production::find($id);
-        $production->name = $req->name;
-        $production->brand = $req->brand;
-        $production->price_acq = $price_acq;
-        $production->date_acq = $req->date_acq;
-        $production->qty = $qty;
-        $production->condition = $this->FunctionController->condition($req->condition);
+        $equipment = Equipment::find($id);
+        $equipment->name = $req->name;
+        $equipment->brand = $req->brand;
+        $equipment->price_acq = $price_acq;
+        $equipment->date_acq = $req->date_acq;
+        $equipment->qty = $qty;
+        $equipment->condition = $this->FunctionController->condition($req->condition);
         if ($req->hasFile('img')) {
-            $production->img = $dataIMG;
+            $equipment->img = $dataIMG;
         }
-        $production->location = $req->room;
-        $production->info = $req->info;
-        $production->add = 0;
-        $production->edit = $editPermissions == true ? 1 : 0;
-        $production->save();
-        return Redirect::route('production.index');
+        $equipment->location = $req->room;
+        $equipment->info = $req->info;
+        $equipment->add = 0;
+        $equipment->edit = $editPermissions == true ? 1 : 0;
+        $equipment->save();
+        return Redirect::route('equipment.index');
     }
 
     public function destroy($id)
     {
-        $production = Production::find($id);
-        Storage::disk('public')->deleteDirectory('production/' . $production->code);
-        $production->delete();
-        return Redirect::route('production.index');
+        $equipment = Equipment::find($id);
+        Storage::disk('public')->deleteDirectory('equipment/' . $equipment->code);
+        $equipment->delete();
+        return Redirect::route('equipment.index');
     }
 
     public function show($id)
     {
-        $production = Production::find($id);
-        return view('pages.data.production.showProduction', ['production' => $production]);
+        $equipment = Equipment::find($id);
+        return view('pages.data.equipment.showEquipment', ['equipment' => $equipment]);
     }
 
     public function approv()
@@ -194,7 +202,7 @@ class EquipmentController extends Controller
                 ->get();
             return view('pages.approval.indexproduction', ['production' => $production]);
         } else {
-            return Redirect::route('production.index');
+            return Redirect::route('equipment.index');
         }
     }
 
@@ -205,13 +213,13 @@ class EquipmentController extends Controller
         if ($this->FunctionController->authAdmin() == true) {
             $production->add = 0;
             $production->save();
-            return Redirect::route('production.index');
+            return Redirect::route('equipment.index');
         } elseif ($this->FunctionController->authSuper() == true) {
             $production->edit = 0;
             $production->save();
-            return Redirect::route('production.index');
+            return Redirect::route('equipment.index');
         } else {
-            return Redirect::route('production.index');
+            return Redirect::route('equipment.index');
         }
     }
 }

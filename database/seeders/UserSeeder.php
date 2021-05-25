@@ -31,11 +31,11 @@ class UserSeeder extends Seeder
                 'roles' => '2'
             ],
             [
-                'id' => '6',
+                'id' => '3',
                 'name' => 'User',
                 'username' => 'user',
                 'password' => Hash::make('user'),
-                'roles' => '3'
+                'roles' => '6'
             ]
         ]);
     }
