@@ -32,6 +32,8 @@ Route::get('production/approve/{id}', [App\Http\Controllers\ProductionController
 
 // Equipment
 Route::resource('equipment', App\Http\Controllers\EquipmentClassController::class);
+Route::get('equipment/approve/{id}', [App\Http\Controllers\EquipmentController::class, 'acceptAdd'])
+    ->name('equipment.acc');
 
 // 
 Route::resource('student', App\Http\Controllers\StudentController::class)->except([

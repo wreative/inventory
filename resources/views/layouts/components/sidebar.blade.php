@@ -32,13 +32,13 @@
                 </ul>
             </li>
             <li class="nav-item dropdown">
-                <a href="{{ route('production.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                <a href="{{ route('equipment.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fas fa-columns"></i>
                     <span>{{ __('Perlengkapan') }}</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('production.index') }}">{{ __('Daftar') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('production.create') }}">{{ __('Tambah') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('production.approv') }}">{{ __('Persetujuan') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('equipment.index') }}">{{ __('Daftar') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('equipment.create') }}">{{ __('Tambah') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('equipment.approv') }}">{{ __('Persetujuan') }}</a></li>
                 </ul>
             </li>
             <li class="{{ Request::route()->getName() == 'workshop.index' ? 'active' : (
