@@ -156,7 +156,6 @@ class VehicleController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             Validator::make($req->all(), [
-                'code' => 'required',
                 'name' => 'required',
                 'type' => 'required',
                 'brand' => 'required',

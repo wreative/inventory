@@ -1,0 +1,94 @@
+@extends('layouts.default')
+@section('title', __('pages.title').__(' | Master Alat Produksi'))
+@section('titleContent', __('Alat Produksi'))
+@section('breadcrumb', __('Data'))
+@section('morebreadcrumb')
+<div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
+@endsection
+
+@section('content')
+<div class="card card-primary">
+    <div class="card-body">
+        <table class="table-striped table" id="tables" width="100%">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        {{ __('NO') }}
+                    </th>
+                    <th class="text-center">
+                        {{ __('Kode') }}
+                    </th>
+                    <th>{{ __('Nama') }}</th>
+                    <th>{{ __('Merk') }}</th>
+                    <th>{{ __('Harga Perolehan') }}</th>
+                    <th>{{ __('Tanggal Perolehan') }}</th>
+                    <th>{{ __('Qty') }}</th>
+                    <th>{{ __('Kondisi') }}</th>
+                    <th>{{ __('Aksi') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($production as $number => $p)
+                <tr>
+                    <td class="text-center">
+                        {{ $number+1 }}
+                    </td>
+                    <td class="text-center">
+                        {{ $p->code }}
+                    </td>
+                    <td>
+                        {{ $p->name }}
+                    </td>
+                    <td>
+                        {{ $p->brand }}
+                    </td>
+                    <td>
+                        {{ __('Rp.').number_format($p->price_acq) }}
+                    </td>
+                    <td>
+                        {{ date("m-Y", strtotime($p->date_acq)) }}
+                    </td>
+                    <td>
+                        {{ $p->qty }}
+                    </td>
+                    <td>
+                        <span class="badge badge-info">
+                            {{ $p->condition }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{ route('production.show',$p->id) }}"
+                                class="btn btn-primary">{{ __('Lihat') }}</a>
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown">
+                                <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                @if (Auth::user()->roles == 1)
+                                <a class="dropdown-item"
+                                    href="{{ route('production.edit',$p->id) }}">{{ __('pages.editItem') }}</a>
+                                @endif
+                                <form id="del-data{{ $p->id }}" action="{{ route('production.destroy',$p->id) }}"
+                                    method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <a class="dropdown-item" style="cursor: pointer"
+                                        data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
+                                        data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();">
+                                        {{ __('pages.delItem') }}
+                                    </a>
+                                </form>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                    href="{{ route('production.acc',$p->id) }}">{{ __('Setujui') }}</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection
