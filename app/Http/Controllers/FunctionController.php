@@ -124,14 +124,6 @@ class FunctionController extends Controller
         }
     }
 
-    public function approve()
-    {
-    }
-
-    public function decline()
-    {
-    }
-
     public function onlyUserProduction()
     {
         return Auth::user()->roles == 6 ? true : false;
