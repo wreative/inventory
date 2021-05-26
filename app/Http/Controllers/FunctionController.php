@@ -171,4 +171,9 @@ class FunctionController extends Controller
     {
         return Auth::user()->roles == 5 ? true : false;
     }
+
+    public function superAdmin()
+    {
+        return Auth::user()->roles == 1 ? true : false;
+    }
 }
