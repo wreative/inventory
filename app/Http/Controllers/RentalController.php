@@ -157,17 +157,15 @@ class RentalController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             Validator::make($req->all(), [
-                'name' => $req->name,
-                'address' => $req->address,
-                'status' => $req->status,
-                'pln' => $req->pln,
-                'pdam' => $req->pdam,
-                'pbb' => $req->pbb,
-                'wifi' => $req->wifi,
-                'rental' => $req->rental,
-                'due' => $req->due,
-                'add' => $addPermissions == true ? 1 : 0,
-                'edit' => 0,
+                'name' => 'required',
+                'address' => 'required',
+                'status' => 'required',
+                'pln' => 'required|date',
+                'pdam' => 'required',
+                'pbb' => 'required',
+                'wifi' => 'required',
+                'rental' => 'required',
+                'due' => 'required|date',
             ])->validate();
 
             // Permissions

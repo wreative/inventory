@@ -1,10 +1,10 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Tambah Alat Produksi'))
-@section('titleContent', __('Tambah Alat Produksi'))
+@section('title', __('pages.title').__(' | Tambah Persewaan Gedung'))
+@section('titleContent', __('Tambah Persewaan Gedung'))
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
-<div class="breadcrumb-item active">{{ __('Tambah Alat Produksi') }}</div>
+<div class="breadcrumb-item active">{{ __('Persewaan Gedung') }}</div>
+<div class="breadcrumb-item active">{{ __('Tambah Persewaan Gedung') }}</div>
 @endsection
 
 @section('content')
@@ -13,14 +13,14 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap item') }}
 </p>
 <div class="card">
-    <form method="POST" action="{{ route('production.store') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('rental.store') }}">
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Nama') }}<code>*</code></label>
+                        <label>{{ __('Nama Gedung') }}<code>*</code></label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" required
                             autofocus>
                         @error('name')
@@ -32,28 +32,25 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Merk') }}<code>*</code></label>
-                        <input type="text" class="form-control @error('brand') is-invalid @enderror" name="brand"
+                        <label>{{ __('Alamat') }}<code>*</code></label>
+                        <input type="text" class="form-control @error('address') is-invalid @enderror" name="address"
                             required>
-                        @error('brand')
+                        @error('address')
                         <span class="text-danger" role="alert">
                             {{ $message }}
                         </span>
                         @enderror
                     </div>
                 </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label>{{ __('Jumlah') }}<code>*</code></label>
-                        <input type="text" class="form-control currency @error('qty') is-invalid @enderror" name="qty"
-                            required>
-                        @error('qty')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                    </div>
-                </div>
+            </div>
+            <div class="form-group">
+                <label>{{ __('No PBB') }}<code>*</code></label>
+                <input type="text" class="form-control @error('pbb') is-invalid @enderror" name="pbb" required>
+                @error('pbb')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
             </div>
             <div class="row">
                 <div class="col">
