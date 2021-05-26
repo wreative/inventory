@@ -27,7 +27,6 @@ class Vehicle extends Model
         'kir',
         'tax',
         'stnk',
-        'status',
         'add',
         'edit'
     ];

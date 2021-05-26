@@ -1,16 +1,16 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Data Alat Produksi'))
-@section('titleContent', __('Alat Produksi'))
+@section('title', __('pages.title').__(' | Data Kendaraan'))
+@section('titleContent', __('Kendaraan'))
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
+<div class="breadcrumb-item active">{{ __('Kendaraan') }}</div>
 @endsection
 
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a href="{{ route('production.create') }}" class="btn btn-icon icon-left btn-primary">
-            <i class="far fa-edit"></i>{{ __(' Tambah Alat Produksi') }}</a>
+        <a href="{{ route('vehicle.create') }}" class="btn btn-icon icon-left btn-primary">
+            <i class="far fa-edit"></i>{{ __(' Tambah Kendaraan') }}</a>
     </div>
     <div class="card-body">
         <table class="table-striped table" id="tables" width="100%">
@@ -23,64 +23,65 @@
                         {{ __('Kode') }}
                     </th>
                     <th>{{ __('Nama') }}</th>
+                    <th>{{ __('Jenis') }}</th>
                     <th>{{ __('Merk') }}</th>
-                    <th>{{ __('Harga Perolehan') }}</th>
-                    <th>{{ __('Tanggal Perolehan') }}</th>
-                    <th>{{ __('Qty') }}</th>
-                    <th>{{ __('Kondisi') }}</th>
+                    <th>{{ __('No Plat') }}</th>
+                    <th>{{ __('Tanggal Kir') }}</th>
+                    <th>{{ __('Tanggal Pajak Tahunan') }}</th>
+                    <th>{{ __('Tanggal STNK') }}</th>
                     @isset($notuser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
                 </tr>
             </thead>
             <tbody>
-                @foreach($production as $number => $p)
+                @foreach($vehicle as $number => $v)
                 <tr>
                     <td class="text-center">
                         {{ $number+1 }}
                     </td>
                     <td class="text-center">
-                        {{ $p->code }}
+                        {{ $v->code }}
                     </td>
                     <td>
-                        {{ $p->name }}
+                        {{ $v->name }}
                     </td>
                     <td>
-                        {{ $p->brand }}
+                        {{ $v->type }}
                     </td>
                     <td>
-                        {{ __('Rp.').number_format($p->price_acq) }}
+                        {{ $v->brand }}
                     </td>
                     <td>
-                        {{ date("m-Y", strtotime($p->date_acq)) }}
+                        {{ $v->plat }}
                     </td>
                     <td>
-                        {{ $p->qty }}
+                        {{ date("d-m-Y", strtotime($v->kir)) }}
                     </td>
                     <td>
-                        <span class="badge badge-info">
-                            {{ $p->condition }}
-                        </span>
+                        {{ date("d-m-Y", strtotime($v->tax)) }}
+                    </td>
+                    <td>
+                        {{ date("d-m-Y", strtotime($v->stnk)) }}
                     </td>
                     @isset($notuser)
                     <td>
                         <div class="btn-group">
-                            <a href="{{ route('production.show',$p->id) }}"
-                                class="btn btn-primary">{{ __('Lihat') }}</a>
+                            <a href="{{ route('vehicle.show',$v->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>
                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                 data-toggle="dropdown">
                                 <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item"
-                                    href="{{ route('production.edit',$p->id) }}">{{ __('pages.editItem') }}</a>
-                                <form id="del-data{{ $p->id }}" action="{{ route('production.destroy',$p->id) }}"
+                                    href="{{ route('vehicle.edit',$v->id) }}">{{ __('pages.editItem') }}</a>
+                                <form id="del-data{{ $v->id }}" action="{{ route('vehicle.destroy',$v->id) }}"
                                     method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <a class="dropdown-item" style="cursor: pointer"
                                         data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                        data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();">
+                                        data-confirm-yes="document.getElementById('del-data{{ $v->id }}').submit();">
                                         {{ __('pages.delItem') }}
                                     </a>
                                 </form>

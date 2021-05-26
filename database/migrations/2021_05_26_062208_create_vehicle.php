@@ -23,7 +23,6 @@ class CreateVehicle extends Migration
             $table->date('kir');
             $table->date('tax');
             $table->date('stnk');
-            $table->enum('status', ['Lunas', 'Belum']);
             $table->boolean('add')->nullable();
             $table->boolean('edit')->nullable();
         });
