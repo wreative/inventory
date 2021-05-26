@@ -29,6 +29,10 @@ class ProductionController extends Controller
 
     public function index()
     {
+
+
+
+
         if ($this->FunctionController->authUser() == true) {
             $production = Production::where('add', 1)
                 ->get();
