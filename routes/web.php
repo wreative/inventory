@@ -39,9 +39,17 @@ Route::get('equipment/approve/{id}', [App\Http\Controllers\EquipmentController::
 
 // Rental
 Route::resource('rental', App\Http\Controllers\RentalController::class);
+Route::get('/approve/rental', [App\Http\Controllers\RentalController::class, 'approv'])
+    ->name('rental.approv');
+Route::get('rental/approve/{id}', [App\Http\Controllers\RentalController::class, 'accept'])
+    ->name('rental.acc');
 
 // Vehicle
 Route::resource('vehicle', App\Http\Controllers\VehicleController::class);
+Route::get('/approve/vehicle', [App\Http\Controllers\VehicleController::class, 'approv'])
+    ->name('vehicle.approv');
+Route::get('vehicle/approve/{id}', [App\Http\Controllers\VehicleController::class, 'accept'])
+    ->name('vehicle.acc');
 
 // Route::resource('borrow', App\Http\Controllers\BorrowController::class)->except([
 //     'edit'
