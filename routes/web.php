@@ -51,18 +51,6 @@ Route::get('/approve/vehicle', [App\Http\Controllers\VehicleController::class, '
 Route::get('vehicle/approve/{id}', [App\Http\Controllers\VehicleController::class, 'accept'])
     ->name('vehicle.acc');
 
-// Route::resource('borrow', App\Http\Controllers\BorrowController::class)->except([
-//     'edit'
-// ]);
-
-// Route::resource('history', App\Http\Controllers\HistoryController::class)->only([
-//     'index'
-// ]);
-
-// Route::resource('users', App\Http\Controllers\UsersController::class)->except([
-//     'show',
-// ]);
-
 // Special Action Users
 Route::get('/change-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'index'])
     ->name('changePassword');
