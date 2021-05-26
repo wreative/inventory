@@ -17,6 +17,7 @@ class CreateRental extends Migration
             $table->id();
             $table->string('code');
             $table->string('name');
+            $table->string('address');
             $table->enum('status', ['Lunas', 'Belum']);
             $table->integer('pln');
             $table->integer('pdam');

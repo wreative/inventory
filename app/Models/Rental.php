@@ -21,6 +21,7 @@ class Rental extends Model
     protected $fillable = [
         'code',
         'name',
+        'address',
         'status',
         'pln',
         'pdam',

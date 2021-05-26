@@ -43,17 +43,17 @@ Route::resource('rental', App\Http\Controllers\RentalController::class);
 // Vehicle
 Route::resource('vehicle', App\Http\Controllers\VehicleController::class);
 
-Route::resource('borrow', App\Http\Controllers\BorrowController::class)->except([
-    'edit'
-]);
+// Route::resource('borrow', App\Http\Controllers\BorrowController::class)->except([
+//     'edit'
+// ]);
 
-Route::resource('history', App\Http\Controllers\HistoryController::class)->only([
-    'index'
-]);
+// Route::resource('history', App\Http\Controllers\HistoryController::class)->only([
+//     'index'
+// ]);
 
-Route::resource('users', App\Http\Controllers\UsersController::class)->except([
-    'show',
-]);
+// Route::resource('users', App\Http\Controllers\UsersController::class)->except([
+//     'show',
+// ]);
 
 // Special Action Users
 Route::get('/change-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'index'])
