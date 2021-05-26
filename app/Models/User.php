@@ -30,4 +30,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function relationRoles()
+    {
+        return $this->belongsTo('App\Models\Roles', 'roles', 'id');
+    }
 }

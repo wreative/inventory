@@ -51,8 +51,10 @@ class EquipmentController extends Controller
                     'equipment' => $equipment, 'admin' => true
                 ]);
             } else {
-                return Redirect::route('home')
-                    ->with(['status' => 'Anda tidak punya akses disini.']);
+                $equipment = Equipment::all();
+                return view('pages.data.equipment.indexEquipment', [
+                    'equipment' => $equipment
+                ]);
             }
         } else {
             return Redirect::route('home')
@@ -270,13 +272,13 @@ class EquipmentController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             if ($this->FunctionController->authAdmin() == true) {
-                $production = Production::where('add', 1)
+                $equipment = Equipment::where('add', 1)
                     ->get();
-                return view('pages.approval.indexproduction', ['production' => $production]);
+                return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
             } elseif ($this->FunctionController->authSuper() == true) {
-                $production = Production::where('edit', 1)
+                $equipment = Equipment::where('edit', 1)
                     ->get();
-                return view('pages.approval.indexproduction', ['production' => $production]);
+                return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
             } else {
                 return Redirect::route('equipment.index');
             }

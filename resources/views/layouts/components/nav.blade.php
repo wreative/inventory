@@ -12,6 +12,7 @@
                 <div class="d-sm-none d-lg-inline-block">{{ __('Hai, ') . Auth::user()->name }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-title">{{ Auth::user()->relationRoles->name }}</div>
                 <a id="name" class="dropdown-item has-icon" style="cursor: pointer">
                     <i class="fas fa-user"></i> {{ __('Ganti Nama') }}
                 </a>
