@@ -134,31 +134,41 @@ class FunctionController extends Controller
 
     public function onlyUserProduction()
     {
+        return Auth::user()->roles == 6 ? true : false;
     }
 
     public function onlyUserEquipment()
     {
+        return Auth::user()->roles == 7 ? true : false;
     }
 
-    // public function onlyUserProduction(){
+    public function onlyUserRental()
+    {
+        return Auth::user()->roles == 8 ? true : false;
+    }
 
-    // }
-    // public function onlyUserProduction(){
+    public function onlyUserVehicle()
+    {
+        return Auth::user()->roles == 9 ? true : false;
+    }
 
-    // }
     public function onlyAdminProduction()
     {
+        return Auth::user()->roles == 2 ? true : false;
     }
 
     public function onlyAdminEquipment()
     {
+        return Auth::user()->roles == 3 ? true : false;
     }
 
-    // public function onlyAdminEquipment()
-    // {
-    // }
+    public function onlyAdminRental()
+    {
+        return Auth::user()->roles == 4 ? true : false;
+    }
 
-    // public function onlyAdminEquipment()
-    // {
-    // }
+    public function onlyAdminVehicle()
+    {
+        return Auth::user()->roles == 5 ? true : false;
+    }
 }
