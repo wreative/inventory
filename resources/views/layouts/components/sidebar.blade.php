@@ -33,21 +33,32 @@
                     <li><a class="nav-link" href="{{ route('equipment.approv') }}">{{ __('Persetujuan') }}</a></li>
                 </ul>
             </li>
-            <li class="{{ Request::route()->getName() == 'workshop.index' ? 'active' : '' }}">
-                <a class="nav-link" href="#"><i class="fas fa-archive"></i>
-                    <span>{{ __('Pengguna') }}</span></a>
-            </li>
-            {{-- <li class="{{ Request::route()->getName() == 'workshop.index' ? 'active' : (
-                Request::route()->getName() == 'workshop.create' ? 'active' : '') }}">
-            <a class="nav-link" href="{{ route('workshop.index') }}"><i class="fas fa-archive"></i>
-                <span>{{ __('Persewaan Gedung') }}</span></a>
-            </li>
-            <li class="{{ Request::route()->getName() == 'class.index' ? 'active' : (
-                Request::route()->getName() == 'class.create' ? 'active' : (
-                    Request::route()->getName() == 'class.edit' ? 'active' : '')) }}">
-                <a class="nav-link" href="{{ route('class.index') }}"><i class="fas fa-chalkboard-teacher"></i>
-                    <span>{{ __('Kendaraan') }}</span></a>
+            <li class="nav-item dropdown">
+                <a href="{{ route('rental.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                        class="fas fa-columns"></i>
+                    <span>{{ __('Persewaan Gedung') }}</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{ route('rental.index') }}">{{ __('Daftar') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('rental.create') }}">{{ __('Tambah') }}</a></li>
+                    {{-- <li><a class="nav-link" href="{{ route('rental.approv') }}">{{ __('Persetujuan') }}</a>
             </li> --}}
+        </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="{{ route('vehicle.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                    class="fas fa-columns"></i>
+                <span>{{ __('Kendaraan') }}</span></a>
+            <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{ route('vehicle.index') }}">{{ __('Daftar') }}</a></li>
+                <li><a class="nav-link" href="{{ route('vehicle.create') }}">{{ __('Tambah') }}</a></li>
+                {{-- <li><a class="nav-link" href="{{ route('vehicle.approv') }}">{{ __('Persetujuan') }}</a>
+        </li> --}}
+        </ul>
+        </li>
+        <li class="{{ Request::route()->getName() == 'workshop.index' ? 'active' : '' }}">
+            <a class="nav-link" href="#"><i class="fas fa-archive"></i>
+                <span>{{ __('Pengguna') }}</span></a>
+        </li>
         </ul>
     </aside>
 </div>

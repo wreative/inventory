@@ -37,14 +37,11 @@ Route::get('/approve/equipment', [App\Http\Controllers\EquipmentController::clas
 Route::get('equipment/approve/{id}', [App\Http\Controllers\EquipmentController::class, 'acceptAdd'])
     ->name('equipment.acc');
 
-// 
-Route::resource('student', App\Http\Controllers\StudentController::class)->except([
-    'show',
-]);
+// Rental
+Route::resource('rental', App\Http\Controllers\RentalController::class);
 
-Route::resource('workshop', App\Http\Controllers\WorkshopController::class)->except([
-    'show', 'edit'
-]);
+// Vehicle
+Route::resource('vehicle', App\Http\Controllers\VehicleController::class);
 
 Route::resource('borrow', App\Http\Controllers\BorrowController::class)->except([
     'edit'
