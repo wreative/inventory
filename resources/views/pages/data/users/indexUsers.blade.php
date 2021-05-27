@@ -32,6 +32,7 @@
                         {{ __('Username') }}
                     </th>
                     <th>{{ __('Nama') }}</th>
+                    <th>{{ __('Roles') }}</th>
                     <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
@@ -46,6 +47,9 @@
                     </td>
                     <td>
                         {{ $u->name }}
+                    </td>
+                    <td>
+                        {{ $u->roles }}
                     </td>
                     <td>
                         <a href="{{ route('users.edit',$u->id) }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"

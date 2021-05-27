@@ -31,7 +31,8 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::where('id', '!=', Auth::user()->id)->get();
+        $users = User::with('relationRoles')->where('id', '!=', Auth::user()->id)->get();
+        // dd($users);
         return view('pages.data.users.indexUsers', ['users' => $users]);
     }
 

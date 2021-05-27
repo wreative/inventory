@@ -55,10 +55,12 @@
                     </li>
                 </ul>
             </li>
-            <li class="{{ Request::route()->getName() == 'workshop.index' ? 'active' : '' }}">
+            @if (Auth::user()->roles == 1)
+            <li class="{{ Request::route()->getName() == 'users.index' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i>
                     <span>{{ __('Pengguna') }}</span></a>
             </li>
+            @endif
         </ul>
     </aside>
 </div>

@@ -51,6 +51,21 @@
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required
                     autocomplete="new-password">
             </div>
+            <div class="form-group">
+                <label>{{ __('Roles') }}<code>*</code></label>
+                <select class="form-control select2 @error('roles') is-invalid @enderror" name="roles" required>
+                    @foreach ($roles as $r)
+                    <option value="{{ $r->id }}">
+                        {{ $r->name }}
+                    </option>
+                    @endforeach
+                </select>
+                @error('roles')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
             <div class="card-footer text-right">
                 <button class="btn btn-primary mr-1" type="submit">{{ __('pages.add') }}</button>
             </div>
