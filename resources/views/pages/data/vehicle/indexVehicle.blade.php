@@ -22,7 +22,7 @@
                     <th class="text-center">
                         {{ __('Kode') }}
                     </th>
-                    <th>{{ __('Nama') }}</th>
+                    <th>{{ __('Nama Kendaraan') }}</th>
                     <th>{{ __('Jenis') }}</th>
                     <th>{{ __('Merk') }}</th>
                     <th>{{ __('No Plat') }}</th>

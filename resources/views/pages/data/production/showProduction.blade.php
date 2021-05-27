@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label>{{ __('Nama') }}</label>
+                    <label>{{ __('Nama Alat Produksi') }}</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                         value="{{ $production->name }}" name="name" readonly>
                     @error('name')

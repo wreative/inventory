@@ -22,7 +22,7 @@
                     <th class="text-center">
                         {{ __('Kode') }}
                     </th>
-                    <th>{{ __('Nama') }}</th>
+                    <th>{{ __('Nama Alat Produksi') }}</th>
                     <th>{{ __('Merk') }}</th>
                     <th>{{ __('Harga Perolehan') }}</th>
                     <th>{{ __('Tanggal Perolehan') }}</th>

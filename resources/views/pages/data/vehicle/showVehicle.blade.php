@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label>{{ __('Nama') }}<code>*</code></label>
+                    <label>{{ __('Nama Kendaraan') }}<code>*</code></label>
                     <input type="text" value="{{ $vehicle->name }}"
                         class="form-control @error('name') is-invalid @enderror" name="name" autofocus readonly>
                     @error('name')

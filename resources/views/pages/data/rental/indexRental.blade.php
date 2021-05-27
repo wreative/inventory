@@ -22,7 +22,7 @@
                     <th class="text-center">
                         {{ __('Kode') }}
                     </th>
-                    <th>{{ __('Nama') }}</th>
+                    <th>{{ __('Nama Gedung') }}</th>
                     <th>{{ __('Alamat') }}</th>
                     <th>{{ __('Pembayaran') }}</th>
                     <th>{{ __('No PBB') }}</th>

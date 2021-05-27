@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Nama') }}<code>*</code></label>
+                        <label>{{ __('Nama Perlengkapan') }}<code>*</code></label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                             value="{{ $production->name }}" name="name" required autofocus>
                         @error('name')
