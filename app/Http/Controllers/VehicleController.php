@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Room;
 use App\Models\Equipment;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 
 class VehicleController extends Controller
 {
