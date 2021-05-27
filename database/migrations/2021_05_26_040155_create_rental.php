@@ -23,7 +23,7 @@ class CreateRental extends Migration
             $table->integer('pdam');
             $table->integer('pbb');
             $table->integer('wifi');
-            $table->enum('rental', ['Lunas', 'Hak Milik']);
+            $table->enum('rental', ['Sewa', 'Hak Milik']);
             $table->date('due');
             $table->boolean('add')->nullable();
             $table->boolean('edit')->nullable();

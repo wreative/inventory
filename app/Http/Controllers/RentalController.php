@@ -217,7 +217,7 @@ class RentalController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             $rental = Rental::find($id);
-            return view('pages.data.rental.showRental', ['equipment' => $rental]);
+            return view('pages.data.rental.showRental', ['rental' => $rental]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);

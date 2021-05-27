@@ -43,29 +43,37 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label>{{ __('No PBB') }}<code>*</code></label>
-                <input type="text" class="form-control @error('pbb') is-invalid @enderror" name="pbb" required>
-                @error('pbb')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>{{ __('No PBB') }}<code>*</code></label>
+                        <input type="text" class="form-control @error('pbb') is-invalid @enderror" name="pbb" required>
+                        @error('pbb')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>{{ __('No Token PLN') }}<code>*</code></label>
+                        <input type="text" class="form-control @error('pln') is-invalid @enderror" name="pln" required>
+                        @error('pln')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Harga Perolehan') }}<code>*</code></label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    {{ __('Rp.') }}
-                                </div>
-                            </div>
-                            <input type="text" class="form-control currency @error('price_acq') is-invalid @enderror"
-                                name="price_acq" required>
-                        </div>
-                        @error('price_acq')
+                        <label>{{ __('No PDAM') }}<code>*</code></label>
+                        <input type="text" class="form-control @error('pdam') is-invalid @enderror" name="pdam"
+                            required>
+                        @error('pdam')
                         <span class="text-danger" role="alert">
                             {{ $message }}
                         </span>
@@ -74,10 +82,52 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tanggal Perolehan') }}<code>*</code></label>
-                        <input type="month" class="form-control @error('date_acq') is-invalid @enderror" name="date_acq"
+                        <label>{{ __('No Wifi') }}<code>*</code></label>
+                        <input type="text" class="form-control @error('wifi') is-invalid @enderror" name="wifi"
                             required>
-                        @error('date_acq')
+                        @error('wifi')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Status Pembayaran') }}<code>*</code></label>
+                        <div class="selectgroup w-100" id="status">
+                            <label class="selectgroup-item">
+                                <input type="radio" name="status" value="1" class="selectgroup-input" checked>
+                                <span class="selectgroup-button">{{ __('Lunas') }}</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="status" value="2" class="selectgroup-input">
+                                <span class="selectgroup-button">{{ __('Belum Lunas') }}</span>
+                            </label>
+                        </div>
+                        @error('status')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Status Gedung') }}<code>*</code></label>
+                        <div class="selectgroup w-100" id="rental">
+                            <label class="selectgroup-item">
+                                <input type="radio" name="rental" value="1" class="selectgroup-input" checked>
+                                <span class="selectgroup-button">{{ __('Sewa') }}</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="rental" value="2" class="selectgroup-input">
+                                <span class="selectgroup-button">{{ __('Hak Milik') }}</span>
+                            </label>
+                        </div>
+                        @error('rental')
                         <span class="text-danger" role="alert">
                             {{ $message }}
                         </span>
@@ -86,54 +136,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="form-label">{{ __('Kondisi') }}<code>*</code></label>
-                <div class="selectgroup w-100" id="condition">
-                    <label class="selectgroup-item">
-                        <input type="radio" name="condition" value="1" class="selectgroup-input" checked>
-                        <span class="selectgroup-button">{{ __('Ada') }}</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="radio" name="condition" value="2" class="selectgroup-input">
-                        <span class="selectgroup-button">{{ __('Tidak Ada') }}</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="radio" name="condition" value="3" class="selectgroup-input">
-                        <span class="selectgroup-button">{{ __('Rusak') }}</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="radio" name="condition" value="4" class="selectgroup-input">
-                        <span class="selectgroup-button">{{ __('Hilang') }}</span>
-                    </label>
-                </div>
-                @error('condition')
+                <label>{{ __('Tanggal Jatuh Tempo') }}<code>*</code></label>
+                <input type="date" class="form-control @error('due') is-invalid @enderror" name="due" required>
+                @error('due')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
                 @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Keterangan') }}</label>
-                <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
-                    rows="10" style="height: 77px;"></textarea>
-                @error('info')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="section-title mt-0">{{ __('Gambar') }}</div>
-            <div class="form-group">
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="img[]"
-                        accept="image/png, image/jpeg, image/jpg, image/svg" id="img" multiple required>
-                    <label class="custom-file-label" for="img" id="img_label">{{ __('Pilih File') }}</label>
-                </div>
-                @error('img')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-                <div class="fileListDisplay"></div>
             </div>
         </div>
         <div class="card-footer text-right">
@@ -141,25 +150,4 @@
         </div>
     </form>
 </div>
-@endsection
-@section('script')
-<script>
-    var img = document.getElementById("img");
-$("#img").on("change", function () {
-    var imgList = [];
-    for (var i = 0; i < img.files.length; i++) {
-        imgList.push(img.files[i]);
-    }
-    $("#img_label").html(imgList.length + " Foto");
-});
-
-$(".currency")
-    .toArray()
-    .forEach(function(field) {
-        new Cleave(field, {
-            numeral: true,
-            numeralThousandsGroupStyle: "thousand"
-        });
-    });
-</script>
 @endsection
