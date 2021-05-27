@@ -49,7 +49,7 @@
                         {{ $u->name }}
                     </td>
                     <td>
-                        {{ $u->roles }}
+                        {{ $u->role_id }}
                     </td>
                     <td>
                         <a href="{{ route('users.edit',$u->id) }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"

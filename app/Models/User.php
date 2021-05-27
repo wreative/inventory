@@ -19,7 +19,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'username',
-        'password'
+        'password',
+        'role_id'
     ];
 
     /**
@@ -33,6 +34,6 @@ class User extends Authenticatable
 
     public function relationRoles()
     {
-        return $this->belongsTo('App\Models\Roles', 'roles', 'id');
+        return $this->belongsTo('App\Models\Roles', 'role_id', 'id');
     }
 }
