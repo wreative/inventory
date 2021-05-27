@@ -32,7 +32,7 @@
                         {{ __('Username') }}
                     </th>
                     <th>{{ __('Nama') }}</th>
-                    <th>{{ __('Roles') }}</th>
+                    <th>{{ __('Hak Akses') }}</th>
                     <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
@@ -49,7 +49,7 @@
                         {{ $u->name }}
                     </td>
                     <td>
-                        {{ $u->role_id }}
+                        {{ $u->relationRoles->name }}
                     </td>
                     <td>
                         <a href="{{ route('users.edit',$u->id) }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"

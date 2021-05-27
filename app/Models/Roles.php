@@ -24,6 +24,6 @@ class Roles extends Model
 
     public function relationUser()
     {
-        return $this->hasOne('App\Models\User', 'id', 'role_id');
+        return $this->hasMany('App\Models\User', 'role_id', 'id');
     }
 }

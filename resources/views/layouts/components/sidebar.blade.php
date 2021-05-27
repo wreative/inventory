@@ -55,7 +55,7 @@
                     </li>
                 </ul>
             </li>
-            @if (Auth::user()->roles == 1)
+            @if (Auth::user()->role_id == 1)
             <li class="{{ Request::route()->getName() == 'users.index' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i>
                     <span>{{ __('Pengguna') }}</span></a>
