@@ -143,8 +143,8 @@
             </div>
             <div class="form-group">
                 <label>{{ __('Tanggal Jatuh Tempo') }}<code>*</code></label>
-                <input value="{{ $rental->due }}" type="date" class="form-control @error('due') is-invalid @enderror"
-                    name="due" required>
+                <input value="{{ $rental->due }}" type="text"
+                    class="form-control datepicker @error('due') is-invalid @enderror" name="due" required>
                 @error('due')
                 <span class="text-danger" role="alert">
                     {{ $message }}

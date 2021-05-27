@@ -15,7 +15,7 @@
             <li class="menu-header">{{ __('Data') }}</li>
             <li class="nav-item dropdown">
                 <a href="{{ route('production.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-columns"></i>
+                        class="fas fa-tools"></i>
                     <span>{{ __('Alat Produksi') }}</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('production.index') }}">{{ __('Daftar') }}</a></li>
@@ -25,7 +25,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a href="{{ route('equipment.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-columns"></i>
+                        class="fas fa-toolbox"></i>
                     <span>{{ __('Perlengkapan') }}</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('equipment.index') }}">{{ __('Daftar') }}</a></li>
@@ -35,7 +35,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a href="{{ route('rental.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-columns"></i>
+                        class="fas fa-building"></i>
                     <span>{{ __('Persewaan Gedung') }}</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('rental.index') }}">{{ __('Daftar') }}</a></li>
@@ -46,7 +46,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a href="{{ route('vehicle.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-columns"></i>
+                        class="fas fa-truck"></i>
                     <span>{{ __('Kendaraan') }}</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('vehicle.index') }}">{{ __('Daftar') }}</a></li>
@@ -56,7 +56,7 @@
                 </ul>
             </li>
             <li class="{{ Request::route()->getName() == 'workshop.index' ? 'active' : '' }}">
-                <a class="nav-link" href="#"><i class="fas fa-archive"></i>
+                <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i>
                     <span>{{ __('Pengguna') }}</span></a>
             </li>
         </ul>

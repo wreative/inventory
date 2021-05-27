@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Roles;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +37,8 @@ class UsersController extends Controller
 
     public function create()
     {
-        return view('pages.data.users.createUsers');
+        $roles = Roles::all();
+        return view('pages.data.users.createUsers', ['roles' => $roles]);
     }
 
     public function store(Request $req)

@@ -39,19 +39,19 @@ class RentalController extends Controller
                 $rental = Rental::where('add', 0)
                     ->where('edit', 0)
                     ->get();
-                return view('pages.data.rental.createRental', [
+                return view('pages.data.rental.indexRental', [
                     'rental' => $rental
                 ]);
             } elseif ($this->FunctionController->authAdmin() == true) {
                 $rental = Rental::where('add', 0)
                     ->where('edit', 0)
                     ->get();
-                return view('pages.data.rental.createRental', [
+                return view('pages.data.rental.indexRental', [
                     'rental' => $rental, 'admin' => true
                 ]);
             } else {
                 $rental = Rental::all();
-                return view('pages.data.rental.createRental', [
+                return view('pages.data.rental.indexRental', [
                     'rental' => $rental
                 ]);
             }
@@ -90,7 +90,7 @@ class RentalController extends Controller
                 'name' => 'required',
                 'address' => 'required',
                 'status' => 'required',
-                'pln' => 'required|date',
+                'pln' => 'required',
                 'pdam' => 'required',
                 'pbb' => 'required',
                 'wifi' => 'required',
