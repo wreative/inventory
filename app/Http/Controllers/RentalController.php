@@ -235,11 +235,11 @@ class RentalController extends Controller
             if ($this->FunctionController->authAdmin() == true) {
                 $rental = Rental::where('add', 1)
                     ->get();
-                return view('pages.approval.indexRental', ['equipment' => $rental]);
+                return view('pages.approval.indexRental', ['rental' => $rental]);
             } elseif ($this->FunctionController->superAdmin() == true) {
                 $rental = Rental::where('edit', 1)
                     ->get();
-                return view('pages.approval.indexRental', ['equipment' => $rental]);
+                return view('pages.approval.indexRental', ['rental' => $rental]);
             } else {
                 return Redirect::route('rental.index');
             }

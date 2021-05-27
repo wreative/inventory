@@ -224,20 +224,20 @@ class VehicleController extends Controller
     {
         // Auth Roles Production        
         if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
+            $this->FunctionController->onlyUserVehicle() == true ||
+            $this->FunctionController->onlyAdminVehicle() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
             if ($this->FunctionController->authAdmin() == true) {
-                $equipment = Equipment::where('add', 1)
+                $vehicle = Vehicle::where('add', 1)
                     ->get();
-                return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
+                return view('pages.approval.indexVehicle', ['vehicle' => $vehicle]);
             } elseif ($this->FunctionController->superAdmin() == true) {
-                $equipment = Equipment::where('edit', 1)
+                $vehicle = Vehicle::where('edit', 1)
                     ->get();
-                return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
+                return view('pages.approval.indexVehicle', ['vehicle' => $vehicle]);
             } else {
-                return Redirect::route('equipment.index');
+                return Redirect::route('vehicle.index');
             }
         } else {
             return Redirect::route('home')

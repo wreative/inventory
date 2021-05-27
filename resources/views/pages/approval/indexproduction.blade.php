@@ -65,7 +65,7 @@
                                 <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
                             </button>
                             <div class="dropdown-menu">
-                                @if (Auth::user()->roles == 1)
+                                @if (Auth::user()->role_id == 1)
                                 <a class="dropdown-item"
                                     href="{{ route('production.edit',$p->id) }}">{{ __('pages.editItem') }}</a>
                                 @endif
