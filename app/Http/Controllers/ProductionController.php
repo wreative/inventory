@@ -38,7 +38,7 @@ class ProductionController extends Controller
             if ($this->FunctionController->authUser() == true) {
                 $production = Production::where('add', 1)
                     ->get();
-                return view('pages.approval.indexproduction', [
+                return view('pages.data.production.indexProduction', [
                     'production' => $production, 'user' => true
                 ]);
             } else {
