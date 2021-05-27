@@ -36,7 +36,7 @@
             <li class="nav-item dropdown">
                 <a href="{{ route('rental.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fas fa-building"></i>
-                    <span>{{ __('Persewaan Gedung') }}</span></a>
+                    <span>{{ __('Gedung') }}</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('rental.index') }}">{{ __('Daftar') }}</a></li>
                     <li><a class="nav-link" href="{{ route('rental.create') }}">{{ __('Tambah') }}</a></li>
