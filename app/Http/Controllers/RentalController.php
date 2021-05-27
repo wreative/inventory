@@ -35,7 +35,7 @@ class RentalController extends Controller
             $this->FunctionController->onlyAdminRental() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            if ($this->FunctionController->authSuper() == true) {
+            if ($this->FunctionController->superAdmin() == true) {
                 $rental = Rental::where('add', 0)
                     ->where('edit', 0)
                     ->get();
@@ -139,7 +139,7 @@ class RentalController extends Controller
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
-        // if ($this->FunctionController->authAdmin() == true or $this->FunctionController->authSuper() == true) {
+        // if ($this->FunctionController->authAdmin() == true or $this->FunctionController->superAdmin() == true) {
         //     $production = Production::find($id);
         //     return view('pages.data.production.updateProduction', ['production' => $production]);
         // } else {
@@ -236,7 +236,7 @@ class RentalController extends Controller
                 $rental = Rental::where('add', 1)
                     ->get();
                 return view('pages.approval.indexRental', ['equipment' => $rental]);
-            } elseif ($this->FunctionController->authSuper() == true) {
+            } elseif ($this->FunctionController->superAdmin() == true) {
                 $rental = Rental::where('edit', 1)
                     ->get();
                 return view('pages.approval.indexRental', ['equipment' => $rental]);
@@ -263,7 +263,7 @@ class RentalController extends Controller
                 $rental->add = 0;
                 $rental->save();
                 return Redirect::route('rental.index');
-            } elseif ($this->FunctionController->authSuper() == true) {
+            } elseif ($this->FunctionController->superAdmin() == true) {
                 $rental->edit = 0;
                 $rental->save();
                 return Redirect::route('rental.index');

@@ -86,19 +86,14 @@ class FunctionController extends Controller
         return $dataIMG;
     }
 
-    public function authSuper()
-    {
-        return Auth::user()->roles == 1 ? true : false;
-    }
-
     public function authAdmin()
     {
-        return Auth::user()->roles == 2 ? true : (Auth::user()->roles == 3 ? true : (Auth::user()->roles == 4 ? true : (Auth::user()->roles == 5 ? true : false)));
+        return Auth::user()->role_id == 2 ? true : (Auth::user()->role_id == 3 ? true : (Auth::user()->role_id == 4 ? true : (Auth::user()->role_id == 5 ? true : false)));
     }
 
     public function authUser()
     {
-        return Auth::user()->roles == 6 ? true : (Auth::user()->roles == 7 ? true : (Auth::user()->roles == 8 ? true : (Auth::user()->roles == 9 ? true : false)));
+        return Auth::user()->role_id == 6 ? true : (Auth::user()->role_id == 7 ? true : (Auth::user()->role_id == 8 ? true : (Auth::user()->role_id == 9 ? true : false)));
     }
 
     public function removeComma($number)
@@ -126,46 +121,46 @@ class FunctionController extends Controller
 
     public function onlyUserProduction()
     {
-        return Auth::user()->roles == 6 ? true : false;
+        return Auth::user()->role_id == 6 ? true : false;
     }
 
     public function onlyUserEquipment()
     {
-        return Auth::user()->roles == 7 ? true : false;
+        return Auth::user()->role_id == 7 ? true : false;
     }
 
     public function onlyUserRental()
     {
-        return Auth::user()->roles == 8 ? true : false;
+        return Auth::user()->role_id == 8 ? true : false;
     }
 
     public function onlyUserVehicle()
     {
-        return Auth::user()->roles == 9 ? true : false;
+        return Auth::user()->role_id == 9 ? true : false;
     }
 
     public function onlyAdminProduction()
     {
-        return Auth::user()->roles == 2 ? true : false;
+        return Auth::user()->role_id == 2 ? true : false;
     }
 
     public function onlyAdminEquipment()
     {
-        return Auth::user()->roles == 3 ? true : false;
+        return Auth::user()->role_id == 3 ? true : false;
     }
 
     public function onlyAdminRental()
     {
-        return Auth::user()->roles == 4 ? true : false;
+        return Auth::user()->role_id == 4 ? true : false;
     }
 
     public function onlyAdminVehicle()
     {
-        return Auth::user()->roles == 5 ? true : false;
+        return Auth::user()->role_id == 5 ? true : false;
     }
 
     public function superAdmin()
     {
-        return Auth::user()->roles == 1 ? true : false;
+        return Auth::user()->role_id == 1 ? true : false;
     }
 }

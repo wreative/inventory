@@ -257,7 +257,7 @@ class ProductionController extends Controller
                 $production = Production::where('add', 1)
                     ->get();
                 return view('pages.approval.indexproduction', ['production' => $production]);
-            } elseif ($this->FunctionController->authSuper() == true) {
+            } elseif ($this->FunctionController->superAdmin() == true) {
                 $production = Production::where('edit', 1)
                     ->get();
                 return view('pages.approval.indexproduction', ['production' => $production]);
