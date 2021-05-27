@@ -24,6 +24,8 @@ class Vehicle extends Model
         'type',
         'brand',
         'plat',
+        'step',
+        'engine',
         'kir',
         'tax',
         'stnk',

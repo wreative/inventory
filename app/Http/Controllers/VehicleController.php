@@ -93,6 +93,8 @@ class VehicleController extends Controller
                 'type' => 'required',
                 'brand' => 'required',
                 'plat' => 'required',
+                'step' => 'required',
+                'engine' => 'required',
                 'kir' => 'required|date',
                 'tax' => 'required|date',
                 'stnk' => 'required|date',
@@ -107,6 +109,8 @@ class VehicleController extends Controller
                 'type' => $req->type,
                 'brand' => $req->brand,
                 'plat' => $req->plat,
+                'step' => $req->step,
+                'engine' => $req->engine,
                 'kir' => $req->kir,
                 'tax' => $req->tax,
                 'stnk' => $req->stnk,
@@ -173,6 +177,8 @@ class VehicleController extends Controller
             $vehicle->type = $req->type;
             $vehicle->brand = $req->brand;
             $vehicle->plat = $req->plat;
+            $vehicle->step = $req->step;
+            $vehicle->engine = $req->engine;
             $vehicle->kir = $req->kir;
             $vehicle->tax = $req->tax;
             $vehicle->stnk = $req->stnk;

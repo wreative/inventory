@@ -52,15 +52,43 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label>{{ __('No Plat') }}<code>*</code></label>
-            <input type="text" value="{{ $vehicle->plat }}" class="form-control @error('plat') is-invalid @enderror"
-                name="plat" readonly>
-            @error('plat')
-            <span class="text-danger" role="alert">
-                {{ $message }}
-            </span>
-            @enderror
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('No Plat') }}<code>*</code></label>
+                    <input type="text" value="{{ $vehicle->plat }}"
+                        class="form-control @error('plat') is-invalid @enderror" name="plat" readonly>
+                    @error('plat')
+                    <span class="text-danger" role="alert">
+                        {{ $message }}
+                    </span>
+                    @enderror
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('No Rangkah') }}<code>*</code></label>
+                    <input type="text" value="{{ $vehicle->step }}"
+                        class="form-control @error('step') is-invalid @enderror" name="step" readonly>
+                    @error('step')
+                    <span class="text-danger" role="alert">
+                        {{ $message }}
+                    </span>
+                    @enderror
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('No Mesin') }}<code>*</code></label>
+                    <input type="text" value="{{ $vehicle->engine }}"
+                        class="form-control @error('engine') is-invalid @enderror" name="engine" readonly>
+                    @error('engine')
+                    <span class="text-danger" role="alert">
+                        {{ $message }}
+                    </span>
+                    @enderror
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col">

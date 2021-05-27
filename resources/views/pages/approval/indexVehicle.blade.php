@@ -22,6 +22,8 @@
                     <th>{{ __('Jenis') }}</th>
                     <th>{{ __('Merk') }}</th>
                     <th>{{ __('No Plat') }}</th>
+                    <th>{{ __('No Rangkah') }}</th>
+                    <th>{{ __('No Mesin') }}</th>
                     <th>{{ __('Tanggal Kir') }}</th>
                     <th>{{ __('Tanggal Pajak Tahunan') }}</th>
                     <th>{{ __('Tanggal STNK') }}</th>
@@ -48,6 +50,12 @@
                     </td>
                     <td>
                         {{ $v->plat }}
+                    </td>
+                    <td>
+                        {{ $v->step }}
+                    </td>
+                    <td>
+                        {{ $v->engine }}
                     </td>
                     <td>
                         {{ date("d-m-Y", strtotime($v->kir)) }}

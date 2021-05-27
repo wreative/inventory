@@ -20,6 +20,8 @@ class CreateVehicle extends Migration
             $table->string('type');
             $table->string('brand');
             $table->string('plat');
+            $table->string('step');
+            $table->string('engine');
             $table->date('kir');
             $table->date('tax');
             $table->date('stnk');
