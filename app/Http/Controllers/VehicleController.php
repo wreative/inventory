@@ -37,7 +37,7 @@ class VehicleController extends Controller
             $this->FunctionController->onlyAdminVehicle() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            if ($this->FunctionController->authSuper() == true) {
+            if ($this->FunctionController->superAdmin() == true) {
                 $vehicle = Vehicle::where('add', 0)
                     ->where('edit', 0)
                     ->get();
@@ -138,7 +138,7 @@ class VehicleController extends Controller
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
-        // if ($this->FunctionController->authAdmin() == true or $this->FunctionController->authSuper() == true) {
+        // if ($this->FunctionController->authAdmin() == true or $this->FunctionController->superAdmin() == true) {
         //     $production = Production::find($id);
         //     return view('pages.data.production.updateProduction', ['production' => $production]);
         // } else {
@@ -232,7 +232,7 @@ class VehicleController extends Controller
                 $equipment = Equipment::where('add', 1)
                     ->get();
                 return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
-            } elseif ($this->FunctionController->authSuper() == true) {
+            } elseif ($this->FunctionController->superAdmin() == true) {
                 $equipment = Equipment::where('edit', 1)
                     ->get();
                 return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
@@ -259,7 +259,7 @@ class VehicleController extends Controller
                 $equipment->add = 0;
                 $equipment->save();
                 return Redirect::route('equipment.index');
-            } elseif ($this->FunctionController->authSuper() == true) {
+            } elseif ($this->FunctionController->superAdmin() == true) {
                 $equipment->edit = 0;
                 $equipment->save();
                 return Redirect::route('equipment.index');
