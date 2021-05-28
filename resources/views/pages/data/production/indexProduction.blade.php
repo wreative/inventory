@@ -66,7 +66,7 @@
                     <td>
                         {{ $p->info }}
                     </td>
-                    @isset($notuser)
+                    @isset($user)
                     <td>
                         <div class="btn-group">
                             <a href="{{ route('production.show',$p->id) }}"

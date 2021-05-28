@@ -13,45 +13,86 @@
                         class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Data') }}</li>
-            <li class="nav-item dropdown">
-                <a href="{{ route('production.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-tools"></i>
-                    <span>{{ __('Alat Produksi') }}</span></a>
+            <li class="nav-item dropdown {{ Request::route()->getName() == 'production.index' ? 'active' : (
+                Request::route()->getName() == 'production.create' ? 'active' : (
+                    Request::route()->getName() == 'production.approv' ? 'active' : (
+                        Request::route()->getName() == 'production.edit' ? 'active' : (
+                            Request::route()->getName() == 'production.show' ? 'active' : '')))) }}">
+                <a href="{{ route('production.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-tools"></i>
+                    <span>{{ __('Alat Produksi') }}</span>
+                </a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('production.index') }}">{{ __('Daftar') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('production.create') }}">{{ __('Tambah') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('production.approv') }}">{{ __('Persetujuan') }}</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a href="{{ route('equipment.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-toolbox"></i>
-                    <span>{{ __('Perlengkapan') }}</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('equipment.index') }}">{{ __('Daftar') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('equipment.create') }}">{{ __('Tambah') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('equipment.approv') }}">{{ __('Persetujuan') }}</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a href="{{ route('rental.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-building"></i>
-                    <span>{{ __('Gedung') }}</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('rental.index') }}">{{ __('Daftar') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('rental.create') }}">{{ __('Tambah') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('rental.approv') }}">{{ __('Persetujuan') }}</a>
+                    <li class="{{ Request::route()->getName() == 'production.index' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('production.index') }}">{{ __('Daftar') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'production.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('production.create') }}">{{ __('Tambah') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'production.approv' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('production.approv') }}">{{ __('Persetujuan') }}</a>
                     </li>
                 </ul>
             </li>
-            <li class="nav-item dropdown">
-                <a href="{{ route('vehicle.index') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-truck"></i>
-                    <span>{{ __('Kendaraan') }}</span></a>
+            <li class="nav-item dropdown {{ Request::route()->getName() == 'equipment.index' ? 'active' : (
+                Request::route()->getName() == 'equipment.create' ? 'active' : (
+                    Request::route()->getName() == 'equipment.approv' ? 'active' : (
+                        Request::route()->getName() == 'equipment.edit' ? 'active' : (
+                            Request::route()->getName() == 'equipment.show' ? 'active' : '')))) }}">
+                <a href="{{ route('equipment.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-toolbox"></i>
+                    <span>{{ __('Perlengkapan') }}</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('vehicle.index') }}">{{ __('Daftar') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('vehicle.create') }}">{{ __('Tambah') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('vehicle.approv') }}">{{ __('Persetujuan') }}</a>
+                    <li class="{{ Request::route()->getName() == 'equipment.index' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('equipment.index') }}">{{ __('Daftar') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'equipment.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('equipment.create') }}">{{ __('Tambah') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'equipment.approv' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('equipment.approv') }}">{{ __('Persetujuan') }}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown {{ Request::route()->getName() == 'rental.index' ? 'active' : (
+                Request::route()->getName() == 'rental.create' ? 'active' : (
+                    Request::route()->getName() == 'rental.approv' ? 'active' : (
+                        Request::route()->getName() == 'rental.edit' ? 'active' : (
+                            Request::route()->getName() == 'rental.show' ? 'active' : '')))) }}">
+                <a href="{{ route('rental.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-building"></i>
+                    <span>{{ __('Gedung') }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::route()->getName() == 'rental.index' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('rental.index') }}">{{ __('Daftar') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'rental.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('rental.create') }}">{{ __('Tambah') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'rental.approv' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('rental.approv') }}">{{ __('Persetujuan') }}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown {{ Request::route()->getName() == 'vehicle.index' ? 'active' : (
+                Request::route()->getName() == 'vehicle.create' ? 'active' : (
+                    Request::route()->getName() == 'vehicle.approv' ? 'active' : (
+                        Request::route()->getName() == 'vehicle.edit' ? 'active' : (
+                            Request::route()->getName() == 'vehicle.show' ? 'active' : '')))) }}">
+                <a href="{{ route('vehicle.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-truck"></i>
+                    <span>{{ __('Kendaraan') }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::route()->getName() == 'vehicle.index' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('vehicle.index') }}">{{ __('Daftar') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'vehicle.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('vehicle.create') }}">{{ __('Tambah') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'vehicle.approv' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('vehicle.approv') }}">{{ __('Persetujuan') }}</a>
                     </li>
                 </ul>
             </li>
