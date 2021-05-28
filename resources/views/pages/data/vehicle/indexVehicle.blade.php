@@ -31,6 +31,7 @@
                     <th>{{ __('Tanggal Kir') }}</th>
                     <th>{{ __('Tanggal Pajak Tahunan') }}</th>
                     <th>{{ __('Tanggal STNK') }}</th>
+                    <th>{{ __('Keterangan') }}</th>
                     @isset($notuser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
@@ -71,6 +72,9 @@
                     </td>
                     <td>
                         {{ date("d-m-Y", strtotime($v->stnk)) }}
+                    </td>
+                    <td>
+                        {{ $v->info }}
                     </td>
                     @isset($notuser)
                     <td>

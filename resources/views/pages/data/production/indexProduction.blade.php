@@ -28,6 +28,7 @@
                     <th>{{ __('Tanggal Perolehan') }}</th>
                     <th>{{ __('Qty') }}</th>
                     <th>{{ __('Kondisi') }}</th>
+                    <th>{{ __('Info') }}</th>
                     @isset($notuser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
@@ -61,6 +62,9 @@
                         <span class="badge badge-info">
                             {{ $p->condition }}
                         </span>
+                    </td>
+                    <td>
+                        {{ $p->info }}
                     </td>
                     @isset($notuser)
                     <td>

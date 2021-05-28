@@ -113,6 +113,7 @@ class VehicleController extends Controller
                 'tax' => $req->tax,
                 'stnk' => $req->stnk,
                 'status' => $req->status,
+                'info' => $req->info,
                 'add' => $addPermissions == true ? 1 : 0,
                 'edit' => 0,
             ]);
@@ -181,6 +182,7 @@ class VehicleController extends Controller
             $vehicle->tax = $req->tax;
             $vehicle->stnk = $req->stnk;
             $vehicle->status = $req->status;
+            $vehicle->info = $req->info;
             $vehicle->add = 0;
             $vehicle->edit = $editPermissions == true ? 1 : 0;
             $vehicle->save();

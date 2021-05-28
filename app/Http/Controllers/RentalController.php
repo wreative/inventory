@@ -112,6 +112,7 @@ class RentalController extends Controller
                 'wifi' => $req->wifi,
                 'rental' => $req->rental,
                 'due' => $req->due,
+                'info' => $req->info,
                 'add' => $addPermissions == true ? 1 : 0,
                 'edit' => 0,
             ]);
@@ -181,6 +182,7 @@ class RentalController extends Controller
             $rental->wifi = $req->wifi;
             $rental->rental = $req->rental;
             $rental->due = $req->due;
+            $rental->info = $req->info;
             $rental->add = 0;
             $rental->edit = $editPermissions == true ? 1 : 0;
             $rental->save();

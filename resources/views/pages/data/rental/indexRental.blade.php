@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a href="{{ route('rental.index') }}" class="btn btn-icon icon-left btn-primary">
+        <a href="{{ route('rental.create') }}" class="btn btn-icon icon-left btn-primary">
             <i class="far fa-edit"></i>{{ __(' Tambah Persewaan Gedung') }}</a>
     </div>
     <div class="card-body">
@@ -31,6 +31,7 @@
                     <th>{{ __('No Wifi') }}</th>
                     <th>{{ __('Status Gedung') }}</th>
                     <th>{{ __('Jatuh Tempo') }}</th>
+                    <th>{{ __('Info') }}</th>
                     @isset($notuser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
@@ -75,6 +76,9 @@
                     </td>
                     <td>
                         {{ date("m-Y", strtotime($r->due)) }}
+                    </td>
+                    <td>
+                        {{ $r->info }}
                     </td>
                     @isset($notuser)
                     <td>

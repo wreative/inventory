@@ -29,6 +29,7 @@
                     <th>{{ __('Qty') }}</th>
                     <th>{{ __('Kondisi') }}</th>
                     <th>{{ __('Lokasi') }}</th>
+                    <th>{{ __('Keterangan') }}</th>
                     @isset($notuser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
@@ -65,6 +66,9 @@
                     </td>
                     <td>
                         {{ $e->location }}
+                    </td>
+                    <td>
+                        {{ $e->info }}
                     </td>
                     @isset($notuser)
                     <td>

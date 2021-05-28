@@ -19,12 +19,13 @@ class CreateRental extends Migration
             $table->string('name');
             $table->string('address');
             $table->enum('status', ['Lunas', 'Belum']);
-            $table->integer('pln');
-            $table->integer('pdam');
-            $table->integer('pbb');
-            $table->integer('wifi');
+            $table->string('pln');
+            $table->string('pdam');
+            $table->string('pbb');
+            $table->string('wifi');
             $table->enum('rental', ['Sewa', 'Hak Milik']);
             $table->date('due');
+            $table->longText('info')->nullable();
             $table->boolean('add')->nullable();
             $table->boolean('edit')->nullable();
         });

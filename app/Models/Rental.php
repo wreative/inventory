@@ -29,6 +29,7 @@ class Rental extends Model
         'wifi',
         'rental',
         'due',
+        'info',
         'add',
         'edit'
     ];
