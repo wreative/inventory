@@ -255,22 +255,22 @@ class VehicleController extends Controller
     {
         // Auth Roles Equipment      
         if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
+            $this->FunctionController->onlyUserVehicle() == true ||
+            $this->FunctionController->onlyAdminVehicle() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $equipment = Equipment::find($id);
+            $vehicle = Vehicle::find($id);
 
             if ($this->FunctionController->authAdmin() == true) {
-                $equipment->add = 0;
-                $equipment->save();
-                return Redirect::route('equipment.index');
+                $vehicle->add = 0;
+                $vehicle->save();
+                return Redirect::route('vehicle.index');
             } elseif ($this->FunctionController->superAdmin() == true) {
-                $equipment->edit = 0;
-                $equipment->save();
-                return Redirect::route('equipment.index');
+                $vehicle->edit = 0;
+                $vehicle->save();
+                return Redirect::route('vehicle.index');
             } else {
-                return Redirect::route('equipment.index');
+                return Redirect::route('vehicle.index');
             }
         } else {
             return Redirect::route('home')
