@@ -29,6 +29,8 @@ Route::get('/approve/production', [App\Http\Controllers\ProductionController::cl
     ->name('production.approv');
 Route::get('production/approve/{id}', [App\Http\Controllers\ProductionController::class, 'acceptAdd'])
     ->name('production.acc');
+Route::get('production/reject/{id}', [App\Http\Controllers\ProductionController::class, 'rejectAdd'])
+    ->name('production.reject');
 
 // Equipment
 Route::resource('equipment', App\Http\Controllers\EquipmentController::class);

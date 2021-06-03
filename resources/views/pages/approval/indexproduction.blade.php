@@ -18,7 +18,7 @@
                     <th class="text-center">
                         {{ __('Kode') }}
                     </th>
-                    <th>{{ __('Nama') }}</th>
+                    <th>{{ __('Nama Alat Produksi') }}</th>
                     <th>{{ __('Merk') }}</th>
                     <th>{{ __('Harga Perolehan') }}</th>
                     <th>{{ __('Tanggal Perolehan') }}</th>
@@ -69,19 +69,21 @@
                                 <a class="dropdown-item"
                                     href="{{ route('production.edit',$p->id) }}">{{ __('pages.editItem') }}</a>
                                 @endif
-                                <form id="del-data{{ $p->id }}" action="{{ route('production.destroy',$p->id) }}"
-                                    method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <a class="dropdown-item" style="cursor: pointer"
-                                        data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                        data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();">
-                                        {{ __('pages.delItem') }}
-                                    </a>
-                                </form>
-                                <div class="dropdown-divider"></div>
+                                {{-- <form id="del-data{{ $p->id }}" action="{{ route('production.destroy',$p->id) }}"
+                                method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <a class="dropdown-item" style="cursor: pointer"
+                                    data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
+                                    data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();">
+                                    {{ __('pages.delItem') }}
+                                </a>
+                                </form> --}}
+                                {{-- <div class="dropdown-divider"></div> --}}
                                 <a class="dropdown-item"
                                     href="{{ route('production.acc',$p->id) }}">{{ __('Setujui') }}</a>
+                                <a class="dropdown-item"
+                                    href="{{ route('production.acc',$p->id) }}">{{ __('Tolak') }}</a>
                             </div>
                         </div>
                     </td>

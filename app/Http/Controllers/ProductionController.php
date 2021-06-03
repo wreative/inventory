@@ -39,14 +39,14 @@ class ProductionController extends Controller
                 $production = Production::where('add', 1)
                     ->get();
                 return view('pages.data.production.indexProduction', [
-                    'production' => $production, 'user' => true
+                    'production' => $production
                 ]);
             } else {
                 $production = Production::where('add', 0)
                     ->where('edit', 0)
                     ->get();
                 return view('pages.data.production.indexProduction', [
-                    'production' => $production
+                    'production' => $production, 'notUser' => true
                 ]);
             }
         } else {

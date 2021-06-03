@@ -23,7 +23,7 @@ class CreateProduction extends Migration
             $table->string('date_acq');
             $table->enum('condition', ['Ada', 'Tidak Ada', 'Rusak', 'Hilang']);
             $table->json('img');
-            $table->longText('info');
+            $table->longText('info')->nullable();
             $table->boolean('add')->nullable();
             $table->boolean('edit')->nullable();
         });
