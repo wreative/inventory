@@ -27,6 +27,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 Route::resource('production', App\Http\Controllers\ProductionController::class);
 Route::get('/approve/production', [App\Http\Controllers\ProductionController::class, 'approv'])
     ->name('production.approv');
+// Special Action Production
 Route::get('production/accept/{id}', [App\Http\Controllers\ProductionController::class, 'accept'])
     ->name('production.acc');
 Route::get('production/reject/{id}', [App\Http\Controllers\ProductionController::class, 'reject'])
