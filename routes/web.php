@@ -35,24 +35,38 @@ Route::get('production/reject/{id}', [App\Http\Controllers\ProductionController:
 
 // Equipment
 Route::resource('equipment', App\Http\Controllers\EquipmentController::class);
-Route::get('/approve/equipment', [App\Http\Controllers\EquipmentController::class, 'approv'])
-    ->name('equipment.approv');
-Route::get('equipment/approve/{id}', [App\Http\Controllers\EquipmentController::class, 'acceptAdd'])
-    ->name('equipment.acc');
+Route::get('/approve/production', [App\Http\Controllers\ProductionController::class, 'approv'])
+    ->name('production.approv');
+// Special Action Production
+Route::get('production/accept/{id}', [App\Http\Controllers\ProductionController::class, 'accept'])
+    ->name('production.acc');
+Route::get('production/reject/{id}', [App\Http\Controllers\ProductionController::class, 'reject'])
+    ->name('production.reject');
 
 // Rental
 Route::resource('rental', App\Http\Controllers\RentalController::class);
-Route::get('/approve/rental', [App\Http\Controllers\RentalController::class, 'approv'])
-    ->name('rental.approv');
-Route::get('rental/approve/{id}', [App\Http\Controllers\RentalController::class, 'accept'])
-    ->name('rental.acc');
+Route::get('/approve/production', [App\Http\Controllers\ProductionController::class, 'approv'])
+    ->name('production.approv');
+// Special Action Production
+Route::get('production/accept/{id}', [App\Http\Controllers\ProductionController::class, 'accept'])
+    ->name('production.acc');
+Route::get('production/reject/{id}', [App\Http\Controllers\ProductionController::class, 'reject'])
+    ->name('production.reject');
 
 // Vehicle
 Route::resource('vehicle', App\Http\Controllers\VehicleController::class);
-Route::get('/approve/vehicle', [App\Http\Controllers\VehicleController::class, 'approv'])
-    ->name('vehicle.approv');
-Route::get('vehicle/approve/{id}', [App\Http\Controllers\VehicleController::class, 'accept'])
-    ->name('vehicle.acc');
+Route::get('/approve/production', [App\Http\Controllers\ProductionController::class, 'approv'])
+    ->name('production.approv');
+// Special Action Production
+Route::get('production/accept/{id}', [App\Http\Controllers\ProductionController::class, 'accept'])
+    ->name('production.acc');
+Route::get('production/reject/{id}', [App\Http\Controllers\ProductionController::class, 'reject'])
+    ->name('production.reject');
+
+// Room
+Route::resource('room', App\Http\Controllers\RoomController::class)->except([
+    'show'
+]);;
 
 // Users
 Route::resource('users', App\Http\Controllers\UsersController::class)->except([
