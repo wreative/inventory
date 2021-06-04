@@ -24,6 +24,9 @@
                     <th>{{ __('Tanggal Perolehan') }}</th>
                     <th>{{ __('Qty') }}</th>
                     <th>{{ __('Kondisi') }}</th>
+                    @if (Auth::user()->role_id == 1)
+                    <th>{{ __('Perubahan') }}</th>
+                    @endif
                     <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
@@ -57,6 +60,19 @@
                         </span>
                     </td>
                     <td>
+                        @if (Auth::user()->role_id == 1)
+                        @if ($p->edit == 1)
+                        <span class="badge badge-warning">
+                            {{ __('Edit') }}
+                        </span>
+                        @else
+                        <span class="badge badge-danger">
+                            {{ __('Hapus') }}
+                        </span>
+                        @endif
+                        @endif
+                    </td>
+                    <td>
                         <div class="btn-group">
                             <a href="{{ route('production.show',$p->id) }}"
                                 class="btn btn-primary">{{ __('Lihat') }}</a>
@@ -65,25 +81,10 @@
                                 <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
                             </button>
                             <div class="dropdown-menu">
-                                @if (Auth::user()->role_id == 1)
-                                <a class="dropdown-item"
-                                    href="{{ route('production.edit',$p->id) }}">{{ __('pages.editItem') }}</a>
-                                @endif
-                                {{-- <form id="del-data{{ $p->id }}" action="{{ route('production.destroy',$p->id) }}"
-                                method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <a class="dropdown-item" style="cursor: pointer"
-                                    data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                    data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();">
-                                    {{ __('pages.delItem') }}
-                                </a>
-                                </form> --}}
-                                {{-- <div class="dropdown-divider"></div> --}}
                                 <a class="dropdown-item"
                                     href="{{ route('production.acc',$p->id) }}">{{ __('Setujui') }}</a>
                                 <a class="dropdown-item"
-                                    href="{{ route('production.acc',$p->id) }}">{{ __('Tolak') }}</a>
+                                    href="{{ route('production.reject',$p->id) }}">{{ __('Tolak') }}</a>
                             </div>
                         </div>
                     </td>

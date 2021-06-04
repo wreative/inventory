@@ -27,9 +27,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 Route::resource('production', App\Http\Controllers\ProductionController::class);
 Route::get('/approve/production', [App\Http\Controllers\ProductionController::class, 'approv'])
     ->name('production.approv');
-Route::get('production/approve/{id}', [App\Http\Controllers\ProductionController::class, 'acceptAdd'])
+Route::get('production/accept/{id}', [App\Http\Controllers\ProductionController::class, 'accept'])
     ->name('production.acc');
-Route::get('production/reject/{id}', [App\Http\Controllers\ProductionController::class, 'rejectAdd'])
+Route::get('production/reject/{id}', [App\Http\Controllers\ProductionController::class, 'reject'])
     ->name('production.reject');
 
 // Equipment
@@ -66,4 +66,4 @@ Route::post('/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class
 Route::post('/users/reset/{id}', [App\Http\Controllers\UsersController::class, 'reset'])
     ->name('users.reset');
 Route::post('/users/name', [App\Http\Controllers\UsersController::class, 'change'])
-    ->name('users.change');
+    ->name('users.name');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProduction extends Migration
+class CreateTempProduction extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateProduction extends Migration
      */
     public function up()
     {
-        Schema::create('production', function (Blueprint $table) {
+        Schema::create('temp_prod', function (Blueprint $table) {
             $table->id();
             $table->string('code');
             $table->string('name');
@@ -24,9 +24,6 @@ class CreateProduction extends Migration
             $table->enum('condition', ['Ada', 'Tidak Ada', 'Rusak', 'Hilang']);
             $table->json('img');
             $table->longText('info')->nullable();
-            $table->boolean('add')->nullable();
-            $table->boolean('edit')->nullable();
-            $table->boolean('del')->nullable();
         });
     }
 
@@ -37,6 +34,6 @@ class CreateProduction extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('production');
+        Schema::dropIfExists('temp_prod');
     }
 }

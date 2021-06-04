@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Production extends Model
+class TempProduction extends Model
 {
     use HasFactory;
     /**
@@ -14,7 +14,7 @@ class Production extends Model
      * @var array
      */
 
-    protected $table = 'production';
+    protected $table = 'temp_prod';
     public $remember_token = false;
     public $timestamps = false;
 
@@ -27,9 +27,6 @@ class Production extends Model
         'date_acq',
         'condition',
         'img',
-        'info',
-        'add',
-        'edit',
-        'del'
+        'info'
     ];
 }

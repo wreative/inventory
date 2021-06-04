@@ -35,16 +35,15 @@ class ProductionController extends Controller
             $this->FunctionController->onlyAdminProduction() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
+            $production = Production::where('add', 0)
+                ->where('edit', 0)
+                ->where('del', 0)
+                ->get();
             if ($this->FunctionController->authUser() == true) {
-                $production = Production::where('add', 1)
-                    ->get();
                 return view('pages.data.production.indexProduction', [
                     'production' => $production
                 ]);
             } else {
-                $production = Production::where('add', 0)
-                    ->where('edit', 0)
-                    ->get();
                 return view('pages.data.production.indexProduction', [
                     'production' => $production, 'notUser' => true
                 ]);
@@ -123,6 +122,7 @@ class ProductionController extends Controller
                 'info' => $req->info,
                 'add' => $addPermissions == true ? 1 : 0,
                 'edit' => 0,
+                'del' => 0,
             ]);
 
             return Redirect::route('production.index');
@@ -140,7 +140,10 @@ class ProductionController extends Controller
             $this->FunctionController->onlyAdminProduction() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            if ($this->FunctionController->authAdmin() == true or $this->FunctionController->authSuper() == true) {
+            if (
+                $this->FunctionController->authAdmin() == true or
+                $this->FunctionController->superAdmin() == true
+            ) {
                 $production = Production::find($id);
                 return view('pages.data.production.updateProduction', ['production' => $production]);
             } else {
@@ -203,6 +206,7 @@ class ProductionController extends Controller
             $production->info = $req->info;
             $production->add = 0;
             $production->edit = $editPermissions == true ? 1 : 0;
+            $production->del = 0;
             $production->save();
             return Redirect::route('production.index');
         } else {
@@ -213,20 +217,47 @@ class ProductionController extends Controller
 
     public function destroy($id)
     {
+        $production = Production::find($id);
         // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserProduction() == true ||
-            $this->FunctionController->onlyAdminProduction() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $production = Production::find($id);
+        if ($this->FunctionController->superAdmin() == true) {
             Storage::disk('public')->deleteDirectory('production/' . $production->code);
             $production->delete();
+            return Redirect::route('production.index');
+        } else if ($this->FunctionController->authAdmin() == true) {
+            $production->del = 1;
+            $production->save();
             return Redirect::route('production.index');
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
+        // Auth Roles Production        
+        // if (
+        //     $this->FunctionController->onlyUserProduction() == true ||
+        //     $this->FunctionController->onlyAdminProduction() == true ||
+        //     $this->FunctionController->superAdmin() == true
+        // ) {
+        //     $production = Production::find($id);
+
+        //     if ($this->FunctionController->authAdmin() == true) {
+        //         $production->del = 1;
+        //         $production->save();
+        //         return Redirect::route('production.index');
+        //     } elseif ($this->FunctionController->superAdmin() == true) {
+        //         Storage::disk('public')->deleteDirectory('production/' . $production->code);
+        //         $production->delete();
+        //         return Redirect::route('production.index');
+        //     } else {
+        //         return Redirect::route('production.index');
+        //     }
+        // } else {
+        //     return Redirect::route('home')
+        //         ->with(['status' => 'Anda tidak punya akses disini.']);
+        // }
+        // $production = Production::find($id);
+        // Storage::disk('public')->deleteDirectory('production/' . $production->code);
+        // $production->delete();
+        // return Redirect::route('production.index');
     }
 
     public function show($id)
@@ -259,8 +290,33 @@ class ProductionController extends Controller
                 return view('pages.approval.indexProduction', ['production' => $production]);
             } elseif ($this->FunctionController->superAdmin() == true) {
                 $production = Production::where('edit', 1)
+                    ->orWhere('del', 1)
                     ->get();
                 return view('pages.approval.indexProduction', ['production' => $production]);
+            } else {
+                return Redirect::route('home')
+                    ->with(['status' => 'Anda tidak punya akses disini.']);
+            }
+        } else {
+            return Redirect::route('home')
+                ->with(['status' => 'Anda tidak punya akses disini.']);
+        }
+    }
+
+    // Approval Items
+    public function accept($id)
+    {
+        // Auth Roles Production        
+        if (
+            $this->FunctionController->onlyUserProduction() == true ||
+            $this->FunctionController->onlyAdminProduction() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $production = Production::find($id);
+            if ($production->edit == 1) {
+                $this->acceptEdit($id);
+            } elseif ($production->del == 1) {
+                return $this->acceptDelete($id);
             } else {
                 return Redirect::route('production.index');
             }
@@ -270,7 +326,28 @@ class ProductionController extends Controller
         }
     }
 
-    public function acceptAdd($id)
+    function acceptEdit($id)
+    {
+        $production = Production::find($id);
+        if ($this->FunctionController->authAdmin() == true) {
+            $production->add = 0;
+            $production->save();
+            return Redirect::route('production.index');
+        } elseif ($this->FunctionController->superAdmin() == true) {
+            $production->edit = 0;
+            $production->save();
+            return Redirect::route('production.index');
+        } else {
+            return Redirect::route('production.index');
+        }
+    }
+
+    function acceptDelete($id)
+    {
+        return $this->destroy($id);
+    }
+
+    public function reject($id)
     {
         // Auth Roles Production        
         if (
@@ -279,13 +356,10 @@ class ProductionController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             $production = Production::find($id);
-
-            if ($this->FunctionController->authAdmin() == true) {
-                $production->add = 0;
-                $production->save();
-                return Redirect::route('production.index');
-            } elseif ($this->FunctionController->authSuper() == true) {
-                $production->edit = 0;
+            if ($production->edit == 1) {
+                // $this->acceptEdit($id);
+            } elseif ($production->del == 1) {
+                $production->del = 0;
                 $production->save();
                 return Redirect::route('production.index');
             } else {
@@ -295,5 +369,28 @@ class ProductionController extends Controller
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
+        // // Auth Roles Production        
+        // if (
+        //     $this->FunctionController->onlyUserProduction() == true ||
+        //     $this->FunctionController->onlyAdminProduction() == true ||
+        //     $this->FunctionController->superAdmin() == true
+        // ) {
+        //     $production = Production::find($id);
+
+        //     // if ($this->FunctionController->authAdmin() == true) {
+        //     //     $production->add = 0;
+        //     //     $production->save();
+        //     //     return Redirect::route('production.index');
+        //     // } elseif ($this->FunctionController->superAdmin() == true) {
+        //     //     $production->edit = 0;
+        //     //     $production->save();
+        //     //     return Redirect::route('production.index');
+        //     // } else {
+        //     //     return Redirect::route('production.index');
+        //     // }
+        // } else {
+        //     return Redirect::route('home')
+        //         ->with(['status' => 'Anda tidak punya akses disini.']);
+        // }
     }
 }

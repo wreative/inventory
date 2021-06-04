@@ -78,16 +78,16 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item"
                                     href="{{ route('production.edit',$p->id) }}">{{ __('pages.editItem') }}</a>
-                                {{-- <form id="del-data{{ $p->id }}" action="{{ route('production.destroy',$p->id) }}"
-                                method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <a class="dropdown-item" style="cursor: pointer"
-                                    data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                    data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();">
-                                    {{ __('pages.delItem') }}
-                                </a>
-                                </form> --}}
+                                <form id="del-data{{ $p->id }}" action="{{ route('production.destroy',$p->id) }}"
+                                    method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <a class="dropdown-item" style="cursor: pointer"
+                                        data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
+                                        data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();">
+                                        {{ __('pages.delItem') }}
+                                    </a>
+                                </form>
                             </div>
                         </div>
                     </td>
