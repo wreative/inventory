@@ -30,7 +30,7 @@
                     <th>{{ __('Kondisi') }}</th>
                     <th>{{ __('Lokasi') }}</th>
                     <th>{{ __('Keterangan') }}</th>
-                    @isset($notuser)
+                    @isset($notUser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
                 </tr>
@@ -70,19 +70,18 @@
                     <td>
                         {{ $e->info }}
                     </td>
-                    @isset($notuser)
+                    @isset($notUser)
                     <td>
                         <div class="btn-group">
-                            <a href="{{ route('production.show',$e->id) }}"
-                                class="btn btn-primary">{{ __('Lihat') }}</a>
+                            <a href="{{ route('equipment.show',$e->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>
                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                 data-toggle="dropdown">
                                 <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item"
-                                    href="{{ route('production.edit',$e->id) }}">{{ __('pages.editItem') }}</a>
-                                <form id="del-data{{ $e->id }}" action="{{ route('production.destroy',$e->id) }}"
+                                    href="{{ route('equipment.edit',$e->id) }}">{{ __('pages.editItem') }}</a>
+                                <form id="del-data{{ $e->id }}" action="{{ route('equipment.destroy',$e->id) }}"
                                     method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')

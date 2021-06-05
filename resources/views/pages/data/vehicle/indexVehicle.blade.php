@@ -32,7 +32,7 @@
                     <th>{{ __('Tanggal Pajak Tahunan') }}</th>
                     <th>{{ __('Tanggal STNK') }}</th>
                     <th>{{ __('Keterangan') }}</th>
-                    @isset($notuser)
+                    @isset($notUser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
                 </tr>
@@ -76,7 +76,7 @@
                     <td>
                         {{ $v->info }}
                     </td>
-                    @isset($notuser)
+                    @isset($notUser)
                     <td>
                         <div class="btn-group">
                             <a href="{{ route('vehicle.show',$v->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>

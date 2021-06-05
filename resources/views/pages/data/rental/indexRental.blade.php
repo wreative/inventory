@@ -32,7 +32,7 @@
                     <th>{{ __('Status Gedung') }}</th>
                     <th>{{ __('Jatuh Tempo') }}</th>
                     <th>{{ __('Info') }}</th>
-                    @isset($notuser)
+                    @isset($notUser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
                 </tr>
@@ -80,7 +80,7 @@
                     <td>
                         {{ $r->info }}
                     </td>
-                    @isset($notuser)
+                    @isset($notUser)
                     <td>
                         <div class="btn-group">
                             <a href="{{ route('rental.show',$r->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>
