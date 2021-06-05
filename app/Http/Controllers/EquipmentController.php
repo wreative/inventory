@@ -30,30 +30,23 @@ class EquipmentController extends Controller
 
     public function index()
     {
-        // Auth Roles Production        
+        // Auth Roles Equipment        
         if (
             $this->FunctionController->onlyUserEquipment() == true ||
             $this->FunctionController->onlyAdminEquipment() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            if ($this->FunctionController->superAdmin() == true) {
-                $equipment = Equipment::where('add', 0)
-                    ->where('edit', 0)
-                    ->get();
+            $equipment = Equipment::where('add', 0)
+                ->where('edit', 0)
+                ->where('del', 0)
+                ->get();
+            if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.equipment.indexEquipment', [
                     'equipment' => $equipment
-                ]);
-            } elseif ($this->FunctionController->authAdmin() == true) {
-                $equipment = Equipment::where('add', 0)
-                    ->where('edit', 0)
-                    ->get();
-                return view('pages.data.equipment.indexEquipment', [
-                    'equipment' => $equipment, 'admin' => true
                 ]);
             } else {
-                $equipment = Equipment::all();
                 return view('pages.data.equipment.indexEquipment', [
-                    'equipment' => $equipment
+                    'equipment' => $equipment, 'notUser' => true
                 ]);
             }
         } else {
@@ -64,7 +57,7 @@ class EquipmentController extends Controller
 
     public function create()
     {
-        // Auth Roles Production        
+        // Auth Roles Equipment        
         if (
             $this->FunctionController->onlyUserEquipment() == true ||
             $this->FunctionController->onlyAdminEquipment() == true ||
@@ -81,7 +74,7 @@ class EquipmentController extends Controller
 
     public function store(Request $req)
     {
-        // Auth Roles Production        
+        // Auth Roles Equipment        
         if (
             $this->FunctionController->onlyUserEquipment() == true ||
             $this->FunctionController->onlyAdminEquipment() == true ||
@@ -133,6 +126,7 @@ class EquipmentController extends Controller
                 'location' => $req->room,
                 'add' => $addPermissions == true ? 1 : 0,
                 'edit' => 0,
+                'del' => 0
             ]);
 
             return Redirect::route('equipment.index');
@@ -144,7 +138,7 @@ class EquipmentController extends Controller
 
     public function edit($id)
     {
-        // Auth Roles Production        
+        // Auth Roles Equipment        
         if (
             $this->FunctionController->onlyUserEquipment() == true ||
             $this->FunctionController->onlyAdminEquipment() == true ||
@@ -152,26 +146,27 @@ class EquipmentController extends Controller
         ) {
             $equipment = Equipment::find($id);
             $room = Room::all();
-            return view('pages.data.equipment.updateEquipment', [
-                'equipment' => $equipment,
-                'room' => $room
-            ]);
+            if (
+                $this->FunctionController->authAdmin() == true or
+                $this->FunctionController->superAdmin() == true
+            ) {
+                return view('pages.data.equipment.updateEquipment', [
+                    'equipment' => $equipment,
+                    'room' => $room
+                ]);
+            } else {
+                return Redirect::route('home')
+                    ->with(['status' => 'Anda tidak punya akses disini.']);
+            }
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
-        // if ($this->FunctionController->authAdmin() == true or $this->FunctionController->superAdmin() == true) {
-        //     $production = Production::find($id);
-        //     return view('pages.data.production.updateProduction', ['production' => $production]);
-        // } else {
-        //     return Redirect::route('home')
-        //         ->with(['status' => 'Anda tidak punya akses disini.']);
-        // }        
     }
 
     public function update($id, Request $req)
     {
-        // Auth Roles Production        
+        // Auth Roles Equipment    
         if (
             $this->FunctionController->onlyUserEquipment() == true ||
             $this->FunctionController->onlyAdminEquipment() == true ||
@@ -221,6 +216,7 @@ class EquipmentController extends Controller
             $equipment->info = $req->info;
             $equipment->add = 0;
             $equipment->edit = $editPermissions == true ? 1 : 0;
+            $equipment->del = 0;
             $equipment->save();
             return Redirect::route('equipment.index');
         } else {
@@ -231,15 +227,15 @@ class EquipmentController extends Controller
 
     public function destroy($id)
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $equipment = Equipment::find($id);
+        $equipment = Equipment::find($id);
+        // Auth Roles Equipment       
+        if ($this->FunctionController->superAdmin() == true) {
             Storage::disk('public')->deleteDirectory('equipment/' . $equipment->code);
             $equipment->delete();
+            return Redirect::route('equipment.index');
+        } else if ($this->FunctionController->authAdmin() == true) {
+            $equipment->del = 1;
+            $equipment->save();
             return Redirect::route('equipment.index');
         } else {
             return Redirect::route('home')
@@ -277,8 +273,33 @@ class EquipmentController extends Controller
                 return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
             } elseif ($this->FunctionController->superAdmin() == true) {
                 $equipment = Equipment::where('edit', 1)
+                    ->orWhere('del', 1)
                     ->get();
                 return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
+            } else {
+                return Redirect::route('home')
+                    ->with(['status' => 'Anda tidak punya akses disini.']);
+            }
+        } else {
+            return Redirect::route('home')
+                ->with(['status' => 'Anda tidak punya akses disini.']);
+        }
+    }
+
+    // Approval Items
+    public function accept($id)
+    {
+        // Auth Roles Equipment        
+        if (
+            $this->FunctionController->onlyUserEquipment() == true ||
+            $this->FunctionController->onlyAdminEquipment() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $equipment = Equipment::find($id);
+            if ($equipment->edit == 1) {
+                $this->acceptEdit($id);
+            } elseif ($equipment->del == 1) {
+                return $this->acceptDelete($id);
             } else {
                 return Redirect::route('equipment.index');
             }
@@ -288,22 +309,40 @@ class EquipmentController extends Controller
         }
     }
 
-    public function acceptAdd($id)
+    function acceptEdit($id)
     {
-        // Auth Roles Equipment      
+        $equipment = Equipment::find($id);
+        if ($this->FunctionController->authAdmin() == true) {
+            $equipment->add = 0;
+            $equipment->save();
+            return Redirect::route('equipment.index');
+        } elseif ($this->FunctionController->superAdmin() == true) {
+            $equipment->edit = 0;
+            $equipment->save();
+            return Redirect::route('equipment.index');
+        } else {
+            return Redirect::route('equipment.index');
+        }
+    }
+
+    function acceptDelete($id)
+    {
+        return $this->destroy($id);
+    }
+
+    public function reject($id)
+    {
+        // Auth Roles Equipment        
         if (
             $this->FunctionController->onlyUserEquipment() == true ||
             $this->FunctionController->onlyAdminEquipment() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
             $equipment = Equipment::find($id);
-
-            if ($this->FunctionController->authAdmin() == true) {
-                $equipment->add = 0;
-                $equipment->save();
-                return Redirect::route('equipment.index');
-            } elseif ($this->FunctionController->superAdmin() == true) {
-                $equipment->edit = 0;
+            if ($equipment->edit == 1) {
+                // $this->acceptEdit($id);
+            } elseif ($equipment->del == 1) {
+                $equipment->del = 0;
                 $equipment->save();
                 return Redirect::route('equipment.index');
             } else {

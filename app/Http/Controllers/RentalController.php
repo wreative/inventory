@@ -29,30 +29,23 @@ class RentalController extends Controller
 
     public function index()
     {
-        // Auth Roles Production        
+        // Auth Roles Rental   
         if (
             $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            if ($this->FunctionController->superAdmin() == true) {
-                $rental = Rental::where('add', 0)
-                    ->where('edit', 0)
-                    ->get();
+            $rental = Rental::where('add', 0)
+                ->where('edit', 0)
+                ->where('del', 0)
+                ->get();
+            if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.rental.indexRental', [
                     'rental' => $rental
-                ]);
-            } elseif ($this->FunctionController->authAdmin() == true) {
-                $rental = Rental::where('add', 0)
-                    ->where('edit', 0)
-                    ->get();
-                return view('pages.data.rental.indexRental', [
-                    'rental' => $rental, 'admin' => true
                 ]);
             } else {
-                $rental = Rental::all();
                 return view('pages.data.rental.indexRental', [
-                    'rental' => $rental
+                    'rental' => $rental, 'notUser' => true
                 ]);
             }
         } else {
@@ -63,7 +56,7 @@ class RentalController extends Controller
 
     public function create()
     {
-        // Auth Roles Production        
+        // Auth Roles Rental   
         if (
             $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
@@ -79,7 +72,7 @@ class RentalController extends Controller
 
     public function store(Request $req)
     {
-        // Auth Roles Production        
+        // Auth Roles Rental     
         if (
             $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
@@ -115,6 +108,7 @@ class RentalController extends Controller
                 'info' => $req->info,
                 'add' => $addPermissions == true ? 1 : 0,
                 'edit' => 0,
+                'del' => 0
             ]);
 
             return Redirect::route('rental.index');
@@ -126,7 +120,7 @@ class RentalController extends Controller
 
     public function edit($id)
     {
-        // Auth Roles Production        
+        // Auth Roles Rental     
         if (
             $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
@@ -140,18 +134,11 @@ class RentalController extends Controller
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
-        // if ($this->FunctionController->authAdmin() == true or $this->FunctionController->superAdmin() == true) {
-        //     $production = Production::find($id);
-        //     return view('pages.data.production.updateProduction', ['production' => $production]);
-        // } else {
-        //     return Redirect::route('home')
-        //         ->with(['status' => 'Anda tidak punya akses disini.']);
-        // }        
     }
 
     public function update($id, Request $req)
     {
-        // Auth Roles Production        
+        // Auth Roles Rental        
         if (
             $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
@@ -185,6 +172,7 @@ class RentalController extends Controller
             $rental->info = $req->info;
             $rental->add = 0;
             $rental->edit = $editPermissions == true ? 1 : 0;
+            $rental->del = 0;
             $rental->save();
             return Redirect::route('rental.index');
         } else {
@@ -195,14 +183,14 @@ class RentalController extends Controller
 
     public function destroy($id)
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserRental() == true ||
-            $this->FunctionController->onlyAdminRental() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $rental = Rental::find($id);
+        $rental = Rental::find($id);
+        // Auth Roles Rental
+        if ($this->FunctionController->superAdmin() == true) {
             $rental->delete();
+            return Redirect::route('rental.index');
+        } else if ($this->FunctionController->authAdmin() == true) {
+            $rental->del = 1;
+            $rental->save();
             return Redirect::route('rental.index');
         } else {
             return Redirect::route('home')
@@ -212,7 +200,7 @@ class RentalController extends Controller
 
     public function show($id)
     {
-        // Auth Roles Production        
+        // Auth Roles Rental        
         if (
             $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
@@ -228,7 +216,7 @@ class RentalController extends Controller
 
     public function approv()
     {
-        // Auth Roles Production        
+        // Auth Roles Rental        
         if (
             $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
@@ -240,8 +228,33 @@ class RentalController extends Controller
                 return view('pages.approval.indexRental', ['rental' => $rental]);
             } elseif ($this->FunctionController->superAdmin() == true) {
                 $rental = Rental::where('edit', 1)
+                    ->orWhere('del', 1)
                     ->get();
                 return view('pages.approval.indexRental', ['rental' => $rental]);
+            } else {
+                return Redirect::route('home')
+                    ->with(['status' => 'Anda tidak punya akses disini.']);
+            }
+        } else {
+            return Redirect::route('home')
+                ->with(['status' => 'Anda tidak punya akses disini.']);
+        }
+    }
+
+    // Approval Items
+    public function accept($id)
+    {
+        // Auth Roles Rental        
+        if (
+            $this->FunctionController->onlyUserRental() == true ||
+            $this->FunctionController->onlyAdminRental() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $rental = Rental::find($id);
+            if ($rental->edit == 1) {
+                $this->acceptEdit($id);
+            } elseif ($rental->del == 1) {
+                return $this->acceptDelete($id);
             } else {
                 return Redirect::route('rental.index');
             }
@@ -251,22 +264,40 @@ class RentalController extends Controller
         }
     }
 
-    public function acceptAdd($id)
+    function acceptEdit($id)
     {
-        // Auth Roles Equipment      
+        $rental = Rental::find($id);
+        if ($this->FunctionController->authAdmin() == true) {
+            $rental->add = 0;
+            $rental->save();
+            return Redirect::route('rental.index');
+        } elseif ($this->FunctionController->superAdmin() == true) {
+            $rental->edit = 0;
+            $rental->save();
+            return Redirect::route('rental.index');
+        } else {
+            return Redirect::route('rental.index');
+        }
+    }
+
+    function acceptDelete($id)
+    {
+        return $this->destroy($id);
+    }
+
+    public function reject($id)
+    {
+        // Auth Roles Rental        
         if (
             $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
             $rental = Rental::find($id);
-
-            if ($this->FunctionController->authAdmin() == true) {
-                $rental->add = 0;
-                $rental->save();
-                return Redirect::route('rental.index');
-            } elseif ($this->FunctionController->superAdmin() == true) {
-                $rental->edit = 0;
+            if ($rental->edit == 1) {
+                // $this->acceptEdit($id);
+            } elseif ($rental->del == 1) {
+                $rental->del = 0;
                 $rental->save();
                 return Redirect::route('rental.index');
             } else {

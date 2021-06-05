@@ -29,30 +29,23 @@ class VehicleController extends Controller
 
     public function index()
     {
-        // Auth Roles Production        
+        // Auth Roles Rental        
         if (
             $this->FunctionController->onlyUserVehicle() == true ||
             $this->FunctionController->onlyAdminVehicle() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            if ($this->FunctionController->superAdmin() == true) {
-                $vehicle = Vehicle::where('add', 0)
-                    ->where('edit', 0)
-                    ->get();
+            $vehicle = Vehicle::where('add', 0)
+                ->where('edit', 0)
+                ->where('del', 0)
+                ->get();
+            if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.vehicle.indexVehicle', [
                     'vehicle' => $vehicle
-                ]);
-            } elseif ($this->FunctionController->authAdmin() == true) {
-                $vehicle = Vehicle::where('add', 0)
-                    ->where('edit', 0)
-                    ->get();
-                return view('pages.data.vehicle.indexVehicle', [
-                    'vehicle' => $vehicle, 'admin' => true
                 ]);
             } else {
-                $vehicle = Vehicle::all();
                 return view('pages.data.vehicle.indexVehicle', [
-                    'vehicle' => $vehicle
+                    'vehicle' => $vehicle, 'notUser' => true
                 ]);
             }
         } else {
@@ -63,7 +56,7 @@ class VehicleController extends Controller
 
     public function create()
     {
-        // Auth Roles Production        
+        // Auth Roles Vehicle      
         if (
             $this->FunctionController->onlyUserVehicle() == true ||
             $this->FunctionController->onlyAdminVehicle() == true ||
@@ -79,7 +72,7 @@ class VehicleController extends Controller
 
     public function store(Request $req)
     {
-        // Auth Roles Production        
+        // Auth Roles Vehicle        
         if (
             $this->FunctionController->onlyUserVehicle() == true ||
             $this->FunctionController->onlyAdminVehicle() == true ||
@@ -116,6 +109,7 @@ class VehicleController extends Controller
                 'info' => $req->info,
                 'add' => $addPermissions == true ? 1 : 0,
                 'edit' => 0,
+                'del' => 0,
             ]);
 
             return Redirect::route('vehicle.index');
@@ -127,7 +121,7 @@ class VehicleController extends Controller
 
     public function edit($id)
     {
-        // Auth Roles Production        
+        // Auth Roles Vehicle        
         if (
             $this->FunctionController->onlyUserVehicle() == true ||
             $this->FunctionController->onlyAdminVehicle() == true ||
@@ -141,13 +135,6 @@ class VehicleController extends Controller
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
-        // if ($this->FunctionController->authAdmin() == true or $this->FunctionController->superAdmin() == true) {
-        //     $production = Production::find($id);
-        //     return view('pages.data.production.updateProduction', ['production' => $production]);
-        // } else {
-        //     return Redirect::route('home')
-        //         ->with(['status' => 'Anda tidak punya akses disini.']);
-        // }        
     }
 
     public function update($id, Request $req)
@@ -185,6 +172,7 @@ class VehicleController extends Controller
             $vehicle->info = $req->info;
             $vehicle->add = 0;
             $vehicle->edit = $editPermissions == true ? 1 : 0;
+            $production->del = 0;
             $vehicle->save();
             return Redirect::route('vehicle.index');
         } else {
@@ -195,15 +183,15 @@ class VehicleController extends Controller
 
     public function destroy($id)
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserVehicle() == true ||
-            $this->FunctionController->onlyAdminVehicle() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $vehicle = Vehicle::find($id);
+        $vehicle = Vehicle::find($id);
+        // Auth Roles Vehicle
+        if ($this->FunctionController->superAdmin() == true) {
             $vehicle->delete();
-            return Redirect::route('equipment.index');
+            return Redirect::route('vehicle.index');
+        } else if ($this->FunctionController->authAdmin() == true) {
+            $vehicle->del = 1;
+            $vehicle->save();
+            return Redirect::route('vehicle.index');
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -228,7 +216,7 @@ class VehicleController extends Controller
 
     public function approv()
     {
-        // Auth Roles Production        
+        // Auth Roles Vehicle     
         if (
             $this->FunctionController->onlyUserVehicle() == true ||
             $this->FunctionController->onlyAdminVehicle() == true ||
@@ -240,8 +228,33 @@ class VehicleController extends Controller
                 return view('pages.approval.indexVehicle', ['vehicle' => $vehicle]);
             } elseif ($this->FunctionController->superAdmin() == true) {
                 $vehicle = Vehicle::where('edit', 1)
+                    ->orWhere('del', 1)
                     ->get();
                 return view('pages.approval.indexVehicle', ['vehicle' => $vehicle]);
+            } else {
+                return Redirect::route('home')
+                    ->with(['status' => 'Anda tidak punya akses disini.']);
+            }
+        } else {
+            return Redirect::route('home')
+                ->with(['status' => 'Anda tidak punya akses disini.']);
+        }
+    }
+
+    // Approval Items
+    public function accept($id)
+    {
+        // Auth Roles Vehicle    
+        if (
+            $this->FunctionController->onlyUserVehicle() == true ||
+            $this->FunctionController->onlyAdminVehicle() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $vehicle = Vehicle::find($id);
+            if ($vehicle->edit == 1) {
+                $this->acceptEdit($id);
+            } elseif ($vehicle->del == 1) {
+                return $this->acceptDelete($id);
             } else {
                 return Redirect::route('vehicle.index');
             }
@@ -251,22 +264,40 @@ class VehicleController extends Controller
         }
     }
 
-    public function acceptAdd($id)
+    function acceptEdit($id)
     {
-        // Auth Roles Equipment      
+        $vehicle = Vehicle::find($id);
+        if ($this->FunctionController->authAdmin() == true) {
+            $vehicle->add = 0;
+            $vehicle->save();
+            return Redirect::route('vehicle.index');
+        } elseif ($this->FunctionController->superAdmin() == true) {
+            $vehicle->edit = 0;
+            $vehicle->save();
+            return Redirect::route('vehicle.index');
+        } else {
+            return Redirect::route('vehicle.index');
+        }
+    }
+
+    function acceptDelete($id)
+    {
+        return $this->destroy($id);
+    }
+
+    public function reject($id)
+    {
+        // Auth Roles Vehicle        
         if (
             $this->FunctionController->onlyUserVehicle() == true ||
             $this->FunctionController->onlyAdminVehicle() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
             $vehicle = Vehicle::find($id);
-
-            if ($this->FunctionController->authAdmin() == true) {
-                $vehicle->add = 0;
-                $vehicle->save();
-                return Redirect::route('vehicle.index');
-            } elseif ($this->FunctionController->superAdmin() == true) {
-                $vehicle->edit = 0;
+            if ($vehicle->edit == 1) {
+                // $this->acceptEdit($id);
+            } elseif ($vehicle->del == 1) {
+                $vehicle->del = 0;
                 $vehicle->save();
                 return Redirect::route('vehicle.index');
             } else {
