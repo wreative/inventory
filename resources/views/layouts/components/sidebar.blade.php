@@ -101,6 +101,10 @@
                 <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i>
                     <span>{{ __('Pengguna') }}</span></a>
             </li>
+            <li class="{{ Request::route()->getName() == 'room.index' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('room.index') }}"><i class="fas fa-map-marker-alt"></i>
+                    <span>{{ __('Ruangan') }}</span></a>
+            </li>
             @endif
         </ul>
     </aside>

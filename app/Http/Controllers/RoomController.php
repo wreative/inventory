@@ -53,7 +53,7 @@ class RoomController extends Controller
     public function edit($id)
     {
         $room = Room::find($id);
-        return view('pages.data.student.updateStudent', [
+        return view('pages.data.room.updateRoom', [
             'room' => $room
         ]);
     }
