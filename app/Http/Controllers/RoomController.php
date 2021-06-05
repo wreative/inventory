@@ -34,7 +34,7 @@ class RoomController extends Controller
 
     public function create()
     {
-        return view('pages.data.student.createStudent');
+        return view('pages.data.room.createRoom');
     }
 
     public function store(Request $req)
