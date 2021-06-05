@@ -27,6 +27,9 @@
                     <th>{{ __('No Wifi') }}</th>
                     <th>{{ __('Status Gedung') }}</th>
                     <th>{{ __('Jatuh Tempo') }}</th>
+                    @if (Auth::user()->role_id == 1)
+                    <th>{{ __('Perubahan') }}</th>
+                    @endif
                     <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
@@ -71,6 +74,19 @@
                         {{ date("m-Y", strtotime($r->due)) }}
                     </td>
                     <td>
+                        @if (Auth::user()->role_id == 1)
+                        @if ($r->edit == 1)
+                        <span class="badge badge-warning">
+                            {{ __('Edit') }}
+                        </span>
+                        @else
+                        <span class="badge badge-danger">
+                            {{ __('Hapus') }}
+                        </span>
+                        @endif
+                        @endif
+                    </td>
+                    <td>
                         <div class="btn-group">
                             <a href="{{ route('rental.show',$r->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>
                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
@@ -78,22 +94,9 @@
                                 <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
                             </button>
                             <div class="dropdown-menu">
-                                @if (Auth::user()->role_id == 1)
-                                <a class="dropdown-item"
-                                    href="{{ route('rental.edit',$r->id) }}">{{ __('pages.editItem') }}</a>
-                                @endif
-                                <form id="del-data{{ $r->id }}" action="{{ route('rental.destroy',$r->id) }}"
-                                    method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <a class="dropdown-item" style="cursor: pointer"
-                                        data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                        data-confirm-yes="document.getElementById('del-data{{ $r->id }}').submit();">
-                                        {{ __('pages.delItem') }}
-                                    </a>
-                                </form>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('rental.acc',$r->id) }}">{{ __('Setujui') }}</a>
+                                <a class="dropdown-item"
+                                    href="{{ route('rental.reject',$r->id) }}">{{ __('Tolak') }}</a>
                             </div>
                         </div>
                     </td>

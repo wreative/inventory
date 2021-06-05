@@ -1,9 +1,9 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Master Alat Produksi'))
-@section('titleContent', __('Alat Produksi'))
+@section('title', __('pages.title').__(' | Master Perlengkapan'))
+@section('titleContent', __('Perlengkapan'))
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
+<div class="breadcrumb-item active">{{ __('Perlengkapan') }}</div>
 @endsection
 
 @section('content')
@@ -24,6 +24,9 @@
                     <th>{{ __('Tanggal Perolehan') }}</th>
                     <th>{{ __('Qty') }}</th>
                     <th>{{ __('Kondisi') }}</th>
+                    @if (Auth::user()->role_id == 1)
+                    <th>{{ __('Perubahan') }}</th>
+                    @endif
                     <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
@@ -57,6 +60,19 @@
                         </span>
                     </td>
                     <td>
+                        @if (Auth::user()->role_id == 1)
+                        @if ($e->edit == 1)
+                        <span class="badge badge-warning">
+                            {{ __('Edit') }}
+                        </span>
+                        @else
+                        <span class="badge badge-danger">
+                            {{ __('Hapus') }}
+                        </span>
+                        @endif
+                        @endif
+                    </td>
+                    <td>
                         <div class="btn-group">
                             <a href="{{ route('equipment.show',$e->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>
                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
@@ -64,23 +80,10 @@
                                 <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
                             </button>
                             <div class="dropdown-menu">
-                                @if (Auth::user()->role_id == 1)
-                                <a class="dropdown-item"
-                                    href="{{ route('equipment.edit',$e->id) }}">{{ __('pages.editItem') }}</a>
-                                @endif
-                                <form id="del-data{{ $e->id }}" action="{{ route('equipment.destroy',$e->id) }}"
-                                    method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <a class="dropdown-item" style="cursor: pointer"
-                                        data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                        data-confirm-yes="document.getElementById('del-data{{ $e->id }}').submit();">
-                                        {{ __('pages.delItem') }}
-                                    </a>
-                                </form>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item"
                                     href="{{ route('equipment.acc',$e->id) }}">{{ __('Setujui') }}</a>
+                                <a class="dropdown-item"
+                                    href="{{ route('equipment.reject',$e->id) }}">{{ __('Tolak') }}</a>
                             </div>
                         </div>
                     </td>
