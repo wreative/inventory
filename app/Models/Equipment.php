@@ -30,6 +30,7 @@ class Equipment extends Model
         'info',
         'location',
         'add',
-        'edit'
+        'edit',
+        'del'
     ];
 }

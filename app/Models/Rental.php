@@ -31,6 +31,7 @@ class Rental extends Model
         'due',
         'info',
         'add',
-        'edit'
+        'edit',
+        'del'
     ];
 }

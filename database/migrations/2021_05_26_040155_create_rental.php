@@ -28,6 +28,7 @@ class CreateRental extends Migration
             $table->longText('info')->nullable();
             $table->boolean('add')->nullable();
             $table->boolean('edit')->nullable();
+            $table->boolean('del')->nullable();
         });
     }
 

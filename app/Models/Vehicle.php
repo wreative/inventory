@@ -31,6 +31,7 @@ class Vehicle extends Model
         'stnk',
         'info',
         'add',
-        'edit'
+        'edit',
+        'del'
     ];
 }

@@ -27,6 +27,7 @@ class CreateEquipment extends Migration
             $table->foreignId('location')->default(1);
             $table->boolean('add')->nullable();
             $table->boolean('edit')->nullable();
+            $table->boolean('del')->nullable();
         });
     }
 
