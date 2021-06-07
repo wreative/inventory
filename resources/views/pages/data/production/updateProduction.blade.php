@@ -160,6 +160,16 @@
 @endsection
 @section('script')
 <script>
+    var img = document.getElementById("img");
+$("#img").on("change", function () {
+    var imgList = [];
+    for (var i = 0; i < img.files.length; i++) {
+        imgList.push(img.files[i]);
+    }
+    $("#img_label").html(imgList.length + " Foto");
+});
+
+
     $(".currency")
     .toArray()
     .forEach(function(field) {

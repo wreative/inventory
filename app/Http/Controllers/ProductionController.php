@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Production;
+use App\Models\TempProduction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -136,7 +137,6 @@ class ProductionController extends Controller
     {
         // Auth Roles Production        
         if (
-            $this->FunctionController->onlyUserProduction() == true ||
             $this->FunctionController->onlyAdminProduction() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
@@ -160,7 +160,6 @@ class ProductionController extends Controller
     {
         // Auth Roles Production        
         if (
-            $this->FunctionController->onlyUserProduction() == true ||
             $this->FunctionController->onlyAdminProduction() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
@@ -178,11 +177,46 @@ class ProductionController extends Controller
             $price_acq = $this->FunctionController->removeComma($req->price_acq);
             $qty = $this->FunctionController->removeComma($req->qty);
 
+            // Initiation
+            $production = Production::find($id);
+
+            // Add real data to temp 
+            if ($this->FunctionController->superAdmin() == false) {
+                TempProduction::create([
+                    'code' => $production->code,
+                    'name' => $production->name,
+                    'brand' => $production->brand,
+                    'qty' => $production->qty,
+                    'price_acq' => $production->price_acq,
+                    'date_acq' => $production->date_acq,
+                    'condition' => $production->condition,
+                    'img' => $production->img,
+                    'info' => $production->info
+                ]);
+            }
+
             // Image
             if ($req->hasFile('img')) {
+                if ($this->FunctionController->superAdmin() == false) {
+                    // Moving Original Files
+                    Storage::disk('public')->makeDirectory(
+                        "production-tmp/" . $production->code
+                    );
+                    $beginning = Storage::disk('public')->get("production/" . $production->code);
+                    $files = Storage::allFiles($beginning . '/public/production/' . $production->code);
+                    foreach ($files as $number => $path) {
+                        $file = pathinfo($path);
+                        Storage::move(
+                            $files[$number],
+                            'public/production-tmp/' . $production->code . '/' . $file['basename']
+                        );
+                    }
+                }
+
+                // Upload New Files
                 $dataIMG = json_encode(
                     $this->FunctionController->storedIMG(
-                        $req->code,
+                        $production->code,
                         $req->img,
                         $req->file('img'),
                         'production'
@@ -193,7 +227,7 @@ class ProductionController extends Controller
             // Permissions
             $editPermissions = $this->FunctionController->edit();
 
-            $production = Production::find($id);
+            // Edit Data
             $production->name = $req->name;
             $production->brand = $req->brand;
             $production->price_acq = $price_acq;
@@ -287,7 +321,7 @@ class ProductionController extends Controller
         ) {
             $production = Production::find($id);
             if ($production->edit == 1) {
-                $this->acceptEdit($id);
+                return $this->acceptEdit($id);
             } elseif ($production->del == 1) {
                 return $this->acceptDelete($id);
             } else {
@@ -307,6 +341,13 @@ class ProductionController extends Controller
             $production->save();
             return Redirect::route('production.index');
         } elseif ($this->FunctionController->superAdmin() == true) {
+            // Delete Temp Record
+            TempProduction::where('code', $production->code)->first()->delete();
+            // Delete Folder Temp
+            Storage::disk('public')->deleteDirectory(
+                "production-tmp/" . $production->code
+            );
+            // Change Record
             $production->edit = 0;
             $production->save();
             return Redirect::route('production.index');
@@ -330,7 +371,7 @@ class ProductionController extends Controller
         ) {
             $production = Production::find($id);
             if ($production->edit == 1) {
-                // $this->acceptEdit($id);
+                return $this->rejectEdit($id);
             } elseif ($production->del == 1) {
                 $production->del = 0;
                 $production->save();
@@ -342,5 +383,48 @@ class ProductionController extends Controller
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
+    }
+
+    function rejectEdit($id)
+    {
+        $production = Production::find($id);
+        $productionTemp = TempProduction::where(
+            'code',
+            $production->code
+        )->first();
+        $productionTemp->delete();
+
+        // Edit Data
+        $production->name = $productionTemp->name;
+        $production->brand = $productionTemp->brand;
+        $production->price_acq = $productionTemp->price_acq;
+        $production->date_acq = $productionTemp->date_acq;
+        $production->qty = $productionTemp->qty;
+        $production->condition = $productionTemp->condition;
+        $production->img = $productionTemp->img;
+        $production->info = $productionTemp->info;
+        $production->add = 0;
+        $production->edit = 0;
+        $production->del = 0;
+        $production->save();
+
+        // Delete Directory Original
+        Storage::disk('public')->deleteDirectory('production/' . $production->code);
+
+        // Moving Original Files
+        $beginning = Storage::disk('public')->get("production-tmp/" . $production->code);
+        $files = Storage::allFiles($beginning . '/public/production-tmp/' . $production->code);
+        foreach ($files as $number => $path) {
+            $file = pathinfo($path);
+            Storage::move(
+                $files[$number],
+                'public/production/' . $production->code . '/' . $file['basename']
+            );
+        }
+
+        // Delete Directory Temp
+        Storage::disk('public')->deleteDirectory('production-tmp/' . $production->code);
+
+        return Redirect::route('production.index');
     }
 }

@@ -15,7 +15,6 @@ class CreateTempEquipment extends Migration
     {
         Schema::create('temp_equip', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
             $table->string('name');
             $table->string('brand');
             $table->integer('qty');
