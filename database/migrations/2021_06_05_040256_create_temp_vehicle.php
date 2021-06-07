@@ -15,6 +15,7 @@ class CreateTempVehicle extends Migration
     {
         Schema::create('temp_vehicle', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
             $table->string('name');
             $table->string('type');
             $table->string('brand');

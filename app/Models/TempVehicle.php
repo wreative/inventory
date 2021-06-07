@@ -19,6 +19,7 @@ class TempVehicle extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'code',
         'name',
         'type',
         'brand',
