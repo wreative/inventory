@@ -24,6 +24,7 @@
                     <th>{{ __('Tanggal Perolehan') }}</th>
                     <th>{{ __('Qty') }}</th>
                     <th>{{ __('Kondisi') }}</th>
+                    <th>{{ __('Lokasi') }}</th>
                     @if (Auth::user()->role_id == 1)
                     <th>{{ __('Perubahan') }}</th>
                     @endif
@@ -58,6 +59,9 @@
                         <span class="badge badge-info">
                             {{ $e->condition }}
                         </span>
+                    </td>
+                    <td>
+                        {{ $e->location }}
                     </td>
                     <td>
                         @if (Auth::user()->role_id == 1)
