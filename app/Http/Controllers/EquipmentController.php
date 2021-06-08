@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use App\Models\Equipment;
+use App\Models\TempEquipment;
+use App\Models\TempVehicle;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -140,16 +143,15 @@ class EquipmentController extends Controller
     {
         // Auth Roles Equipment        
         if (
-            $this->FunctionController->onlyUserEquipment() == true ||
             $this->FunctionController->onlyAdminEquipment() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $equipment = Equipment::find($id);
-            $room = Room::all();
             if (
                 $this->FunctionController->authAdmin() == true or
                 $this->FunctionController->superAdmin() == true
             ) {
+                $equipment = Equipment::find($id);
+                $room = Room::all();
                 return view('pages.data.equipment.updateEquipment', [
                     'equipment' => $equipment,
                     'room' => $room
@@ -168,7 +170,6 @@ class EquipmentController extends Controller
     {
         // Auth Roles Equipment    
         if (
-            $this->FunctionController->onlyUserEquipment() == true ||
             $this->FunctionController->onlyAdminEquipment() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
@@ -187,11 +188,46 @@ class EquipmentController extends Controller
             $price_acq = $this->FunctionController->removeComma($req->price_acq);
             $qty = $this->FunctionController->removeComma($req->qty);
 
+            // Initiation
+            $equipment = Equipment::find($id);
+
+            // Add real data to temp 
+            if ($this->FunctionController->superAdmin() == false) {
+                TempEquipment::create([
+                    'code' => $equipment->code,
+                    'name' => $equipment->name,
+                    'brand' => $equipment->brand,
+                    'price_acq' => $equipment->price_acq,
+                    'date_acq' => $equipment->date_acq,
+                    'condition' => $equipment->condition,
+                    'img' => $equipment->img,
+                    'location' => $equipment->location,
+                    'info' => $equipment->info
+                ]);
+            }
+
             // Image
             if ($req->hasFile('img')) {
+                if ($this->FunctionController->superAdmin() == false) {
+                    // Moving Original Files
+                    Storage::disk('public')->makeDirectory(
+                        "equipment-tmp/" . $equipment->code
+                    );
+                    $beginning = Storage::disk('public')->get("equipment/" . $equipment->code);
+                    $files = Storage::allFiles($beginning . '/public/equipment/' . $equipment->code);
+                    foreach ($files as $number => $path) {
+                        $file = pathinfo($path);
+                        Storage::move(
+                            $files[$number],
+                            'public/equipment-tmp/' . $equipment->code . '/' . $file['basename']
+                        );
+                    }
+                }
+
+                // Upload New Files
                 $dataIMG = json_encode(
                     $this->FunctionController->storedIMG(
-                        $req->code,
+                        $equipment->code,
                         $req->img,
                         $req->file('img'),
                         'equipment'
@@ -202,7 +238,6 @@ class EquipmentController extends Controller
             // Permissions
             $editPermissions = $this->FunctionController->edit();
 
-            $equipment = Equipment::find($id);
             $equipment->name = $req->name;
             $equipment->brand = $req->brand;
             $equipment->price_acq = $price_acq;
@@ -297,7 +332,7 @@ class EquipmentController extends Controller
         ) {
             $equipment = Equipment::find($id);
             if ($equipment->edit == 1) {
-                $this->acceptEdit($id);
+                return $this->acceptEdit($id);
             } elseif ($equipment->del == 1) {
                 return $this->acceptDelete($id);
             } else {
@@ -317,6 +352,13 @@ class EquipmentController extends Controller
             $equipment->save();
             return Redirect::route('equipment.index');
         } elseif ($this->FunctionController->superAdmin() == true) {
+            // Delete Temp Record
+            TempEquipment::where('code', $equipment->code)->first()->delete();
+            // Delete Folder Temp
+            Storage::disk('public')->deleteDirectory(
+                "equipment-tmp/" . $equipment->code
+            );
+            // Change Record
             $equipment->edit = 0;
             $equipment->save();
             return Redirect::route('equipment.index');
@@ -340,7 +382,7 @@ class EquipmentController extends Controller
         ) {
             $equipment = Equipment::find($id);
             if ($equipment->edit == 1) {
-                // $this->acceptEdit($id);
+                return $this->rejectEdit($id);
             } elseif ($equipment->del == 1) {
                 $equipment->del = 0;
                 $equipment->save();
@@ -352,5 +394,49 @@ class EquipmentController extends Controller
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
+    }
+
+    function rejectEdit($id)
+    {
+        $vehicle = Vehicle::find($id);
+        $vehicleTemp = TempVehicle::where(
+            'code',
+            $vehicle->code
+        )->first();
+        $vehicleTemp->delete();
+
+        // Edit Data
+        $vehicle->name = $vehicleTemp->name;
+        $vehicle->brand = $vehicleTemp->brand;
+        $vehicle->price_acq = $vehicleTemp->price_acq;
+        $vehicle->date_acq = $vehicleTemp->date_acq;
+        $vehicle->qty = $vehicleTemp->qty;
+        $vehicle->condition = $vehicleTemp->condition;
+        $vehicle->img = $vehicleTemp->img;
+        $vehicle->location = $vehicleTemp->location;
+        $vehicle->info = $vehicleTemp->info;
+        $vehicle->add = 0;
+        $vehicle->edit = 0;
+        $vehicle->del = 0;
+        $vehicle->save();
+
+        // Delete Directory Original
+        Storage::disk('public')->deleteDirectory('vehicle/' . $vehicle->code);
+
+        // Moving Original Files
+        $beginning = Storage::disk('public')->get("vehicle-tmp/" . $vehicle->code);
+        $files = Storage::allFiles($beginning . '/public/vehicle-tmp/' . $vehicle->code);
+        foreach ($files as $number => $path) {
+            $file = pathinfo($path);
+            Storage::move(
+                $files[$number],
+                'public/vehicle/' . $vehicle->code . '/' . $file['basename']
+            );
+        }
+
+        // Delete Directory Temp
+        Storage::disk('public')->deleteDirectory('vehicle-tmp/' . $vehicle->code);
+
+        return Redirect::route('vehicle.index');
     }
 }

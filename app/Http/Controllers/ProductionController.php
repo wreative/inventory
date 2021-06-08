@@ -145,7 +145,9 @@ class ProductionController extends Controller
                 $this->FunctionController->superAdmin() == true
             ) {
                 $production = Production::find($id);
-                return view('pages.data.production.updateProduction', ['production' => $production]);
+                return view('pages.data.production.updateProduction', [
+                    'production' => $production
+                ]);
             } else {
                 return Redirect::route('home')
                     ->with(['status' => 'Anda tidak punya akses disini.']);

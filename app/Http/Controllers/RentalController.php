@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rental;
+use App\Models\TempRental;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -122,14 +123,21 @@ class RentalController extends Controller
     {
         // Auth Roles Rental     
         if (
-            $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $rental = Rental::find($id);
-            return view('pages.data.rental.updateRental', [
-                'rental' => $rental
-            ]);
+            if (
+                $this->FunctionController->authAdmin() == true or
+                $this->FunctionController->superAdmin() == true
+            ) {
+                $rental = Rental::find($id);
+                return view('pages.data.rental.updateRental', [
+                    'rental' => $rental
+                ]);
+            } else {
+                return Redirect::route('home')
+                    ->with(['status' => 'Anda tidak punya akses disini.']);
+            }
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -140,7 +148,6 @@ class RentalController extends Controller
     {
         // Auth Roles Rental        
         if (
-            $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
@@ -156,10 +163,29 @@ class RentalController extends Controller
                 'due' => 'required|date',
             ])->validate();
 
+            // Initiation
+            $rental = Rental::find($id);
+
+            // Add real data to temp 
+            if ($this->FunctionController->superAdmin() == false) {
+                TempRental::create([
+                    'code' => $rental->code,
+                    'name' => $rental->name,
+                    'address' => $rental->address,
+                    'status' => $rental->status,
+                    'pln' => $rental->pln,
+                    'pdam' => $rental->pdam,
+                    'pbb' => $rental->pbb,
+                    'wifi' => $rental->wifi,
+                    'rental' => $rental->rental,
+                    'due' => $rental->due,
+                    'info' => $rental->info
+                ]);
+            }
+
             // Permissions
             $editPermissions = $this->FunctionController->edit();
 
-            $rental = Rental::find($id);
             $rental->name = $req->name;
             $rental->address = $req->address;
             $rental->status = $req->status;
@@ -252,7 +278,7 @@ class RentalController extends Controller
         ) {
             $rental = Rental::find($id);
             if ($rental->edit == 1) {
-                $this->acceptEdit($id);
+                return $this->acceptEdit($id);
             } elseif ($rental->del == 1) {
                 return $this->acceptDelete($id);
             } else {
@@ -272,6 +298,9 @@ class RentalController extends Controller
             $rental->save();
             return Redirect::route('rental.index');
         } elseif ($this->FunctionController->superAdmin() == true) {
+            // Delete Temp Record
+            TempRental::where('code', $rental->code)->first()->delete();
+            // Change Record
             $rental->edit = 0;
             $rental->save();
             return Redirect::route('rental.index');
@@ -295,7 +324,7 @@ class RentalController extends Controller
         ) {
             $rental = Rental::find($id);
             if ($rental->edit == 1) {
-                // $this->acceptEdit($id);
+                return $this->rejectEdit($id);
             } elseif ($rental->del == 1) {
                 $rental->del = 0;
                 $rental->save();
@@ -307,5 +336,33 @@ class RentalController extends Controller
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
         }
+    }
+
+    function rejectEdit($id)
+    {
+        $rental = Rental::find($id);
+        $rentalTemp = TempRental::where(
+            'code',
+            $rental->code
+        )->first();
+        $rentalTemp->delete();
+
+        // Edit Data
+        $rental->name = $rentalTemp->name;
+        $rental->address = $rentalTemp->address;
+        $rental->status = $rentalTemp->status;
+        $rental->pln = $rentalTemp->pln;
+        $rental->pdam = $rentalTemp->pdam;
+        $rental->pbb = $rentalTemp->pbb;
+        $rental->wifi = $rentalTemp->wifi;
+        $rental->rental = $rentalTemp->rental;
+        $rental->due = $rentalTemp->due;
+        $rental->info = $rentalTemp->info;
+        $rental->add = 0;
+        $rental->edit = 0;
+        $rental->del = 0;
+        $rental->save();
+
+        return Redirect::route('production.index');
     }
 }
