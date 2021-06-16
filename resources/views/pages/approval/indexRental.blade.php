@@ -73,6 +73,7 @@
                     <td>
                         {{ date("m-Y", strtotime($r->due)) }}
                     </td>
+                    @if (Auth::user()->role_id == 1)
                     <td>
                         @if (Auth::user()->role_id == 1)
                         @if ($r->edit == 1)
@@ -86,6 +87,7 @@
                         @endif
                         @endif
                     </td>
+                    @endif
                     <td>
                         <div class="btn-group">
                             <a href="{{ route('rental.show',$r->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>

@@ -59,6 +59,7 @@
                             {{ $p->condition }}
                         </span>
                     </td>
+                    @if (Auth::user()->role_id == 1)
                     <td>
                         @if (Auth::user()->role_id == 1)
                         @if ($p->edit == 1)
@@ -72,6 +73,7 @@
                         @endif
                         @endif
                     </td>
+                    @endif
                     <td>
                         <div class="btn-group">
                             <a href="{{ route('production.show',$p->id) }}"

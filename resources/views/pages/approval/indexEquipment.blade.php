@@ -63,6 +63,7 @@
                     <td>
                         {{ $e->location }}
                     </td>
+                    @if (Auth::user()->role_id == 1)
                     <td>
                         @if (Auth::user()->role_id == 1)
                         @if ($e->edit == 1)
@@ -76,6 +77,7 @@
                         @endif
                         @endif
                     </td>
+                    @endif
                     <td>
                         <div class="btn-group">
                             <a href="{{ route('equipment.show',$e->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>
