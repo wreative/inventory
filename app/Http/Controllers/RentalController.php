@@ -281,6 +281,8 @@ class RentalController extends Controller
                 return $this->acceptEdit($id);
             } elseif ($rental->del == 1) {
                 return $this->acceptDelete($id);
+            } elseif ($rental->add == 1) {
+                return $this->acceptAdd($id);
             } else {
                 return Redirect::route('rental.index');
             }
@@ -290,11 +292,26 @@ class RentalController extends Controller
         }
     }
 
+    function acceptAdd($id)
+    {
+        $rental = Rental::find($id);
+        if (
+            $this->FunctionController->onlyAdminRental() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $rental->add = 0;
+            $rental->save();
+            return Redirect::route('rental.index');
+        } else {
+            return Redirect::route('rental.index');
+        }
+    }
+
     function acceptEdit($id)
     {
         $rental = Rental::find($id);
         if ($this->FunctionController->authAdmin() == true) {
-            $rental->add = 0;
+            $rental->edit = 0;
             $rental->save();
             return Redirect::route('rental.index');
         } elseif ($this->FunctionController->superAdmin() == true) {

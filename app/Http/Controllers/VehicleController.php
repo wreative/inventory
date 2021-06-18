@@ -282,6 +282,8 @@ class VehicleController extends Controller
                 return $this->acceptEdit($id);
             } elseif ($vehicle->del == 1) {
                 return $this->acceptDelete($id);
+            } elseif ($vehicle->add == 1) {
+                return $this->acceptAdd($id);
             } else {
                 return Redirect::route('vehicle.index');
             }
@@ -291,11 +293,26 @@ class VehicleController extends Controller
         }
     }
 
+    function acceptAdd($id)
+    {
+        $vehicle = Vehicle::find($id);
+        if (
+            $this->FunctionController->onlyAdminVehicle() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $vehicle->add = 0;
+            $vehicle->save();
+            return Redirect::route('vehicle.index');
+        } else {
+            return Redirect::route('vehicle.index');
+        }
+    }
+
     function acceptEdit($id)
     {
         $vehicle = Vehicle::find($id);
         if ($this->FunctionController->authAdmin() == true) {
-            $vehicle->add = 0;
+            $vehicle->edit = 0;
             $vehicle->save();
             return Redirect::route('vehicle.index');
         } elseif ($this->FunctionController->superAdmin() == true) {

@@ -24,7 +24,7 @@
                     @include('layouts.components.credit')
                 </div>
                 <div class="footer-right">
-                    {{ __('v0.1') }} <div class="bullet"></div>
+                    {{ __('v0.2') }} <div class="bullet"></div>
                     {{ __('Laravel v').Illuminate\Foundation\Application::VERSION }}
                     <div class="bullet"></div>
                     {{ __('PHP v').PHP_VERSION }}

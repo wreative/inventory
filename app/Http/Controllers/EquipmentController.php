@@ -335,6 +335,8 @@ class EquipmentController extends Controller
                 return $this->acceptEdit($id);
             } elseif ($equipment->del == 1) {
                 return $this->acceptDelete($id);
+            } elseif ($equipment->add == 1) {
+                return $this->acceptAdd($id);
             } else {
                 return Redirect::route('equipment.index');
             }
@@ -344,11 +346,26 @@ class EquipmentController extends Controller
         }
     }
 
+    function acceptAdd($id)
+    {
+        $equipment = Equipment::find($id);
+        if (
+            $this->FunctionController->onlyAdminEquipment() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $equipment->add = 0;
+            $equipment->save();
+            return Redirect::route('equipment.index');
+        } else {
+            return Redirect::route('equipment.index');
+        }
+    }
+
     function acceptEdit($id)
     {
         $equipment = Equipment::find($id);
         if ($this->FunctionController->authAdmin() == true) {
-            $equipment->add = 0;
+            $equipment->edit = 0;
             $equipment->save();
             return Redirect::route('equipment.index');
         } elseif ($this->FunctionController->superAdmin() == true) {

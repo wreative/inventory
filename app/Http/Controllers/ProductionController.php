@@ -326,6 +326,8 @@ class ProductionController extends Controller
                 return $this->acceptEdit($id);
             } elseif ($production->del == 1) {
                 return $this->acceptDelete($id);
+            } elseif ($production->add == 1) {
+                return $this->acceptAdd($id);
             } else {
                 return Redirect::route('production.index');
             }
@@ -335,11 +337,26 @@ class ProductionController extends Controller
         }
     }
 
+    function acceptAdd($id)
+    {
+        $production = Production::find($id);
+        if (
+            $this->FunctionController->onlyAdminProduction() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $production->add = 0;
+            $production->save();
+            return Redirect::route('production.index');
+        } else {
+            return Redirect::route('production.index');
+        }
+    }
+
     function acceptEdit($id)
     {
         $production = Production::find($id);
         if ($this->FunctionController->authAdmin() == true) {
-            $production->add = 0;
+            $production->edit = 0;
             $production->save();
             return Redirect::route('production.index');
         } elseif ($this->FunctionController->superAdmin() == true) {
