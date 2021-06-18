@@ -153,7 +153,7 @@
             <label>{{ __('Keterangan') }}</label>
             <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
                 rows="10" style="height: 77px;" readonly>
-                    {{ $production->info }}
+                    {{ $vehicle->info }}
                 </textarea>
             @error('info')
             <span class="text-danger" role="alert">
