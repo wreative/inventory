@@ -30,7 +30,9 @@
                     @if (Auth::user()->role_id == 1)
                     <th>{{ __('Perubahan') }}</th>
                     @endif
+                    @empty($user)
                     <th>{{ __('Aksi') }}</th>
+                    @endempty
                 </tr>
             </thead>
             <tbody>
@@ -84,6 +86,7 @@
                         @endif
                     </td>
                     @endif
+                    @empty($user)
                     <td>
                         <div class="btn-group">
                             <a href="{{ route('vehicle.show',$v->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>
@@ -99,6 +102,7 @@
                             </div>
                         </div>
                     </td>
+                    @endempty
                 </tr>
                 @endforeach
             </tbody>

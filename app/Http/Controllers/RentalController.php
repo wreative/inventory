@@ -7,7 +7,6 @@ use App\Models\TempRental;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 
 class RentalController extends Controller
 {
@@ -112,7 +111,13 @@ class RentalController extends Controller
                 'del' => 0
             ]);
 
-            return Redirect::route('rental.index');
+            return $this->FunctionController->onlyUserRental() == true ?
+                Redirect::route('rental.index')
+                ->with([
+                    'status' => 'Data anda sedang di proses Admin, 
+                    silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+                ]) :
+                Redirect::route('rental.index');
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -243,24 +248,22 @@ class RentalController extends Controller
     public function approv()
     {
         // Auth Roles Rental        
-        if (
-            $this->FunctionController->onlyUserRental() == true ||
-            $this->FunctionController->onlyAdminRental() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            if ($this->FunctionController->authAdmin() == true) {
-                $rental = Rental::where('add', 1)
-                    ->get();
-                return view('pages.approval.indexRental', ['rental' => $rental]);
-            } elseif ($this->FunctionController->superAdmin() == true) {
-                $rental = Rental::where('edit', 1)
-                    ->orWhere('del', 1)
-                    ->get();
-                return view('pages.approval.indexRental', ['rental' => $rental]);
-            } else {
-                return Redirect::route('home')
-                    ->with(['status' => 'Anda tidak punya akses disini.']);
-            }
+        if ($this->FunctionController->onlyAdminRental() == true) {
+            $rental = Rental::where('add', 1)
+                ->get();
+            return view('pages.approval.indexRental', ['rental' => $rental]);
+        } elseif ($this->FunctionController->onlyUserRental() == true) {
+            $rental = Rental::where('add', 1)
+                ->get();
+            return view('pages.approval.indexRental', [
+                'rental' => $rental,
+                'user' => true
+            ]);
+        } elseif ($this->FunctionController->superAdmin() == true) {
+            $rental = Rental::where('edit', 1)
+                ->orWhere('del', 1)
+                ->get();
+            return view('pages.approval.indexRental', ['rental' => $rental]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -272,7 +275,6 @@ class RentalController extends Controller
     {
         // Auth Roles Rental        
         if (
-            $this->FunctionController->onlyUserRental() == true ||
             $this->FunctionController->onlyAdminRental() == true ||
             $this->FunctionController->superAdmin() == true
         ) {

@@ -126,7 +126,13 @@ class ProductionController extends Controller
                 'del' => 0,
             ]);
 
-            return Redirect::route('production.index');
+            return $this->FunctionController->onlyUserProduction() == true ?
+                Redirect::route('production.index')
+                ->with([
+                    'status' => 'Data anda sedang di proses Admin, 
+                    silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+                ]) :
+                Redirect::route('production.index');
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -288,24 +294,22 @@ class ProductionController extends Controller
     public function approv()
     {
         // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserProduction() == true ||
-            $this->FunctionController->onlyAdminProduction() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            if ($this->FunctionController->authAdmin() == true) {
-                $production = Production::where('add', 1)
-                    ->get();
-                return view('pages.approval.indexProduction', ['production' => $production]);
-            } elseif ($this->FunctionController->superAdmin() == true) {
-                $production = Production::where('edit', 1)
-                    ->orWhere('del', 1)
-                    ->get();
-                return view('pages.approval.indexProduction', ['production' => $production]);
-            } else {
-                return Redirect::route('home')
-                    ->with(['status' => 'Anda tidak punya akses disini.']);
-            }
+        if ($this->FunctionController->onlyAdminProduction() == true) {
+            $production = Production::where('add', 1)
+                ->get();
+            return view('pages.approval.indexProduction', ['production' => $production]);
+        } elseif ($this->FunctionController->onlyUserProduction() == true) {
+            $production = Production::where('add', 1)
+                ->get();
+            return view('pages.approval.indexProduction', [
+                'production' => $production,
+                'user' => true
+            ]);
+        } elseif ($this->FunctionController->superAdmin() == true) {
+            $production = Production::where('edit', 1)
+                ->orWhere('del', 1)
+                ->get();
+            return view('pages.approval.indexProduction', ['production' => $production]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -317,7 +321,6 @@ class ProductionController extends Controller
     {
         // Auth Roles Production        
         if (
-            $this->FunctionController->onlyUserProduction() == true ||
             $this->FunctionController->onlyAdminProduction() == true ||
             $this->FunctionController->superAdmin() == true
         ) {

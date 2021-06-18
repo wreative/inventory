@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Equipment;
 use App\Models\TempVehicle;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
@@ -113,7 +112,13 @@ class VehicleController extends Controller
                 'del' => 0,
             ]);
 
-            return Redirect::route('vehicle.index');
+            return $this->FunctionController->onlyUserVehicle() == true ?
+                Redirect::route('vehicle.index')
+                ->with([
+                    'status' => 'Data anda sedang di proses Admin, 
+                    silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+                ]) :
+                Redirect::route('vehicle.index');
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -244,24 +249,22 @@ class VehicleController extends Controller
     public function approv()
     {
         // Auth Roles Vehicle     
-        if (
-            $this->FunctionController->onlyUserVehicle() == true ||
-            $this->FunctionController->onlyAdminVehicle() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            if ($this->FunctionController->authAdmin() == true) {
-                $vehicle = Vehicle::where('add', 1)
-                    ->get();
-                return view('pages.approval.indexVehicle', ['vehicle' => $vehicle]);
-            } elseif ($this->FunctionController->superAdmin() == true) {
-                $vehicle = Vehicle::where('edit', 1)
-                    ->orWhere('del', 1)
-                    ->get();
-                return view('pages.approval.indexVehicle', ['vehicle' => $vehicle]);
-            } else {
-                return Redirect::route('home')
-                    ->with(['status' => 'Anda tidak punya akses disini.']);
-            }
+        if ($this->FunctionController->authAdmin() == true) {
+            $vehicle = Vehicle::where('add', 1)
+                ->get();
+            return view('pages.approval.indexVehicle', ['vehicle' => $vehicle]);
+        } elseif ($this->FunctionController->onlyUserVehicle() == true) {
+            $vehicle = Vehicle::where('add', 1)
+                ->get();
+            return view('pages.approval.indexVehicle', [
+                'vehicle' => $vehicle,
+                'user' => true
+            ]);
+        } elseif ($this->FunctionController->superAdmin() == true) {
+            $vehicle = Vehicle::where('edit', 1)
+                ->orWhere('del', 1)
+                ->get();
+            return view('pages.approval.indexVehicle', ['vehicle' => $vehicle]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -273,7 +276,6 @@ class VehicleController extends Controller
     {
         // Auth Roles Vehicle    
         if (
-            $this->FunctionController->onlyUserVehicle() == true ||
             $this->FunctionController->onlyAdminVehicle() == true ||
             $this->FunctionController->superAdmin() == true
         ) {

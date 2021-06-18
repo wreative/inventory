@@ -133,6 +133,13 @@ class EquipmentController extends Controller
             ]);
 
             return Redirect::route('equipment.index');
+            return $this->FunctionController->onlyUserEquipment() == true ?
+                Redirect::route('equipment.index')
+                ->with([
+                    'status' => 'Data anda sedang di proses Admin, 
+                    silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+                ]) :
+                Redirect::route('equipment.index');
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -297,24 +304,22 @@ class EquipmentController extends Controller
     public function approv()
     {
         // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            if ($this->FunctionController->authAdmin() == true) {
-                $equipment = Equipment::where('add', 1)
-                    ->get();
-                return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
-            } elseif ($this->FunctionController->superAdmin() == true) {
-                $equipment = Equipment::where('edit', 1)
-                    ->orWhere('del', 1)
-                    ->get();
-                return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
-            } else {
-                return Redirect::route('home')
-                    ->with(['status' => 'Anda tidak punya akses disini.']);
-            }
+        if ($this->FunctionController->onlyAdminEquipment() == true) {
+            $equipment = Equipment::where('add', 1)
+                ->get();
+            return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
+        } elseif ($this->FunctionController->onlyUserEquipment() == true) {
+            $equipment = Equipment::where('add', 1)
+                ->get();
+            return view('pages.approval.indexEquipment', [
+                'equipment' => $equipment,
+                'user' => true
+            ]);
+        } elseif ($this->FunctionController->superAdmin() == true) {
+            $equipment = Equipment::where('edit', 1)
+                ->orWhere('del', 1)
+                ->get();
+            return view('pages.approval.indexEquipment', ['equipment' => $equipment]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -326,7 +331,6 @@ class EquipmentController extends Controller
     {
         // Auth Roles Equipment        
         if (
-            $this->FunctionController->onlyUserEquipment() == true ||
             $this->FunctionController->onlyAdminEquipment() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
