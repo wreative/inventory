@@ -63,9 +63,6 @@
                     <th>{{ __('Kondisi') }}</th>
                     <th>{{ __('Lokasi') }}</th>
                     <th>{{ __('Keterangan') }}</th>
-                    @isset($notUser)
-                    <th>{{ __('Aksi') }}</th>
-                    @endisset
                 </tr>
             </thead>
             <tbody>
@@ -103,31 +100,6 @@
                     <td>
                         {{ $e->info }}
                     </td>
-                    @isset($notUser)
-                    <td>
-                        <div class="btn-group">
-                            <a href="{{ route('equipment.show',$e->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>
-                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                                data-toggle="dropdown">
-                                <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item"
-                                    href="{{ route('equipment.edit',$e->id) }}">{{ __('pages.editItem') }}</a>
-                                <form id="del-data{{ $e->id }}" action="{{ route('equipment.destroy',$e->id) }}"
-                                    method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <a class="dropdown-item" style="cursor: pointer"
-                                        data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                        data-confirm-yes="document.getElementById('del-data{{ $e->id }}').submit();">
-                                        {{ __('pages.delItem') }}
-                                    </a>
-                                </form>
-                            </div>
-                        </div>
-                    </td>
-                    @endisset
                 </tr>
                 @endforeach
             </tbody>

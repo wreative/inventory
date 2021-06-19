@@ -16,6 +16,34 @@
     </div>
 </div>
 @endif
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-0">
+            <div class="card-body">
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::route()->getName() == 'production.index' ? 'active' : '' }}"
+                            href="{{ route('production.index') }}">{{ __('Semua') }}
+                            <span
+                                class="badge badge-{{ Request::route()->getName() == 'production.index' ? 'white' : 'primary' }}">
+                                5
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::route()->getName() == 'production.deny' ? 'active' : '' }}"
+                            href="{{ route('production.deny') }}">{{ __('Ditolak') }}
+                            <span
+                                class="badge badge-{{ Request::route()->getName() == 'production.deny' ? 'white' : 'primary' }}">
+                                1
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="card">
     <div class="card-header">
         <a href="{{ route('production.create') }}" class="btn btn-icon icon-left btn-primary">

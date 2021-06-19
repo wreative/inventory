@@ -16,6 +16,34 @@
     </div>
 </div>
 @endif
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-0">
+            <div class="card-body">
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::route()->getName() == 'vehicle.index' ? 'active' : '' }}"
+                            href="{{ route('vehicle.index') }}">{{ __('Semua') }}
+                            <span
+                                class="badge badge-{{ Request::route()->getName() == 'vehicle.index' ? 'white' : 'primary' }}">
+                                5
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::route()->getName() == 'vehicle.deny' ? 'active' : '' }}"
+                            href="{{ route('vehicle.deny') }}">{{ __('Ditolak') }}
+                            <span
+                                class="badge badge-{{ Request::route()->getName() == 'vehicle.deny' ? 'white' : 'primary' }}">
+                                1
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="card">
     <div class="card-header">
         <a href="{{ route('vehicle.create') }}" class="btn btn-icon icon-left btn-primary">
