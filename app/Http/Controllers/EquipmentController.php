@@ -58,6 +58,27 @@ class EquipmentController extends Controller
         }
     }
 
+    public function deny()
+    {
+        // Auth Roles Equipment        
+        if (
+            $this->FunctionController->onlyUserEquipment() == true ||
+            $this->FunctionController->onlyAdminEquipment() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $equipment = Equipment::where('add', 0)
+                ->where('edit', 0)
+                ->where('del', 1)
+                ->get();
+            return view('pages.data.equipment.declineEquipment', [
+                'equipment' => $equipment
+            ]);
+        } else {
+            return Redirect::route('home')
+                ->with(['status' => 'Anda tidak punya akses disini.']);
+        }
+    }
+
     public function create()
     {
         // Auth Roles Equipment        
@@ -132,7 +153,6 @@ class EquipmentController extends Controller
                 'del' => 0
             ]);
 
-            return Redirect::route('equipment.index');
             return $this->FunctionController->onlyUserEquipment() == true ?
                 Redirect::route('equipment.index')
                 ->with([
@@ -276,9 +296,11 @@ class EquipmentController extends Controller
             $equipment->delete();
             return Redirect::route('equipment.index');
         } else if ($this->FunctionController->authAdmin() == true) {
+            $equipment->add = 0;
             $equipment->del = 1;
             $equipment->save();
-            return Redirect::route('equipment.index');
+            return Redirect::route('equipment.deny')
+                ->with(['status' => 'Penolakan dengan kode item ' . $equipment->code . __(' berhasil ditolak')]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -404,10 +426,13 @@ class EquipmentController extends Controller
             $equipment = Equipment::find($id);
             if ($equipment->edit == 1) {
                 return $this->rejectEdit($id);
-            } elseif ($equipment->del == 1) {
-                $equipment->del = 0;
+            } elseif ($this->FunctionController->authAdmin() == true) {
+                $equipment->del = 1;
+                $equipment->add = 0;
+                $equipment->edit = 0;
                 $equipment->save();
-                return Redirect::route('equipment.index');
+                return Redirect::route('equipment.deny')
+                    ->with(['status' => 'Penolakan dengan kode item ' . $equipment->code . __(' berhasil ditolak')]);
             } else {
                 return Redirect::route('equipment.index');
             }

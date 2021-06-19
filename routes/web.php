@@ -37,6 +37,8 @@ Route::get('production/reject/{id}', [App\Http\Controllers\ProductionController:
 Route::resource('equipment', App\Http\Controllers\EquipmentController::class);
 Route::get('/approve/equipment', [App\Http\Controllers\EquipmentController::class, 'approv'])
     ->name('equipment.approv');
+Route::get('/deny/equipment', [App\Http\Controllers\EquipmentController::class, 'deny'])
+    ->name('equipment.deny');
 // Special Action Equipment
 Route::get('equipment/accept/{id}', [App\Http\Controllers\EquipmentController::class, 'accept'])
     ->name('equipment.acc');

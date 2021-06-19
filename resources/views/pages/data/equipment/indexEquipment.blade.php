@@ -16,7 +16,35 @@
     </div>
 </div>
 @endif
-<div class="card">
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-0">
+            <div class="card-body">
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::route()->getName() == 'equipment.index' ? 'active' : '' }}"
+                            href="{{ route('equipment.index') }}">{{ __('Semua') }}
+                            <span
+                                class="badge badge-{{ Request::route()->getName() == 'equipment.index' ? 'white' : 'primary' }}">
+                                5
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::route()->getName() == 'equipment.deny' ? 'active' : '' }}"
+                            href="{{ route('equipment.deny') }}">{{ __('Ditolak') }}
+                            <span
+                                class="badge badge-{{ Request::route()->getName() == 'equipment.deny' ? 'white' : 'primary' }}">
+                                1
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3">
     <div class="card-header">
         <a href="{{ route('equipment.create') }}" class="btn btn-icon icon-left btn-primary">
             <i class="far fa-edit"></i>{{ __(' Tambah Perlengkapan') }}</a>

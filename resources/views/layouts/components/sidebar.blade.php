@@ -38,7 +38,8 @@
                 Request::route()->getName() == 'equipment.create' ? 'active' : (
                     Request::route()->getName() == 'equipment.approv' ? 'active' : (
                         Request::route()->getName() == 'equipment.edit' ? 'active' : (
-                            Request::route()->getName() == 'equipment.show' ? 'active' : '')))) }}">
+                            Request::route()->getName() == 'equipment.show' ? 'active' : (
+                                Request::route()->getName() == 'equipment.deny' ? 'active' : ''))))) }}">
                 <a href="{{ route('equipment.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-toolbox"></i>
                     <span>{{ __('Perlengkapan') }}</span></a>
