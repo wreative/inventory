@@ -87,12 +87,17 @@
                         {{ $r->name }}
                     </td>
                     <td>
-                        {{ $r->address }}
+                        <span class="badge badge-info">
+                            {{ $r->status }}
+                        </span>
                     </td>
                     <td>
                         <span class="badge badge-info">
                             {{ $r->rental }}
                         </span>
+                    </td>
+                    <td>
+                        {{ date("m-Y", strtotime($r->due)) }}
                     </td>
                     <td>
                         {{ $r->pbb }}
@@ -107,12 +112,7 @@
                         {{ $r->wifi }}
                     </td>
                     <td>
-                        <span class="badge badge-info">
-                            {{ $r->status }}
-                        </span>
-                    </td>
-                    <td>
-                        {{ date("m-Y", strtotime($r->due)) }}
+                        {{ $r->address }}
                     </td>
                     <td>
                         {{ $r->info }}

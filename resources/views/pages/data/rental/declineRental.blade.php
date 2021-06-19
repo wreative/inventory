@@ -80,12 +80,17 @@
                         {{ $r->name }}
                     </td>
                     <td>
-                        {{ $r->address }}
+                        <span class="badge badge-info">
+                            {{ $r->status }}
+                        </span>
                     </td>
                     <td>
                         <span class="badge badge-info">
                             {{ $r->rental }}
                         </span>
+                    </td>
+                    <td>
+                        {{ date("m-Y", strtotime($r->due)) }}
                     </td>
                     <td>
                         {{ $r->pbb }}
@@ -100,16 +105,36 @@
                         {{ $r->wifi }}
                     </td>
                     <td>
-                        <span class="badge badge-info">
-                            {{ $r->status }}
-                        </span>
-                    </td>
-                    <td>
-                        {{ date("m-Y", strtotime($r->due)) }}
+                        {{ $r->address }}
                     </td>
                     <td>
                         {{ $r->info }}
                     </td>
+                    @isset($notUser)
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{ route('rental.show',$r->id) }}" class="btn btn-primary">{{ __('Lihat') }}</a>
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown">
+                                <span class="sr-only">{{ __('Toggle Dropdown') }}</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item"
+                                    href="{{ route('rental.edit',$r->id) }}">{{ __('pages.editItem') }}</a>
+                                <form id="del-data{{ $r->id }}" action="{{ route('rental.destroy',$r->id) }}"
+                                    method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <a class="dropdown-item" style="cursor: pointer"
+                                        data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
+                                        data-confirm-yes="document.getElementById('del-data{{ $r->id }}').submit();">
+                                        {{ __('pages.delItem') }}
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                    @endisset
                 </tr>
                 @endforeach
             </tbody>
