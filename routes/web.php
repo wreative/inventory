@@ -27,6 +27,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 Route::resource('production', App\Http\Controllers\ProductionController::class);
 Route::get('/approve/production', [App\Http\Controllers\ProductionController::class, 'approv'])
     ->name('production.approv');
+Route::get('/deny/production', [App\Http\Controllers\ProductionController::class, 'deny'])
+    ->name('production.deny');
 // Special Action Production
 Route::get('production/accept/{id}', [App\Http\Controllers\ProductionController::class, 'accept'])
     ->name('production.acc');
@@ -49,6 +51,8 @@ Route::get('equipment/reject/{id}', [App\Http\Controllers\EquipmentController::c
 Route::resource('rental', App\Http\Controllers\RentalController::class);
 Route::get('/approve/rental', [App\Http\Controllers\RentalController::class, 'approv'])
     ->name('rental.approv');
+Route::get('/deny/rental', [App\Http\Controllers\RentalController::class, 'deny'])
+    ->name('rental.deny');
 // Special Action Rental
 Route::get('rental/accept/{id}', [App\Http\Controllers\RentalController::class, 'accept'])
     ->name('rental.acc');
@@ -59,6 +63,8 @@ Route::get('rental/reject/{id}', [App\Http\Controllers\RentalController::class, 
 Route::resource('vehicle', App\Http\Controllers\VehicleController::class);
 Route::get('/approve/vehicle', [App\Http\Controllers\VehicleController::class, 'approv'])
     ->name('vehicle.approv');
+Route::get('/deny/vehicle', [App\Http\Controllers\VehicleController::class, 'deny'])
+    ->name('vehicle.deny');
 // Special Action Vehicle
 Route::get('vehicle/accept/{id}', [App\Http\Controllers\VehicleController::class, 'accept'])
     ->name('vehicle.acc');

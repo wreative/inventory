@@ -17,7 +17,8 @@
                 Request::route()->getName() == 'production.create' ? 'active' : (
                     Request::route()->getName() == 'production.approv' ? 'active' : (
                         Request::route()->getName() == 'production.edit' ? 'active' : (
-                            Request::route()->getName() == 'production.show' ? 'active' : '')))) }}">
+                            Request::route()->getName() == 'production.show' ? 'active' : (
+                                Request::route()->getName() == 'production.deny' ? 'active' : ''))))) }}">
                 <a href="{{ route('production.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-tools"></i>
                     <span>{{ __('Alat Produksi') }}</span>
@@ -59,7 +60,8 @@
                 Request::route()->getName() == 'rental.create' ? 'active' : (
                     Request::route()->getName() == 'rental.approv' ? 'active' : (
                         Request::route()->getName() == 'rental.edit' ? 'active' : (
-                            Request::route()->getName() == 'rental.show' ? 'active' : '')))) }}">
+                            Request::route()->getName() == 'rental.show' ? 'active' : (
+                                Request::route()->getName() == 'rental.deny' ? 'active' : ''))))) }}">
                 <a href="{{ route('rental.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-building"></i>
                     <span>{{ __('Gedung') }}</span>
@@ -80,7 +82,8 @@
                 Request::route()->getName() == 'vehicle.create' ? 'active' : (
                     Request::route()->getName() == 'vehicle.approv' ? 'active' : (
                         Request::route()->getName() == 'vehicle.edit' ? 'active' : (
-                            Request::route()->getName() == 'vehicle.show' ? 'active' : '')))) }}">
+                            Request::route()->getName() == 'vehicle.show' ? 'active' : (
+                                Request::route()->getName() == 'vehicle.deny' ? 'active' : ''))))) }}">
                 <a href="{{ route('vehicle.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-truck"></i>
                     <span>{{ __('Kendaraan') }}</span>
