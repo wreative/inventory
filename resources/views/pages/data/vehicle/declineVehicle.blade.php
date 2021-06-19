@@ -44,7 +44,7 @@
         </div>
     </div>
 </div>
-<div class="card">
+<div class="card mt-3">
     <div class="card-body">
         <table class="table-striped table" id="tables" width="100%">
             <thead>

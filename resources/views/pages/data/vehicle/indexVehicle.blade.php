@@ -44,7 +44,7 @@
         </div>
     </div>
 </div>
-<div class="card">
+<div class="card mt-3">
     <div class="card-header">
         <a href="{{ route('vehicle.create') }}" class="btn btn-icon icon-left btn-primary">
             <i class="far fa-edit"></i>{{ __(' Tambah Kendaraan') }}</a>
