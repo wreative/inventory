@@ -276,7 +276,7 @@ class VehicleController extends Controller
     public function approv()
     {
         // Auth Roles Vehicle     
-        if ($this->FunctionController->authAdmin() == true) {
+        if ($this->FunctionController->onlyAdminVehicle() == true) {
             $vehicle = Vehicle::where('add', 1)
                 ->get();
             return view('pages.approval.indexVehicle', ['vehicle' => $vehicle]);
