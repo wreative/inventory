@@ -300,6 +300,7 @@ class EquipmentController extends Controller
             return Redirect::route('equipment.index');
         } else if ($this->FunctionController->authAdmin() == true) {
             $equipment->add = 0;
+            $equipment->edit = 0;
             $equipment->del = 1;
             $equipment->save();
             return Redirect::route('equipment.deny')
@@ -384,7 +385,8 @@ class EquipmentController extends Controller
         ) {
             $equipment->add = 0;
             $equipment->save();
-            return Redirect::route('equipment.index');
+            return Redirect::route('equipment.index')
+                ->with(['status' => 'Penerimaan dengan kode item ' . $equipment->code . __(' berhasil diterima')]);
         } else {
             return Redirect::route('equipment.index');
         }

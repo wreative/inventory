@@ -37,18 +37,42 @@ class ProductionController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             $production = Production::where('add', 0)
-                ->where('edit', 0)
-                ->where('del', 0)
-                ->get();
+                ->where('edit', 0);
             if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.production.indexProduction', [
-                    'production' => $production
+                    'production' => $production->where('del', 0)->get(),
+                    'total' => $production->where('del', 0)->count(),
+                    'dtotal' => $production->where('del', 1)->count()
                 ]);
             } else {
                 return view('pages.data.production.indexProduction', [
-                    'production' => $production, 'notUser' => true
+                    'production' => $production->where('del', 0)->get(),
+                    'total' => $production->where('del', 0)->count(),
+                    'dtotal' => $production->where('del', 1)->count(),
+                    'notUser' => true
                 ]);
             }
+        } else {
+            return Redirect::route('home')
+                ->with(['status' => 'Anda tidak punya akses disini.']);
+        }
+    }
+
+    public function deny()
+    {
+        // Auth Roles Production    
+        if (
+            $this->FunctionController->onlyUserProduction() == true ||
+            $this->FunctionController->onlyAdminProduction() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $production = Production::where('add', 0)
+                ->where('edit', 0);
+            return view('pages.data.production.declineProduction', [
+                'production' => $production,
+                'total' => $production->where('del', 0)->count(),
+                'dtotal' => $production->where('del', 1)->count()
+            ]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -266,9 +290,12 @@ class ProductionController extends Controller
             $production->delete();
             return Redirect::route('production.index');
         } else if ($this->FunctionController->authAdmin() == true) {
+            $production->add = 0;
+            $production->edit = 0;
             $production->del = 1;
             $production->save();
-            return Redirect::route('production.index');
+            return Redirect::route('production.index')
+                ->with(['status' => 'Penolakan dengan kode item ' . $production->code . __(' berhasil ditolak')]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -349,7 +376,8 @@ class ProductionController extends Controller
         ) {
             $production->add = 0;
             $production->save();
-            return Redirect::route('production.index');
+            return Redirect::route('production.index')
+                ->with(['status' => 'Penerimaan dengan kode item ' . $production->code . __(' berhasil diterima')]);
         } else {
             return Redirect::route('production.index');
         }
@@ -394,10 +422,13 @@ class ProductionController extends Controller
             $production = Production::find($id);
             if ($production->edit == 1) {
                 return $this->rejectEdit($id);
-            } elseif ($production->del == 1) {
-                $production->del = 0;
+            } elseif ($this->FunctionController->authAdmin() == true) {
+                $production->del = 1;
+                $production->add = 0;
+                $production->edit = 0;
                 $production->save();
-                return Redirect::route('production.index');
+                return Redirect::route('production.index')
+                    ->with(['status' => 'Penolakan dengan kode item ' . $production->code . __(' berhasil ditolak')]);
             } else {
                 return Redirect::route('production.index');
             }

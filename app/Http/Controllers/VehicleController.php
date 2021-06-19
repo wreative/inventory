@@ -36,18 +36,42 @@ class VehicleController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             $vehicle = Vehicle::where('add', 0)
-                ->where('edit', 0)
-                ->where('del', 0)
-                ->get();
+                ->where('edit', 0);
             if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.vehicle.indexVehicle', [
-                    'vehicle' => $vehicle
+                    'vehicle' => $vehicle->where('del', 0)->get(),
+                    'total' => $vehicle->where('del', 0)->count(),
+                    'dtotal' => $vehicle->where('del', 1)->count()
                 ]);
             } else {
                 return view('pages.data.vehicle.indexVehicle', [
-                    'vehicle' => $vehicle, 'notUser' => true
+                    'vehicle' => $vehicle->where('del', 0)->get(),
+                    'total' => $vehicle->where('del', 0)->count(),
+                    'dtotal' => $vehicle->where('del', 1)->count(),
+                    'notUser' => true
                 ]);
             }
+        } else {
+            return Redirect::route('home')
+                ->with(['status' => 'Anda tidak punya akses disini.']);
+        }
+    }
+
+    public function deny()
+    {
+        // Auth Roles Vehicle
+        if (
+            $this->FunctionController->onlyUserVehicle() == true ||
+            $this->FunctionController->onlyAdminVehicle() == true ||
+            $this->FunctionController->superAdmin() == true
+        ) {
+            $vehicle = Vehicle::where('add', 0)
+                ->where('edit', 0);
+            return view('pages.data.vehicle.declineVehicle', [
+                'vehicle' => $vehicle,
+                'total' => $vehicle->where('del', 0)->count(),
+                'dtotal' => $vehicle->where('del', 1)->count()
+            ]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -221,9 +245,12 @@ class VehicleController extends Controller
             $vehicle->delete();
             return Redirect::route('vehicle.index');
         } else if ($this->FunctionController->authAdmin() == true) {
+            $vehicle->add = 0;
+            $vehicle->edit = 0;
             $vehicle->del = 1;
             $vehicle->save();
-            return Redirect::route('vehicle.index');
+            return Redirect::route('vehicle.index')
+                ->with(['status' => 'Penolakan dengan kode item ' . $vehicle->code . __(' berhasil ditolak')]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -304,7 +331,8 @@ class VehicleController extends Controller
         ) {
             $vehicle->add = 0;
             $vehicle->save();
-            return Redirect::route('vehicle.index');
+            return Redirect::route('vehicle.index')
+                ->with(['status' => 'Penerimaan dengan kode item ' . $vehicle->code . __(' berhasil diterima')]);
         } else {
             return Redirect::route('vehicle.index');
         }
@@ -343,10 +371,13 @@ class VehicleController extends Controller
             $vehicle = Vehicle::find($id);
             if ($vehicle->edit == 1) {
                 return $this->rejectEdit($id);
-            } elseif ($vehicle->del == 1) {
-                $vehicle->del = 0;
+            } elseif ($this->FunctionController->authAdmin() == true) {
+                $vehicle->del = 1;
+                $vehicle->add = 0;
+                $vehicle->edit = 0;
                 $vehicle->save();
-                return Redirect::route('vehicle.index');
+                return Redirect::route('vehicle.index')
+                    ->with(['status' => 'Penolakan dengan kode item ' . $vehicle->code . __(' berhasil ditolak')]);
             } else {
                 return Redirect::route('vehicle.index');
             }
