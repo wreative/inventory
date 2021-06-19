@@ -1,10 +1,17 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Edit Kendaraan'))
-@section('titleContent', __('Edit Kendaraan'))
+@section('title', __('pages.title').__(' | Lihat Kendaraan'))
+@section('titleContent', __('Lihat Kendaraan'))
+@section('headerBack')
+<div class="section-header-back">
+    <a href="{{ route('vehicle.index') }}" class="btn btn-icon">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+</div>
+@endsection
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')
 <div class="breadcrumb-item active">{{ __('Kendaraan') }}</div>
-<div class="breadcrumb-item active">{{ __('Edit Kendaraan') }}</div>
+<div class="breadcrumb-item active">{{ __('Lihat Kendaraan') }}</div>
 @endsection
 
 @section('content')
@@ -161,9 +168,6 @@
             </span>
             @enderror
         </div>
-    </div>
-    <div class="card-footer text-right">
-        <button class="btn btn-primary mr-1" type="submit">{{ __('pages.edit') }}</button>
     </div>
 </div>
 @endsection

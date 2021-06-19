@@ -1,6 +1,13 @@
 @extends('layouts.default')
 @section('title', __('pages.title').__(' | Edit Alat Produksi'))
 @section('titleContent', __('Edit Alat Produksi'))
+@section('headerBack')
+<div class="section-header-back">
+    <a href="{{ route('production.index') }}" class="btn btn-icon">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+</div>
+@endsection
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')
 <div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
@@ -103,9 +110,6 @@
             @endforeach
         </div>
         @endif
-    </div>
-    <div class="card-footer text-right">
-        <button class="btn btn-primary mr-1" type="submit">{{ __('pages.edit') }}</button>
     </div>
 </div>
 @endsection

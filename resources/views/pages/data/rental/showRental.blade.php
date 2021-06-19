@@ -1,10 +1,17 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Edit Persewaan Gedung'))
-@section('titleContent', __('Edit Persewaan Gedung'))
+@section('title', __('pages.title').__(' | Lihat Persewaan Gedung'))
+@section('titleContent', __('Lihat Persewaan Gedung'))
+@section('headerBack')
+<div class="section-header-back">
+    <a href="{{ route('rental.index') }}" class="btn btn-icon">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+</div>
+@endsection
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')
 <div class="breadcrumb-item active">{{ __('Persewaan Gedung') }}</div>
-<div class="breadcrumb-item active">{{ __('Edit Persewaan Gedung') }}</div>
+<div class="breadcrumb-item active">{{ __('Lihat Persewaan Gedung') }}</div>
 @endsection
 
 @section('content')
@@ -160,9 +167,6 @@
             </span>
             @enderror
         </div>
-    </div>
-    <div class="card-footer text-right">
-        <button class="btn btn-primary mr-1" type="submit">{{ __('pages.edit') }}</button>
     </div>
 </div>
 @endsection

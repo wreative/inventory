@@ -1,10 +1,17 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Edit Alat Produksi'))
-@section('titleContent', __('Edit Alat Produksi'))
+@section('title', __('pages.title').__(' | Lihat Perlengkapan'))
+@section('headerBack')
+<div class="section-header-back">
+    <a href="{{ route('equipment.index') }}" class="btn btn-icon">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+</div>
+@endsection
+@section('titleContent', __('Lihat Perlengkapan'))
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
-<div class="breadcrumb-item active">{{ __('Edit Alat Produksi') }}</div>
+<div class="breadcrumb-item active">{{ __('Perlengkapan') }}</div>
+<div class="breadcrumb-item active">{{ __('Lihat Perlengkapan') }}</div>
 @endsection
 
 @section('content')
@@ -103,9 +110,6 @@
             @endforeach
         </div>
         @endif
-    </div>
-    <div class="card-footer text-right">
-        <button class="btn btn-primary mr-1" type="submit">{{ __('pages.edit') }}</button>
     </div>
 </div>
 @endsection
