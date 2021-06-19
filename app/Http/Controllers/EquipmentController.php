@@ -40,16 +40,19 @@ class EquipmentController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             $equipment = Equipment::where('add', 0)
-                ->where('edit', 0)
-                ->where('del', 0)
-                ->get();
+                ->where('edit', 0);
             if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.equipment.indexEquipment', [
-                    'equipment' => $equipment
+                    'equipment' => $equipment->where('del', 0)->get(),
+                    'total' => $equipment->where('del', 0)->count(),
+                    'dtotal' => $equipment->where('del', 1)->count()
                 ]);
             } else {
                 return view('pages.data.equipment.indexEquipment', [
-                    'equipment' => $equipment, 'notUser' => true
+                    'equipment' => $equipment->where('del', 0)->get(),
+                    'total' => $equipment->where('del', 0)->count(),
+                    'dtotal' => $equipment->where('del', 1)->count(),
+                    'notUser' => true
                 ]);
             }
         } else {
@@ -67,11 +70,11 @@ class EquipmentController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             $equipment = Equipment::where('add', 0)
-                ->where('edit', 0)
-                ->where('del', 1)
-                ->get();
+                ->where('edit', 0);
             return view('pages.data.equipment.declineEquipment', [
-                'equipment' => $equipment
+                'equipment' => $equipment,
+                'total' => $equipment->where('del', 0)->count(),
+                'dtotal' => $equipment->where('del', 1)->count()
             ]);
         } else {
             return Redirect::route('home')

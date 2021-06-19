@@ -26,7 +26,7 @@
                             href="{{ route('rental.index') }}">{{ __('Semua') }}
                             <span
                                 class="badge badge-{{ Request::route()->getName() == 'rental.index' ? 'white' : 'primary' }}">
-                                5
+                                {{ $total }}
                             </span>
                         </a>
                     </li>
@@ -35,7 +35,7 @@
                             href="{{ route('rental.deny') }}">{{ __('Ditolak') }}
                             <span
                                 class="badge badge-{{ Request::route()->getName() == 'rental.deny' ? 'white' : 'primary' }}">
-                                1
+                                {{ $dtotal }}
                             </span>
                         </a>
                     </li>
@@ -59,15 +59,15 @@
                     <th class="text-center">
                         {{ __('Kode') }}
                     </th>
-                    <th>{{ __('Nama Gedung') }}</th> P
-                    <th>{{ __('Alamat') }}</th>
-                    <th>{{ __('Pembayaran') }}</th> P
-                    <th>{{ __('No PBB') }}</th> P
+                    <th>{{ __('Nama Gedung') }}</th>
+                    <th>{{ __('Pembayaran') }}</th>
+                    <th>{{ __('Status Gedung') }}</th>
+                    <th>{{ __('Jatuh Tempo') }}</th>
+                    <th>{{ __('No PBB') }}</th>
                     <th>{{ __('No PLN') }}</th>
                     <th>{{ __('No PDAM') }}</th>
                     <th>{{ __('No Wifi') }}</th>
-                    <th>{{ __('Status Gedung') }}</th> P
-                    <th>{{ __('Jatuh Tempo') }}</th> P
+                    <th>{{ __('Alamat') }}</th>
                     <th>{{ __('Info') }}</th>
                     @isset($notUser)
                     <th>{{ __('Aksi') }}</th>

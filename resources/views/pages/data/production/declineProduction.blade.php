@@ -1,9 +1,9 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Penolakan Perlengkapan'))
-@section('titleContent', __('Perlengkapan'))
+@section('title', __('pages.title').__(' | Penolakan Alat Produksi'))
+@section('titleContent', __('Alat Produksi'))
 @section('breadcrumb', __('Penolakan'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Perlengkapan') }}</div>
+<div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
 @endsection
 
 @section('content')
@@ -22,19 +22,19 @@
             <div class="card-body">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::route()->getName() == 'equipment.index' ? 'active' : '' }}"
-                            href="{{ route('equipment.index') }}">{{ __('Semua') }}
+                        <a class="nav-link {{ Request::route()->getName() == 'production.index' ? 'active' : '' }}"
+                            href="{{ route('production.index') }}">{{ __('Semua') }}
                             <span
-                                class="badge badge-{{ Request::route()->getName() == 'equipment.index' ? 'white' : 'primary' }}">
+                                class="badge badge-{{ Request::route()->getName() == 'production.index' ? 'white' : 'primary' }}">
                                 {{ $total }}
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::route()->getName() == 'equipment.deny' ? 'active' : '' }}"
-                            href="{{ route('equipment.deny') }}">{{ __('Ditolak') }}
+                        <a class="nav-link {{ Request::route()->getName() == 'production.deny' ? 'active' : '' }}"
+                            href="{{ route('production.deny') }}">{{ __('Ditolak') }}
                             <span
-                                class="badge badge-{{ Request::route()->getName() == 'equipment.deny' ? 'white' : 'primary' }}">
+                                class="badge badge-{{ Request::route()->getName() == 'production.deny' ? 'white' : 'primary' }}">
                                 {{ $dtotal }}
                             </span>
                         </a>
@@ -44,7 +44,7 @@
         </div>
     </div>
 </div>
-<div class="card mt-3">
+<div class="card">
     <div class="card-body">
         <table class="table-striped table" id="tables" width="100%">
             <thead>
@@ -55,50 +55,46 @@
                     <th class="text-center">
                         {{ __('Kode') }}
                     </th>
-                    <th>{{ __('Nama Perlengkapan') }}</th>
+                    <th>{{ __('Nama Alat Produksi') }}</th>
                     <th>{{ __('Merk') }}</th>
                     <th>{{ __('Harga Perolehan') }}</th>
                     <th>{{ __('Tanggal Perolehan') }}</th>
                     <th>{{ __('Qty') }}</th>
                     <th>{{ __('Kondisi') }}</th>
-                    <th>{{ __('Lokasi') }}</th>
-                    <th>{{ __('Keterangan') }}</th>
+                    <th>{{ __('Info') }}</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($equipment as $number => $e)
+                @foreach($production as $number => $p)
                 <tr>
                     <td class="text-center">
                         {{ $number+1 }}
                     </td>
                     <td class="text-center">
-                        {{ $e->code }}
+                        {{ $p->code }}
                     </td>
                     <td>
-                        {{ $e->name }}
+                        {{ $p->name }}
                     </td>
                     <td>
-                        {{ $e->brand }}
+                        {{ $p->brand }}
                     </td>
                     <td>
-                        {{ __('Rp.').number_format($e->price_acq) }}
+                        {{ __('Rp.').number_format($p->price_acq) }}
                     </td>
                     <td>
-                        {{ date("m-Y", strtotime($e->date_acq)) }}
+                        {{ date("m-Y", strtotime($p->date_acq)) }}
                     </td>
                     <td>
-                        {{ $e->qty }}
+                        {{ $p->qty }}
                     </td>
                     <td>
                         <span class="badge badge-info">
-                            {{ $e->condition }}
+                            {{ $p->condition }}
                         </span>
                     </td>
                     <td>
-                        {{ $e->location }}
-                    </td>
-                    <td>
-                        {{ $e->info }}
+                        {{ $p->info }}
                     </td>
                 </tr>
                 @endforeach

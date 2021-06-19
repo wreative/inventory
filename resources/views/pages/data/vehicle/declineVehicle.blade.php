@@ -1,9 +1,9 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Penolakan Perlengkapan'))
-@section('titleContent', __('Perlengkapan'))
+@section('title', __('pages.title').__(' | Penolakan Kendaraan'))
+@section('titleContent', __('Kendaraan'))
 @section('breadcrumb', __('Penolakan'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Perlengkapan') }}</div>
+<div class="breadcrumb-item active">{{ __('Kendaraan') }}</div>
 @endsection
 
 @section('content')
@@ -22,19 +22,19 @@
             <div class="card-body">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::route()->getName() == 'equipment.index' ? 'active' : '' }}"
-                            href="{{ route('equipment.index') }}">{{ __('Semua') }}
+                        <a class="nav-link {{ Request::route()->getName() == 'vehicle.index' ? 'active' : '' }}"
+                            href="{{ route('vehicle.index') }}">{{ __('Semua') }}
                             <span
-                                class="badge badge-{{ Request::route()->getName() == 'equipment.index' ? 'white' : 'primary' }}">
+                                class="badge badge-{{ Request::route()->getName() == 'vehicle.index' ? 'white' : 'primary' }}">
                                 {{ $total }}
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::route()->getName() == 'equipment.deny' ? 'active' : '' }}"
-                            href="{{ route('equipment.deny') }}">{{ __('Ditolak') }}
+                        <a class="nav-link {{ Request::route()->getName() == 'vehicle.deny' ? 'active' : '' }}"
+                            href="{{ route('vehicle.deny') }}">{{ __('Ditolak') }}
                             <span
-                                class="badge badge-{{ Request::route()->getName() == 'equipment.deny' ? 'white' : 'primary' }}">
+                                class="badge badge-{{ Request::route()->getName() == 'vehicle.deny' ? 'white' : 'primary' }}">
                                 {{ $dtotal }}
                             </span>
                         </a>
@@ -44,7 +44,7 @@
         </div>
     </div>
 </div>
-<div class="card mt-3">
+<div class="card">
     <div class="card-body">
         <table class="table-striped table" id="tables" width="100%">
             <thead>
@@ -55,50 +55,56 @@
                     <th class="text-center">
                         {{ __('Kode') }}
                     </th>
-                    <th>{{ __('Nama Perlengkapan') }}</th>
+                    <th>{{ __('Nama Kendaraan') }}</th>
+                    <th>{{ __('Jenis') }}</th>
                     <th>{{ __('Merk') }}</th>
-                    <th>{{ __('Harga Perolehan') }}</th>
-                    <th>{{ __('Tanggal Perolehan') }}</th>
-                    <th>{{ __('Qty') }}</th>
-                    <th>{{ __('Kondisi') }}</th>
-                    <th>{{ __('Lokasi') }}</th>
+                    <th>{{ __('No Plat') }}</th>
+                    <th>{{ __('No Rangkah') }}</th>
+                    <th>{{ __('No Mesin') }}</th>
+                    <th>{{ __('Tanggal Kir') }}</th>
+                    <th>{{ __('Tanggal Pajak Tahunan') }}</th>
+                    <th>{{ __('Tanggal STNK') }}</th>
                     <th>{{ __('Keterangan') }}</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($equipment as $number => $e)
+                @foreach($vehicle as $number => $v)
                 <tr>
                     <td class="text-center">
                         {{ $number+1 }}
                     </td>
                     <td class="text-center">
-                        {{ $e->code }}
+                        {{ $v->code }}
                     </td>
                     <td>
-                        {{ $e->name }}
+                        {{ $v->name }}
                     </td>
                     <td>
-                        {{ $e->brand }}
+                        {{ $v->type }}
                     </td>
                     <td>
-                        {{ __('Rp.').number_format($e->price_acq) }}
+                        {{ $v->brand }}
                     </td>
                     <td>
-                        {{ date("m-Y", strtotime($e->date_acq)) }}
+                        {{ $v->plat }}
                     </td>
                     <td>
-                        {{ $e->qty }}
+                        {{ $v->step }}
                     </td>
                     <td>
-                        <span class="badge badge-info">
-                            {{ $e->condition }}
-                        </span>
+                        {{ $v->engine }}
                     </td>
                     <td>
-                        {{ $e->location }}
+                        {{ date("d-m-Y", strtotime($v->kir)) }}
                     </td>
                     <td>
-                        {{ $e->info }}
+                        {{ date("d-m-Y", strtotime($v->tax)) }}
+                    </td>
+                    <td>
+                        {{ date("d-m-Y", strtotime($v->stnk)) }}
+                    </td>
+                    <td>
+                        {{ $v->info }}
                     </td>
                 </tr>
                 @endforeach

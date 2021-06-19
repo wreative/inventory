@@ -26,7 +26,7 @@
                             href="{{ route('production.index') }}">{{ __('Semua') }}
                             <span
                                 class="badge badge-{{ Request::route()->getName() == 'production.index' ? 'white' : 'primary' }}">
-                                5
+                                {{ $total }}
                             </span>
                         </a>
                     </li>
@@ -35,7 +35,7 @@
                             href="{{ route('production.deny') }}">{{ __('Ditolak') }}
                             <span
                                 class="badge badge-{{ Request::route()->getName() == 'production.deny' ? 'white' : 'primary' }}">
-                                1
+                                {{ $dtotal }}
                             </span>
                         </a>
                     </li>

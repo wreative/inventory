@@ -26,7 +26,7 @@
                             href="{{ route('vehicle.index') }}">{{ __('Semua') }}
                             <span
                                 class="badge badge-{{ Request::route()->getName() == 'vehicle.index' ? 'white' : 'primary' }}">
-                                5
+                                {{ $total }}
                             </span>
                         </a>
                     </li>
@@ -35,7 +35,7 @@
                             href="{{ route('vehicle.deny') }}">{{ __('Ditolak') }}
                             <span
                                 class="badge badge-{{ Request::route()->getName() == 'vehicle.deny' ? 'white' : 'primary' }}">
-                                1
+                                {{ $dtotal }}
                             </span>
                         </a>
                     </li>
