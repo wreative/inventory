@@ -120,6 +120,21 @@
                 @enderror
             </div>
             <div class="form-group">
+                <label>{{ __('Ruangan') }}<code>*</code></label>
+                <select class="form-control select2 @error('room') is-invalid @enderror" name="room" required>
+                    @foreach ($room as $r)
+                    <option value="{{ $r->id }}" {{ $r->id == $equipment->location ? 'selected' : '' }}>
+                        {{ $r->name }}
+                    </option>
+                    @endforeach
+                </select>
+                @error('room')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label>{{ __('Keterangan') }}</label>
                 <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
                     rows="10" style="height: 77px;">
@@ -160,6 +175,15 @@
 @endsection
 @section('script')
 <script>
+    var img = document.getElementById("img");
+$("#img").on("change", function () {
+    var imgList = [];
+    for (var i = 0; i < img.files.length; i++) {
+        imgList.push(img.files[i]);
+    }
+    $("#img_label").html(imgList.length + " Foto");
+});
+
     $(".currency")
     .toArray()
     .forEach(function(field) {

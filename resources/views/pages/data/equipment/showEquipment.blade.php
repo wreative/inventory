@@ -90,6 +90,21 @@
             @enderror
         </div>
         <div class="form-group">
+            <label>{{ __('Ruangan') }}<code>*</code></label>
+            <select class="form-control @error('room') is-invalid @enderror" name="room" disabled>
+                @foreach ($room as $r)
+                <option value="{{ $r->id }}" {{ $r->id == $equipment->location ? 'selected' : '' }}>
+                    {{ $r->name }}
+                </option>
+                @endforeach
+            </select>
+            @error('room')
+            <span class="text-danger" role="alert">
+                {{ $message }}
+            </span>
+            @enderror
+        </div>
+        <div class="form-group">
             <label>{{ __('Keterangan') }}</label>
             <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
                 rows="10" style="height: 77px;" readonly>

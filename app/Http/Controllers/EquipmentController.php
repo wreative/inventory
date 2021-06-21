@@ -116,7 +116,7 @@ class EquipmentController extends Controller
                 'qty' => 'required',
                 'condition' => 'required',
                 'room' => 'required',
-                'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
+                'img.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
             ])->validate();
 
             // Remove Comma
@@ -211,7 +211,7 @@ class EquipmentController extends Controller
                 'qty' => 'required',
                 'condition' => 'required',
                 'room' => 'required',
-                'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|nullable',
+                'img.*' => 'image|mimes:jpeg,png,jpg,gif,svg|nullable',
             ])->validate();
 
             // Remove Comma
@@ -229,6 +229,7 @@ class EquipmentController extends Controller
                     'brand' => $equipment->brand,
                     'price_acq' => $equipment->price_acq,
                     'date_acq' => $equipment->date_acq,
+                    'qty' => $equipment->qty,
                     'condition' => $equipment->condition,
                     'img' => $equipment->img,
                     'location' => $equipment->location,
@@ -319,8 +320,12 @@ class EquipmentController extends Controller
             $this->FunctionController->onlyAdminEquipment() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
+            $room = Room::all();
             $equipment = Equipment::find($id);
-            return view('pages.data.equipment.showEquipment', ['equipment' => $equipment]);
+            return view('pages.data.equipment.showEquipment', [
+                'equipment' => $equipment,
+                'room' => $room
+            ]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
