@@ -1,6 +1,6 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Edit Alat Produksi'))
-@section('titleContent', __('Edit Alat Produksi'))
+@section('title', __('pages.title').__(' | Lihat Alat Produksi'))
+@section('titleContent', __('Lihat Alat Produksi'))
 @section('headerBack')
 <div class="section-header-back">
     <a href="{{ route('production.index') }}" class="btn btn-icon">
@@ -11,7 +11,7 @@
 @section('breadcrumb', __('Data'))
 @section('morebreadcrumb')
 <div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
-<div class="breadcrumb-item active">{{ __('Edit Alat Produksi') }}</div>
+<div class="breadcrumb-item active">{{ __('Lihat Alat Produksi') }}</div>
 @endsection
 
 @section('content')
