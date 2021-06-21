@@ -25,37 +25,19 @@
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Nama Kendaraan') }}<code>*</code></label>
-                    <input type="text" value="{{ $vehicle->name }}"
-                        class="form-control @error('name') is-invalid @enderror" name="name" autofocus readonly>
-                    @error('name')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $vehicle->name }}" class="form-control" name="name" autofocus readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Jenis') }}<code>*</code></label>
-                    <input type="text" value="{{ $vehicle->type }}"
-                        class="form-control @error('type') is-invalid @enderror" name="type" readonly>
-                    @error('type')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $vehicle->type }}" class="form-control" name="type" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Merk') }}<code>*</code></label>
-                    <input type="text" value="{{ $vehicle->brand }}"
-                        class="form-control @error('brand') is-invalid @enderror" name="brand" readonly>
-                    @error('brand')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $vehicle->brand }}" class="form-control" name="brand" readonly>
                 </div>
             </div>
         </div>
@@ -63,37 +45,19 @@
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('No Plat') }}<code>*</code></label>
-                    <input type="text" value="{{ $vehicle->plat }}"
-                        class="form-control @error('plat') is-invalid @enderror" name="plat" readonly>
-                    @error('plat')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $vehicle->plat }}" class="form-control" name="plat" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('No Rangkah') }}<code>*</code></label>
-                    <input type="text" value="{{ $vehicle->step }}"
-                        class="form-control @error('step') is-invalid @enderror" name="step" readonly>
-                    @error('step')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $vehicle->step }}" class="form-control" name="step" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('No Mesin') }}<code>*</code></label>
-                    <input type="text" value="{{ $vehicle->engine }}"
-                        class="form-control @error('engine') is-invalid @enderror" name="engine" readonly>
-                    @error('engine')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $vehicle->engine }}" class="form-control" name="engine" readonly>
                 </div>
             </div>
         </div>
@@ -107,13 +71,8 @@
                                 <i class="far fa-calendar"></i>
                             </div>
                         </div>
-                        <input type="text" value="{{ $vehicle->kir }}"
-                            class="form-control datepicker @error('kir') is-invalid @enderror" name="kir" readonly>
-                        @error('kir')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
+                        <input type="text" value="{{ $vehicle->kir }}" class="form-control datepicker" name="kir"
+                            readonly>
                     </div>
                 </div>
             </div>
@@ -126,13 +85,8 @@
                                 <i class="far fa-calendar"></i>
                             </div>
                         </div>
-                        <input type="text" value="{{ $vehicle->tax }}"
-                            class="form-control datepicker @error('tax') is-invalid @enderror" name="tax" readonly>
-                        @error('tax')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
+                        <input type="text" value="{{ $vehicle->tax }}" class="form-control datepicker" name="tax"
+                            readonly>
                     </div>
                 </div>
             </div>
@@ -145,28 +99,17 @@
                                 <i class="far fa-calendar"></i>
                             </div>
                         </div>
-                        <input type="text" value="{{ $vehicle->stnk }}"
-                            class="form-control datepicker @error('stnk') is-invalid @enderror" name="stnk" readonly>
-                        @error('stnk')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
+                        <input type="text" value="{{ $vehicle->stnk }}" class="form-control datepicker" name="stnk"
+                            readonly>
                     </div>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label>{{ __('Keterangan') }}</label>
-            <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
-                rows="10" style="height: 77px;" readonly>
+            <textarea type="text" class="form-control" name="info" cols="150" rows="10" style="height: 77px;" readonly>
                     {{ $vehicle->info }}
                 </textarea>
-            @error('info')
-            <span class="text-danger" role="alert">
-                {{ $message }}
-            </span>
-            @enderror
         </div>
     </div>
 </div>

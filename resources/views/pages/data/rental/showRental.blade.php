@@ -25,25 +25,13 @@
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Nama Gedung') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->name }}"
-                        class="form-control @error('name') is-invalid @enderror" name="name" readonly>
-                    @error('name')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $rental->name }}" class="form-control" name="name" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Alamat') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->address }}"
-                        class="form-control @error('address') is-invalid @enderror" name="address" readonly>
-                    @error('address')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $rental->address }}" class="form-control" name="address" readonly>
                 </div>
             </div>
         </div>
@@ -51,25 +39,13 @@
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('No PBB') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->pbb }}"
-                        class="form-control @error('pbb') is-invalid @enderror" name="pbb" readonly>
-                    @error('pbb')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $rental->pbb }}" class="form-control" name="pbb" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('No Token PLN') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->pln }}"
-                        class="form-control @error('pln') is-invalid @enderror" name="pln" readonly>
-                    @error('pln')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $rental->pln }}" class="form-control" name="pln" readonly>
                 </div>
             </div>
         </div>
@@ -77,25 +53,13 @@
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('No PDAM') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->pdam }}"
-                        class="form-control @error('pdam') is-invalid @enderror" name="pdam" readonly>
-                    @error('pdam')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $rental->pdam }}" class="form-control" name="pdam" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('No Wifi') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->wifi }}"
-                        class="form-control @error('wifi') is-invalid @enderror" name="wifi" readonly>
-                    @error('wifi')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" value="{{ $rental->wifi }}" class="form-control" name="wifi" readonly>
                 </div>
             </div>
         </div>
@@ -115,11 +79,6 @@
                             <span class="selectgroup-button">{{ __('Belum Lunas') }}</span>
                         </label>
                     </div>
-                    @error('status')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
                 </div>
             </div>
             <div class="col">
@@ -137,35 +96,18 @@
                             <span class="selectgroup-button">{{ __('Hak Milik') }}</span>
                         </label>
                     </div>
-                    @error('rental')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label>{{ __('Tanggal Jatuh Tempo') }}<code>*</code></label>
-            <input value="{{ $rental->due }}" type="date" class="form-control @error('due') is-invalid @enderror"
-                name="due" readonly>
-            @error('due')
-            <span class="text-danger" role="alert">
-                {{ $message }}
-            </span>
-            @enderror
+            <input value="{{ $rental->due }}" type="date" class="form-control" name="due" readonly>
         </div>
         <div class="form-group">
             <label>{{ __('Keterangan') }}</label>
-            <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
-                rows="10" style="height: 77px;" readonly>
+            <textarea type="text" class="form-control" name="info" cols="150" rows="10" style="height: 77px;" readonly>
                     {{ $rental->info }}
                 </textarea>
-            @error('info')
-            <span class="text-danger" role="alert">
-                {{ $message }}
-            </span>
-            @enderror
         </div>
     </div>
 </div>

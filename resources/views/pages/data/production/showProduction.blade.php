@@ -25,37 +25,19 @@
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Nama Alat Produksi') }}</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror"
-                        value="{{ $production->name }}" name="name" readonly>
-                    @error('name')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" class="form-control" value="{{ $production->name }}" name="name" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Merk') }}</label>
-                    <input type="text" class="form-control @error('brand') is-invalid @enderror"
-                        value="{{ $production->brand }}" name="brand" readonly>
-                    @error('brand')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" class="form-control" value="{{ $production->brand }}" name="brand" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Jumlah') }}</label>
-                    <input type="text" class="form-control @error('qty') is-invalid @enderror"
-                        value="{{ $production->qty }}" name="qty" readonly>
-                    @error('qty')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
+                    <input type="text" class="form-control" value="{{ $production->qty }}" name="qty" readonly>
                 </div>
             </div>
         </div>
@@ -83,23 +65,12 @@
                     <span class="selectgroup-button">{{ __('Hilang') }}</span>
                 </label>
             </div>
-            @error('condition')
-            <span class="text-danger" role="alert">
-                {{ $message }}
-            </span>
-            @enderror
         </div>
         <div class="form-group">
             <label>{{ __('Keterangan') }}</label>
-            <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
-                rows="10" style="height: 77px;" readonly>
+            <textarea type="text" class="form-control" name="info" cols="150" rows="10" style="height: 77px;" readonly>
                     {{ $production->info }}
                 </textarea>
-            @error('info')
-            <span class="text-danger" role="alert">
-                {{ $message }}
-            </span>
-            @enderror
         </div>
         @if($production->img != null)
         <div class="section-title mt-0">{{ __('Gambar') }}</div>
