@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                             <input type="text" value="{{ $vehicle->kir }}"
-                                class="form-control datepicker @error('kir') is-invalid @enderror" name="kir" required>
+                                class="form-control datepicker @error('kir') is-invalid @enderror" name="kir">
                             @error('kir')
                             <span class="text-danger" role="alert">
                                 {{ $message }}
@@ -157,7 +157,7 @@
                 <label>{{ __('Keterangan') }}</label>
                 <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
                     rows="10" style="height: 77px;">
-                    {{ $production->info }}
+                    {{ $vehicle->info }}
                 </textarea>
                 @error('info')
                 <span class="text-danger" role="alert">

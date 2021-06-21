@@ -96,7 +96,7 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tanggal Kir') }}<code>*</code></label>
+                        <label>{{ __('Tanggal Kir') }}</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                             <input type="text" class="form-control datepicker @error('kir') is-invalid @enderror"
-                                name="kir" required>
+                                name="kir">
                             @error('kir')
                             <span class="text-danger" role="alert">
                                 {{ $message }}
@@ -151,16 +151,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>{{ __('Keterangan') }}</label>
-                    <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info"
-                        cols="150" rows="10" style="height: 77px;"></textarea>
-                    @error('info')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
-                </div>
+            </div>
+            <div class="form-group">
+                <label>{{ __('Keterangan') }}</label>
+                <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
+                    rows="10" style="height: 77px;"></textarea>
+                @error('info')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
             </div>
         </div>
         <div class="card-footer text-right">
