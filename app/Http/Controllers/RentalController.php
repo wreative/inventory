@@ -184,7 +184,7 @@ class RentalController extends Controller
                 'name' => 'required',
                 'address' => 'required',
                 'status' => 'required',
-                'pln' => 'required|date',
+                'pln' => 'required',
                 'pdam' => 'required',
                 'pbb' => 'required',
                 'wifi' => 'required',
