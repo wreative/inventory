@@ -21,4 +21,9 @@ class Room extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function relationEquipment()
+    {
+        return $this->hasMany('App\Models\Equipment', 'location', 'id');
+    }
 }

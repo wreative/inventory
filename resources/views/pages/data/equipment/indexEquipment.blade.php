@@ -102,7 +102,7 @@
                         </span>
                     </td>
                     <td>
-                        {{ $e->location }}
+                        {{ $e->relationRoom->name }}
                     </td>
                     <td>
                         {{ $e->info }}

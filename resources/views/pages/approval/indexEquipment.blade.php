@@ -63,7 +63,7 @@
                         </span>
                     </td>
                     <td>
-                        {{ $e->location }}
+                        {{ $e->relationRoom->name }}
                     </td>
                     @if (Auth::user()->role_id == 1)
                     <td>

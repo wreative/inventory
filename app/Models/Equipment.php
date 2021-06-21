@@ -33,4 +33,9 @@ class Equipment extends Model
         'edit',
         'del'
     ];
+
+    public function relationRoom()
+    {
+        return $this->belongsTo('App\Models\Room', 'location', 'id');
+    }
 }
