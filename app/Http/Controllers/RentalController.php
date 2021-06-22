@@ -68,7 +68,7 @@ class RentalController extends Controller
             $rental = Rental::where('add', 0)
                 ->where('edit', 0);
             return view('pages.data.rental.declineRental', [
-                'rental' => $rental,
+                'rental' => $rental->where('del', 1)->get(),
                 'total' => $rental->where('del', 0)->count(),
                 'dtotal' => $rental->where('del', 1)->count()
             ]);

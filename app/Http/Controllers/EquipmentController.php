@@ -72,7 +72,7 @@ class EquipmentController extends Controller
             $equipment = Equipment::where('add', 0)
                 ->where('edit', 0);
             return view('pages.data.equipment.declineEquipment', [
-                'equipment' => $equipment,
+                'equipment' => $equipment->where('del', 1)->get(),
                 'total' => $equipment->where('del', 0)->count(),
                 'dtotal' => $equipment->where('del', 1)->count()
             ]);

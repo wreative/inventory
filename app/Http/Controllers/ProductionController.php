@@ -69,7 +69,7 @@ class ProductionController extends Controller
             $production = Production::where('add', 0)
                 ->where('edit', 0);
             return view('pages.data.production.declineProduction', [
-                'production' => $production,
+                'production' => $production->where('del', 1)->get(),
                 'total' => $production->where('del', 0)->count(),
                 'dtotal' => $production->where('del', 1)->count()
             ]);

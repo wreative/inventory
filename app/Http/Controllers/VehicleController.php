@@ -66,7 +66,7 @@ class VehicleController extends Controller
             $this->FunctionController->superAdmin() == true
         ) {
             $vehicle = Vehicle::where('add', 0)
-                ->where('edit', 0);
+                ->where('edit', 0)->where('del', 1)->get();
             return view('pages.data.vehicle.declineVehicle', [
                 'vehicle' => $vehicle,
                 'total' => $vehicle->where('del', 0)->count(),
