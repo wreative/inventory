@@ -39,19 +39,17 @@ class EquipmentController extends Controller
             $this->FunctionController->onlyAdminEquipment() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $equipment = Equipment::where('add', 0)
-                ->where('edit', 0);
             if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.equipment.indexEquipment', [
-                    'equipment' => $equipment->where('del', 0)->get(),
-                    'total' => $equipment->where('del', 0)->count(),
-                    'dtotal' => $equipment->where('del', 1)->count()
+                    // 'equipment' => $this->FunctionController->data(Equipment::),
+                    'total' => $this->FunctionController->total('equipment'),
+                    'dtotal' => $this->FunctionController->dtotal('equipment')
                 ]);
             } else {
                 return view('pages.data.equipment.indexEquipment', [
-                    'equipment' => $equipment->where('del', 0)->get(),
-                    'total' => $equipment->where('del', 0)->count(),
-                    'dtotal' => $equipment->where('del', 1)->count(),
+                    'equipment' => $this->FunctionController->total('equipment'),
+                    'total' => $this->FunctionController->total('equipment'),
+                    'dtotal' => $this->FunctionController->dtotal('equipment'),
                     'notUser' => true
                 ]);
             }
@@ -71,10 +69,11 @@ class EquipmentController extends Controller
         ) {
             $equipment = Equipment::where('add', 0)
                 ->where('edit', 0);
+            $data = $equipment->where('del', 1)->get();
             return view('pages.data.equipment.declineEquipment', [
-                'equipment' => $equipment->where('del', 1)->get(),
-                'total' => $equipment->where('del', 0)->count(),
-                'dtotal' => $equipment->where('del', 1)->count()
+                'equipment' => $this->FunctionController->data('equipment'),
+                'total' => $this->FunctionController->total('equipment'),
+                'dtotal' => $this->FunctionController->dtotal('equipment')
             ]);
         } else {
             return Redirect::route('home')

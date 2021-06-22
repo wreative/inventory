@@ -8,34 +8,8 @@
 
 @section('content')
 @include('pages.data.components.notification')
-<div class="row">
-    <div class="col-12">
-        <div class="card mb-0">
-            <div class="card-body">
-                <ul class="nav nav-pills">
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::route()->getName() == 'equipment.index' ? 'active' : '' }}"
-                            href="{{ route('equipment.index') }}">{{ __('Semua') }}
-                            <span
-                                class="badge badge-{{ Request::route()->getName() == 'equipment.index' ? 'white' : 'primary' }}">
-                                {{ $total }}
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::route()->getName() == 'equipment.deny' ? 'active' : '' }}"
-                            href="{{ route('equipment.deny') }}">{{ __('Ditolak') }}
-                            <span
-                                class="badge badge-{{ Request::route()->getName() == 'equipment.deny' ? 'white' : 'primary' }}">
-                                {{ $dtotal }}
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+@include('pages.data.components.header', ['index' => 'equipment.index', 'total' => $total,
+'deny' => 'equipment.deny', 'dtotal'=>$dtotal])
 <div class="card mt-3">
     <div class="card-body">
         <table class="table-striped table" id="tables" width="100%">

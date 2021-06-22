@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Equipment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -162,5 +163,32 @@ class FunctionController extends Controller
     public function superAdmin()
     {
         return Auth::user()->role_id == 1 ? true : false;
+    }
+
+    function data($model)
+    {
+        return $model
+            ->where('add', '=', 0)
+            ->where('edit', '=', 0)
+            ->where('del', '=', 0)
+            ->get();
+    }
+
+    public function total($table)
+    {
+        return DB::table($table)
+            ->where('add', '=', 0)
+            ->where('edit', '=', 0)
+            ->where('del', '=', 0)
+            ->count();
+    }
+
+    public function dtotal($table)
+    {
+        return DB::table($table)
+            ->where('add', '=', 0)
+            ->where('edit', '=', 0)
+            ->where('del', '=', 1)
+            ->count();
     }
 }
