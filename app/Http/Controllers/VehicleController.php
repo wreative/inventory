@@ -216,6 +216,7 @@ class VehicleController extends Controller
                     'kir' => $vehicle->kir,
                     'tax' => $vehicle->tax,
                     'stnk' => $vehicle->stnk,
+                    'status' => $req->status,
                     'info' => $vehicle->info,
                 ]);
             }
