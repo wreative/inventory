@@ -27,6 +27,15 @@ class VehicleController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
+    function getData($data)
+    {
+        $vehicle = Vehicle::where('add', 0)
+            ->where('edit', 0);
+
+        return $data == 1 ? $vehicle->where('del', 0)->get() :
+            $vehicle->where('del', 1)->get();
+    }
+
     public function index()
     {
         // Auth Roles Rental        
@@ -35,19 +44,17 @@ class VehicleController extends Controller
             $this->FunctionController->onlyAdminVehicle() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $vehicle = Vehicle::where('add', 0)
-                ->where('edit', 0);
             if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.vehicle.indexVehicle', [
-                    'vehicle' => $vehicle->where('del', 0)->get(),
-                    'total' => $vehicle->where('del', 0)->count(),
-                    'dtotal' => $vehicle->where('del', 1)->count()
+                    'vehicle' => $this->getData(1),
+                    'total' => $this->FunctionController->total('vehicle'),
+                    'dtotal' => $this->FunctionController->dtotal('vehicle')
                 ]);
             } else {
                 return view('pages.data.vehicle.indexVehicle', [
-                    'vehicle' => $vehicle->where('del', 0)->get(),
-                    'total' => $vehicle->where('del', 0)->count(),
-                    'dtotal' => $vehicle->where('del', 1)->count(),
+                    'vehicle' => $this->getData(1),
+                    'total' => $this->FunctionController->total('vehicle'),
+                    'dtotal' => $this->FunctionController->dtotal('vehicle'),
                     'notUser' => true
                 ]);
             }
@@ -65,12 +72,10 @@ class VehicleController extends Controller
             $this->FunctionController->onlyAdminVehicle() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $vehicle = Vehicle::where('add', 0)
-                ->where('edit', 0);
             return view('pages.data.vehicle.declineVehicle', [
-                'vehicle' => $vehicle->where('del', 1)->get(),
-                'total' => $vehicle->where('del', 0)->count(),
-                'dtotal' => $vehicle->where('del', 1)->count()
+                'vehicle' => $this->getData(0),
+                'total' => $this->FunctionController->total('vehicle'),
+                'dtotal' => $this->FunctionController->dtotal('vehicle')
             ]);
         } else {
             return Redirect::route('home')

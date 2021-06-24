@@ -27,6 +27,15 @@ class RentalController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
+    function getData($data)
+    {
+        $rental = Rental::where('add', 0)
+            ->where('edit', 0);
+
+        return $data == 1 ? $rental->where('del', 0)->get() :
+            $rental->where('del', 1)->get();
+    }
+
     public function index()
     {
         // Auth Roles Rental   
@@ -35,19 +44,17 @@ class RentalController extends Controller
             $this->FunctionController->onlyAdminRental() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $rental = Rental::where('add', 0)
-                ->where('edit', 0);
             if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.rental.indexRental', [
-                    'rental' => $rental->where('del', 0)->get(),
-                    'total' => $rental->where('del', 0)->count(),
-                    'dtotal' => $rental->where('del', 1)->count()
+                    'rental' => $this->getData(1),
+                    'total' => $this->FunctionController->total('rental'),
+                    'dtotal' => $this->FunctionController->dtotal('rental')
                 ]);
             } else {
                 return view('pages.data.rental.indexRental', [
-                    'rental' => $rental->where('del', 0)->get(),
-                    'total' => $rental->where('del', 0)->count(),
-                    'dtotal' => $rental->where('del', 1)->count(),
+                    'rental' => $this->getData(1),
+                    'total' => $this->FunctionController->total('rental'),
+                    'dtotal' => $this->FunctionController->dtotal('rental'),
                     'notUser' => true
                 ]);
             }
@@ -65,12 +72,10 @@ class RentalController extends Controller
             $this->FunctionController->onlyAdminRental() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $rental = Rental::where('add', 0)
-                ->where('edit', 0);
             return view('pages.data.rental.declineRental', [
-                'rental' => $rental->where('del', 1)->get(),
-                'total' => $rental->where('del', 0)->count(),
-                'dtotal' => $rental->where('del', 1)->count()
+                'rental' => $this->getData(0),
+                'total' => $this->FunctionController->total('rental'),
+                'dtotal' => $this->FunctionController->dtotal('rental')
             ]);
         } else {
             return Redirect::route('home')

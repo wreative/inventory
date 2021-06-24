@@ -28,6 +28,15 @@ class ProductionController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
+    function getData($data)
+    {
+        $production = Production::where('add', 0)
+            ->where('edit', 0);
+
+        return $data == 1 ? $production->where('del', 0)->get() :
+            $production->where('del', 1)->get();
+    }
+
     public function index()
     {
         // Auth Roles Production        
@@ -36,19 +45,17 @@ class ProductionController extends Controller
             $this->FunctionController->onlyAdminProduction() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $production = Production::where('add', 0)
-                ->where('edit', 0);
             if ($this->FunctionController->authUser() == true) {
                 return view('pages.data.production.indexProduction', [
-                    'production' => $production->where('del', 0)->get(),
-                    'total' => $production->where('del', 0)->count(),
-                    'dtotal' => $production->where('del', 1)->count()
+                    'production' => $this->getData(1),
+                    'total' => $this->FunctionController->total('production'),
+                    'dtotal' => $this->FunctionController->dtotal('production')
                 ]);
             } else {
                 return view('pages.data.production.indexProduction', [
-                    'production' => $production->where('del', 0)->get(),
-                    'total' => $production->where('del', 0)->count(),
-                    'dtotal' => $production->where('del', 1)->count(),
+                    'production' => $this->getData(1),
+                    'total' => $this->FunctionController->total('production'),
+                    'dtotal' => $this->FunctionController->dtotal('production'),
                     'notUser' => true
                 ]);
             }
@@ -66,12 +73,10 @@ class ProductionController extends Controller
             $this->FunctionController->onlyAdminProduction() == true ||
             $this->FunctionController->superAdmin() == true
         ) {
-            $production = Production::where('add', 0)
-                ->where('edit', 0);
             return view('pages.data.production.declineProduction', [
-                'production' => $production->where('del', 1)->get(),
-                'total' => $production->where('del', 0)->count(),
-                'dtotal' => $production->where('del', 1)->count()
+                'production' => $this->getData(0),
+                'total' => $this->FunctionController->total('production'),
+                'dtotal' => $this->FunctionController->dtotal('production')
             ]);
         } else {
             return Redirect::route('home')
