@@ -238,7 +238,10 @@ class VehicleController extends Controller
             $vehicle->edit = $editPermissions == true ? 1 : 0;
             $vehicle->del = 0;
             $vehicle->save();
-            return Redirect::route('vehicle.index');
+            return Redirect::route('vehicle.index')->with([
+                'status' => 'Data anda berhasil diubah, 
+            silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+            ]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -251,7 +254,9 @@ class VehicleController extends Controller
         // Auth Roles Vehicle
         if ($this->FunctionController->superAdmin() == true) {
             $vehicle->delete();
-            return Redirect::route('vehicle.index');
+            return Redirect::route('vehicle.index')
+                ->with(['status' => 'Data dengan kode item ' . $vehicle->code .
+                    __(' berhasil dihapus')]);
         } else if ($this->FunctionController->authAdmin() == true) {
             $vehicle->add = 0;
             $vehicle->edit = 0;
@@ -357,7 +362,9 @@ class VehicleController extends Controller
             // Change Record
             $vehicle->edit = 0;
             $vehicle->save();
-            return Redirect::route('vehicle.index');
+            return Redirect::route('vehicle.index')
+                ->with(['status' => 'Penerimaan dengan kode item ' . $vehicle->code .
+                    __(' berhasil diterima')]);
         } else {
             return Redirect::route('vehicle.index');
         }
@@ -421,6 +428,7 @@ class VehicleController extends Controller
         $vehicle->del = 0;
         $vehicle->save();
 
-        return Redirect::route('vehicle.index');
+        return Redirect::route('vehicle.index')
+            ->with(['status' => 'Penolakan dengan kode item ' . $vehicle->code . __(' berhasil ditolak')]);
     }
 }

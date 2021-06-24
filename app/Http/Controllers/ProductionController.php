@@ -279,7 +279,10 @@ class ProductionController extends Controller
             $production->edit = $editPermissions == true ? 1 : 0;
             $production->del = 0;
             $production->save();
-            return Redirect::route('production.index');
+            return Redirect::route('production.index')->with([
+                'status' => 'Data anda berhasil diubah, 
+            silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+            ]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -293,7 +296,9 @@ class ProductionController extends Controller
         if ($this->FunctionController->superAdmin() == true) {
             Storage::disk('public')->deleteDirectory('production/' . $production->code);
             $production->delete();
-            return Redirect::route('production.index');
+            return Redirect::route('production.index')
+                ->with(['status' => 'Data dengan kode item ' . $production->code .
+                    __(' berhasil dihapus')]);
         } else if ($this->FunctionController->authAdmin() == true) {
             $production->add = 0;
             $production->edit = 0;
@@ -405,7 +410,9 @@ class ProductionController extends Controller
             // Change Record
             $production->edit = 0;
             $production->save();
-            return Redirect::route('production.index');
+            return Redirect::route('production.index')
+                ->with(['status' => 'Penerimaan dengan kode item ' . $production->code .
+                    __(' berhasil diterima')]);
         } else {
             return Redirect::route('production.index');
         }
@@ -483,6 +490,7 @@ class ProductionController extends Controller
         // Delete Directory Temp
         Storage::disk('public')->deleteDirectory('production-tmp/' . $production->code);
 
-        return Redirect::route('production.index');
+        return Redirect::route('production.index')
+            ->with(['status' => 'Penolakan dengan kode item ' . $production->code . __(' berhasil ditolak')]);
     }
 }

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Room;
 use App\Models\Equipment;
 use App\Models\TempEquipment;
-use App\Models\TempVehicle;
-use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -289,7 +287,11 @@ class EquipmentController extends Controller
             $equipment->edit = $editPermissions == true ? 1 : 0;
             $equipment->del = 0;
             $equipment->save();
-            return Redirect::route('equipment.index');
+            return Redirect::route('equipment.index')
+                ->with([
+                    'status' => 'Data anda berhasil diubah, 
+                silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+                ]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -303,7 +305,9 @@ class EquipmentController extends Controller
         if ($this->FunctionController->superAdmin() == true) {
             Storage::disk('public')->deleteDirectory('equipment/' . $equipment->code);
             $equipment->delete();
-            return Redirect::route('equipment.index');
+            return Redirect::route('equipment.index')
+                ->with(['status' => 'Data dengan kode item ' . $equipment->code .
+                    __(' berhasil dihapus')]);
         } else if ($this->FunctionController->authAdmin() == true) {
             $equipment->add = 0;
             $equipment->edit = 0;
@@ -419,7 +423,9 @@ class EquipmentController extends Controller
             // Change Record
             $equipment->edit = 0;
             $equipment->save();
-            return Redirect::route('equipment.index');
+            return Redirect::route('equipment.index')
+                ->with(['status' => 'Penerimaan dengan kode item ' . $equipment->code .
+                    __(' berhasil diterima')]);
         } else {
             return Redirect::route('equipment.index');
         }
@@ -459,45 +465,46 @@ class EquipmentController extends Controller
 
     function rejectEdit($id)
     {
-        $vehicle = Vehicle::find($id);
-        $vehicleTemp = TempVehicle::where(
+        $equipment = Equipment::find($id);
+        $equipmentTemp = TempEquipment::where(
             'code',
-            $vehicle->code
+            $equipment->code
         )->first();
-        $vehicleTemp->delete();
+        $equipmentTemp->delete();
 
         // Edit Data
-        $vehicle->name = $vehicleTemp->name;
-        $vehicle->brand = $vehicleTemp->brand;
-        $vehicle->price_acq = $vehicleTemp->price_acq;
-        $vehicle->date_acq = $vehicleTemp->date_acq;
-        $vehicle->qty = $vehicleTemp->qty;
-        $vehicle->condition = $vehicleTemp->condition;
-        $vehicle->img = $vehicleTemp->img;
-        $vehicle->location = $vehicleTemp->location;
-        $vehicle->info = $vehicleTemp->info;
-        $vehicle->add = 0;
-        $vehicle->edit = 0;
-        $vehicle->del = 0;
-        $vehicle->save();
+        $equipment->name = $equipmentTemp->name;
+        $equipment->brand = $equipmentTemp->brand;
+        $equipment->price_acq = $equipmentTemp->price_acq;
+        $equipment->date_acq = $equipmentTemp->date_acq;
+        $equipment->qty = $equipmentTemp->qty;
+        $equipment->condition = $equipmentTemp->condition;
+        $equipment->img = $equipmentTemp->img;
+        $equipment->location = $equipmentTemp->location;
+        $equipment->info = $equipmentTemp->info;
+        $equipment->add = 0;
+        $equipment->edit = 0;
+        $equipment->del = 0;
+        $equipment->save();
 
         // Delete Directory Original
-        Storage::disk('public')->deleteDirectory('vehicle/' . $vehicle->code);
+        Storage::disk('public')->deleteDirectory('equipment/' . $equipment->code);
 
         // Moving Original Files
-        $beginning = Storage::disk('public')->get("vehicle-tmp/" . $vehicle->code);
-        $files = Storage::allFiles($beginning . '/public/vehicle-tmp/' . $vehicle->code);
+        $beginning = Storage::disk('public')->get("equipment-tmp/" . $equipment->code);
+        $files = Storage::allFiles($beginning . '/public/equipment-tmp/' . $equipment->code);
         foreach ($files as $number => $path) {
             $file = pathinfo($path);
             Storage::move(
                 $files[$number],
-                'public/vehicle/' . $vehicle->code . '/' . $file['basename']
+                'public/equipment/' . $equipment->code . '/' . $file['basename']
             );
         }
 
         // Delete Directory Temp
-        Storage::disk('public')->deleteDirectory('vehicle-tmp/' . $vehicle->code);
+        Storage::disk('public')->deleteDirectory('equipment-tmp/' . $equipment->code);
 
-        return Redirect::route('vehicle.index');
+        return Redirect::route('equipment.index')
+            ->with(['status' => 'Penolakan dengan kode item ' . $equipment->code . __(' berhasil ditolak')]);
     }
 }

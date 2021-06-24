@@ -234,7 +234,10 @@ class RentalController extends Controller
             $rental->edit = $editPermissions == true ? 1 : 0;
             $rental->del = 0;
             $rental->save();
-            return Redirect::route('rental.index');
+            return Redirect::route('rental.index')->with([
+                'status' => 'Data anda berhasil diubah, 
+            silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+            ]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -247,7 +250,9 @@ class RentalController extends Controller
         // Auth Roles Rental
         if ($this->FunctionController->superAdmin() == true) {
             $rental->delete();
-            return Redirect::route('rental.index');
+            return Redirect::route('rental.index')
+                ->with(['status' => 'Data dengan kode item ' . $rental->code .
+                    __(' berhasil dihapus')]);
         } else if ($this->FunctionController->authAdmin() == true) {
             $rental->add = 0;
             $rental->edit = 0;
@@ -355,7 +360,9 @@ class RentalController extends Controller
             // Change Record
             $rental->edit = 0;
             $rental->save();
-            return Redirect::route('rental.index');
+            return Redirect::route('rental.index')
+                ->with(['status' => 'Penerimaan dengan kode item ' . $rental->code .
+                    __(' berhasil diterima')]);
         } else {
             return Redirect::route('rental.index');
         }
@@ -418,6 +425,7 @@ class RentalController extends Controller
         $rental->del = 0;
         $rental->save();
 
-        return Redirect::route('production.index');
+        return Redirect::route('rental.index')
+            ->with(['status' => 'Penolakan dengan kode item ' . $rental->code . __(' berhasil ditolak')]);
     }
 }
