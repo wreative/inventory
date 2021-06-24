@@ -26,14 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $production = Production::where('del', 0)
-            ->count();
-        $equipment = Equipment::where('del', 0)
-            ->count();
-        $rental = Rental::where('del', 0)
-            ->count();
-        $vehicle = Vehicle::where('del', 0)
-            ->count();
+        $production = Production::count();
+        $equipment = Equipment::count();
+        $rental = Rental::count();
+        $vehicle = Vehicle::count();
         return view('home', [
             'production' => $production,
             'equipment' => $equipment,
