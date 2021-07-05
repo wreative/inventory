@@ -6,6 +6,7 @@ use App\Models\Equipment;
 use App\Models\Production;
 use App\Models\Vehicle;
 use App\Models\Rental;
+use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
 {
@@ -36,5 +37,42 @@ class HomeController extends Controller
             'rental' => $rental,
             'vehicle' => $vehicle,
         ]);
+    }
+
+    public function printPage($name)
+    {
+        switch ($name) {
+            case 'equipment':
+                $equipment = Equipment::where('add', 0)
+                    ->where('edit', 0)
+                    ->where('del', 0)
+                    ->get();
+                dd($equipment);
+                break;
+            case 'production':
+                $production = Production::where('add', 0)
+                    ->where('edit', 0)
+                    ->where('del', 0)
+                    ->get();
+                dd($production);
+                break;
+            case 'rental':
+                $rental = Rental::where('add', 0)
+                    ->where('edit', 0)
+                    ->where('del', 0)
+                    ->get();
+                dd($rental);
+                break;
+            case 'vehicle':
+                $vehicle = Vehicle::where('add', 0)
+                    ->where('edit', 0)
+                    ->where('del', 0)
+                    ->get();
+                dd($vehicle);
+                break;
+            default:
+                return Redirect::route('home')
+                    ->with(['status' => 'Terdapat error hubungi Administrator.']);
+        }
     }
 }

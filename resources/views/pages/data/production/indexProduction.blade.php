@@ -2,6 +2,13 @@
 @section('title', __('pages.title').__(' | Data Alat Produksi'))
 @section('titleContent', __('Alat Produksi'))
 @section('breadcrumb', __('Data'))
+@section('titleButton')
+<div class="section-header-button">
+    <a href="{{ route('print',__('production')) }}" class="btn btn-primary">
+        {{ __('Print') }}
+    </a>
+</div>
+@endsection
 @section('morebreadcrumb')
 <div class="breadcrumb-item active">{{ __('Alat Produksi') }}</div>
 @endsection

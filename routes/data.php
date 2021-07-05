@@ -5,6 +5,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -60,3 +61,7 @@ Route::get('vehicle/reject/{id}', [VehicleController::class, 'reject'])
 Route::resource('room', RoomController::class)->except([
     'show'
 ]);;
+
+// Print
+Route::get('/print/{name}', [HomeController::class, 'printPage'])
+    ->name('print');
