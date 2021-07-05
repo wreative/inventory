@@ -47,28 +47,36 @@ class HomeController extends Controller
                     ->where('edit', 0)
                     ->where('del', 0)
                     ->get();
-                dd($equipment);
+                return view('pages.print.equipmentPrint', [
+                    'equipment' => $equipment
+                ]);
                 break;
             case 'production':
                 $production = Production::where('add', 0)
                     ->where('edit', 0)
                     ->where('del', 0)
                     ->get();
-                return view('pages.print.productionPrint');
+                return view('pages.print.productionPrint', [
+                    'production' => $production
+                ]);
                 break;
             case 'rental':
                 $rental = Rental::where('add', 0)
                     ->where('edit', 0)
                     ->where('del', 0)
                     ->get();
-                dd($rental);
+                return view('pages.print.rentalPrint', [
+                    'rental' => $rental
+                ]);
                 break;
             case 'vehicle':
                 $vehicle = Vehicle::where('add', 0)
                     ->where('edit', 0)
                     ->where('del', 0)
                     ->get();
-                dd($vehicle);
+                return view('pages.print.vehiclePrint', [
+                    'vehicle' => $vehicle
+                ]);
                 break;
             default:
                 return Redirect::route('home')

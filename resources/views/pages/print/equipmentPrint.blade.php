@@ -1,7 +1,7 @@
 @extends('layouts.print')
 
 @section('name',Auth::user()->name)
-@section('part',__('Alat Produksi'))
+@section('part',__('Perlengkapan'))
 
 @section('section')
 <table class='table '>
@@ -9,40 +9,44 @@
         <tr>
             <th style="w-auto">{{ __('No') }}</th>
             <th class="w-auto">{{ __('Kode') }}</th>
-            <th>{{ __('Nama Alat Produksi') }}</th>
+            <th>{{ __('Nama Perlengkapan') }}</th>
             <th>{{ __('Merk') }}</th>
             <th>{{ __('Harga Perolehan') }}</th>
             <th>{{ __('Tanggal Perolehan') }}</th>
             <th>{{ __('Qty') }}</th>
             <th>{{ __('Kondisi') }}</th>
-            <th>{{ __('Info') }}</th>
+            <th>{{ __('Lokasi') }}</th>
+            <th>{{ __('Keterangan') }}</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($production as $number => $p)
+        @foreach($equipment as $number => $e)
         <tr>
             <td>{{ $number + 1 }}</td>
-            <td class="w-25">{{ $p->code }}</td>
+            <td class="w-25">{{ $e->code }}</td>
             <td>
-                {{ $p->name }}
+                {{ $e->name }}
             </td>
             <td>
-                {{ $p->brand }}
+                {{ $e->brand }}
             </td>
             <td>
-                {{ __('Rp.').number_format($p->price_acq) }}
+                {{ __('Rp.').number_format($e->price_acq) }}
             </td>
             <td>
-                {{ date("m-Y", strtotime($p->date_acq)) }}
+                {{ date("m-Y", strtotime($e->date_acq)) }}
             </td>
             <td>
-                {{ $p->qty }}
+                {{ $e->qty }}
             </td>
             <td>
-                {{ $p->condition }}
+                {{ $e->condition }}
             </td>
             <td>
-                {{ $p->info }}
+                {{ $e->relationRoom->name }}
+            </td>
+            <td>
+                {{ $e->info }}
             </td>
         </tr>
         @endforeach
