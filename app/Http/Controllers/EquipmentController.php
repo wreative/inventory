@@ -19,7 +19,7 @@ class EquipmentController extends Controller
      */
     public function __construct(FunctionController $FunctionController)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'equipment.auth']);
         $this->FunctionController = $FunctionController;
     }
 
@@ -40,136 +40,96 @@ class EquipmentController extends Controller
 
     public function index()
     {
-        // Auth Roles Equipment        
-        if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            if ($this->FunctionController->authUser() == true) {
-                return view('pages.data.equipment.indexEquipment', [
-                    'equipment' => $this->getData(1),
-                    'total' => $this->FunctionController->total('equipment'),
-                    'dtotal' => $this->FunctionController->dtotal('equipment')
-                ]);
-            } else {
-                return view('pages.data.equipment.indexEquipment', [
-                    'equipment' => $this->getData(1),
-                    'total' => $this->FunctionController->total('equipment'),
-                    'dtotal' => $this->FunctionController->dtotal('equipment'),
-                    'notUser' => true
-                ]);
-            }
+        if ($this->FunctionController->authUser() == true) {
+            return view('pages.data.equipment.indexEquipment', [
+                'equipment' => $this->getData(1),
+                'total' => $this->FunctionController->total('equipment'),
+                'dtotal' => $this->FunctionController->dtotal('equipment')
+            ]);
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            return view('pages.data.equipment.indexEquipment', [
+                'equipment' => $this->getData(1),
+                'total' => $this->FunctionController->total('equipment'),
+                'dtotal' => $this->FunctionController->dtotal('equipment'),
+                'notUser' => true
+            ]);
         }
     }
 
     public function deny()
     {
-        // Auth Roles Equipment        
-        if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            return view('pages.data.equipment.declineEquipment', [
-                'equipment' => $this->getData(0),
-                'total' => $this->FunctionController->total('equipment'),
-                'dtotal' => $this->FunctionController->dtotal('equipment')
-            ]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        return view('pages.data.equipment.declineEquipment', [
+            'equipment' => $this->getData(0),
+            'total' => $this->FunctionController->total('equipment'),
+            'dtotal' => $this->FunctionController->dtotal('equipment')
+        ]);
     }
 
     public function create()
     {
-        // Auth Roles Equipment        
-        if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $code = "EQ-" . str_pad($this->FunctionController->getRandom('equipment'), 5, '0', STR_PAD_LEFT);
-            $room = Room::all();
-            return view('pages.data.equipment.createEquipment', ['code' => $code, 'room' => $room]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        $code = "EQ-" . str_pad($this->FunctionController->getRandom('equipment'), 5, '0', STR_PAD_LEFT);
+        $room = Room::all();
+        return view('pages.data.equipment.createEquipment', ['code' => $code, 'room' => $room]);
     }
 
     public function store(Request $req)
     {
-        // Auth Roles Equipment        
-        if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            Validator::make($req->all(), [
-                'code' => 'required',
-                'name' => 'required',
-                'brand' => 'required',
-                'price_acq' => 'required',
-                'date_acq' => 'required|date',
-                'qty' => 'required',
-                'condition' => 'required',
-                'room' => 'required',
-                'img.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
-            ])->validate();
+        Validator::make($req->all(), [
+            'code' => 'required',
+            'name' => 'required',
+            'brand' => 'required',
+            'price_acq' => 'required',
+            'date_acq' => 'required|date',
+            'qty' => 'required',
+            'condition' => 'required',
+            'room' => 'required',
+            'img.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
+        ])->validate();
 
-            // Remove Comma
-            $price_acq = $this->FunctionController->removeComma($req->price_acq);
-            $qty = $this->FunctionController->removeComma($req->qty);
+        // Remove Comma
+        $price_acq = $this->FunctionController->removeComma($req->price_acq);
+        $qty = $this->FunctionController->removeComma($req->qty);
 
-            // Image
-            if ($req->hasFile('img')) {
-                $dataIMG = json_encode(
-                    $this->FunctionController->storedIMG(
-                        $req->code,
-                        $req->img,
-                        $req->file('img'),
-                        'equipment'
-                    )
-                );
-            } else {
-                $dataIMG = null;
-            }
-
-            // Permissions
-            $addPermissions = $this->FunctionController->add();
-
-            Equipment::create([
-                'code' => $req->code,
-                'name' => $req->name,
-                'brand' => $req->brand,
-                'price_acq' => $price_acq,
-                'date_acq' => $req->date_acq,
-                'qty' => $qty,
-                'condition' => $this->FunctionController->condition($req->condition),
-                'img' => $dataIMG,
-                'info' => $req->info,
-                'location' => $req->room,
-                'add' => $addPermissions == true ? 1 : 0,
-                'edit' => 0,
-                'del' => 0
-            ]);
-
-            return $this->FunctionController->onlyUserEquipment() == true ?
-                Redirect::route('equipment.index')
-                ->with([
-                    'status' => 'Data anda sedang di proses Admin, 
-                    silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
-                ]) :
-                Redirect::route('equipment.index');
+        // Image
+        if ($req->hasFile('img')) {
+            $dataIMG = json_encode(
+                $this->FunctionController->storedIMG(
+                    $req->code,
+                    $req->img,
+                    $req->file('img'),
+                    'equipment'
+                )
+            );
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            $dataIMG = null;
         }
+
+        // Permissions
+        $addPermissions = $this->FunctionController->add();
+
+        Equipment::create([
+            'code' => $req->code,
+            'name' => $req->name,
+            'brand' => $req->brand,
+            'price_acq' => $price_acq,
+            'date_acq' => $req->date_acq,
+            'qty' => $qty,
+            'condition' => $this->FunctionController->condition($req->condition),
+            'img' => $dataIMG,
+            'info' => $req->info,
+            'location' => $req->room,
+            'add' => $addPermissions == true ? 1 : 0,
+            'edit' => 0,
+            'del' => 0
+        ]);
+
+        return $this->FunctionController->onlyUserEquipment() == true ?
+            Redirect::route('equipment.index')
+            ->with([
+                'status' => 'Data anda sedang di proses Admin, 
+                    silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+            ]) :
+            Redirect::route('equipment.index');
     }
 
     public function edit($id)
@@ -323,22 +283,12 @@ class EquipmentController extends Controller
 
     public function show($id)
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $room = Room::all();
-            $equipment = Equipment::find($id);
-            return view('pages.data.equipment.showEquipment', [
-                'equipment' => $equipment,
-                'room' => $room
-            ]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        $room = Room::all();
+        $equipment = Equipment::find($id);
+        return view('pages.data.equipment.showEquipment', [
+            'equipment' => $equipment,
+            'room' => $room
+        ]);
     }
 
     public function approv()
@@ -438,28 +388,18 @@ class EquipmentController extends Controller
 
     public function reject($id)
     {
-        // Auth Roles Equipment        
-        if (
-            $this->FunctionController->onlyUserEquipment() == true ||
-            $this->FunctionController->onlyAdminEquipment() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $equipment = Equipment::find($id);
-            if ($equipment->edit == 1) {
-                return $this->rejectEdit($id);
-            } elseif ($this->FunctionController->authAdmin() == true) {
-                $equipment->del = 1;
-                $equipment->add = 0;
-                $equipment->edit = 0;
-                $equipment->save();
-                return Redirect::route('equipment.deny')
-                    ->with(['status' => 'Penolakan dengan kode item ' . $equipment->code . __(' berhasil ditolak')]);
-            } else {
-                return Redirect::route('equipment.index');
-            }
+        $equipment = Equipment::find($id);
+        if ($equipment->edit == 1) {
+            return $this->rejectEdit($id);
+        } elseif ($this->FunctionController->authAdmin() == true) {
+            $equipment->del = 1;
+            $equipment->add = 0;
+            $equipment->edit = 0;
+            $equipment->save();
+            return Redirect::route('equipment.deny')
+                ->with(['status' => 'Penolakan dengan kode item ' . $equipment->code . __(' berhasil ditolak')]);
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            return Redirect::route('equipment.index');
         }
     }
 
