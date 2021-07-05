@@ -18,7 +18,7 @@ class ProductionController extends Controller
      */
     public function __construct(FunctionController $FunctionController)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'production.auth']);
         $this->FunctionController = $FunctionController;
     }
 
@@ -39,154 +39,110 @@ class ProductionController extends Controller
 
     public function index()
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserProduction() == true ||
-            $this->FunctionController->onlyAdminProduction() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            if ($this->FunctionController->authUser() == true) {
-                return view('pages.data.production.indexProduction', [
-                    'production' => $this->getData(1),
-                    'total' => $this->FunctionController->total('production'),
-                    'dtotal' => $this->FunctionController->dtotal('production')
-                ]);
-            } else {
-                return view('pages.data.production.indexProduction', [
-                    'production' => $this->getData(1),
-                    'total' => $this->FunctionController->total('production'),
-                    'dtotal' => $this->FunctionController->dtotal('production'),
-                    'notUser' => true
-                ]);
-            }
+        if ($this->FunctionController->authUser() == true) {
+            return view('pages.data.production.indexProduction', [
+                'production' => $this->getData(1),
+                'total' => $this->FunctionController->total('production'),
+                'dtotal' => $this->FunctionController->dtotal('production')
+            ]);
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            return view('pages.data.production.indexProduction', [
+                'production' => $this->getData(1),
+                'total' => $this->FunctionController->total('production'),
+                'dtotal' => $this->FunctionController->dtotal('production'),
+                'notUser' => true
+            ]);
         }
     }
 
     public function deny()
     {
-        // Auth Roles Production    
-        if (
-            $this->FunctionController->onlyUserProduction() == true ||
-            $this->FunctionController->onlyAdminProduction() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            return view('pages.data.production.declineProduction', [
-                'production' => $this->getData(0),
-                'total' => $this->FunctionController->total('production'),
-                'dtotal' => $this->FunctionController->dtotal('production')
-            ]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        return view('pages.data.production.declineProduction', [
+            'production' => $this->getData(0),
+            'total' => $this->FunctionController->total('production'),
+            'dtotal' => $this->FunctionController->dtotal('production')
+        ]);
     }
 
     public function create()
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserProduction() == true ||
-            $this->FunctionController->onlyAdminProduction() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $code = "AP-" . str_pad($this->FunctionController->getRandom('production'), 5, '0', STR_PAD_LEFT);
-            return view('pages.data.production.createProduction', ['code' => $code]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        $code = "AP-" . str_pad(
+            $this->FunctionController->getRandom('production'),
+            5,
+            '0',
+            STR_PAD_LEFT
+        );
+        return view('pages.data.production.createProduction', ['code' => $code]);
     }
 
     public function store(Request $req)
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserProduction() == true ||
-            $this->FunctionController->onlyAdminProduction() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            Validator::make($req->all(), [
-                'code' => 'required',
-                'name' => 'required',
-                'brand' => 'required',
-                'price_acq' => 'required',
-                'date_acq' => 'required|date',
-                'qty' => 'required',
-                'condition' => 'required',
-                'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
-            ])->validate();
+        Validator::make($req->all(), [
+            'code' => 'required',
+            'name' => 'required',
+            'brand' => 'required',
+            'price_acq' => 'required',
+            'date_acq' => 'required|date',
+            'qty' => 'required',
+            'condition' => 'required',
+            'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
+        ])->validate();
 
-            // Remove Comma
-            $price_acq = $this->FunctionController->removeComma($req->price_acq);
-            $qty = $this->FunctionController->removeComma($req->qty);
+        // Remove Comma
+        $price_acq = $this->FunctionController->removeComma($req->price_acq);
+        $qty = $this->FunctionController->removeComma($req->qty);
 
-            // Image
-            if ($req->hasFile('img')) {
-                $dataIMG = json_encode(
-                    $this->FunctionController->storedIMG(
-                        $req->code,
-                        $req->img,
-                        $req->file('img'),
-                        'production'
-                    )
-                );
-            } else {
-                $dataIMG = null;
-            }
-
-            // Permissions
-            $addPermissions = $this->FunctionController->add();
-
-            Production::create([
-                'code' => $req->code,
-                'name' => $req->name,
-                'brand' => $req->brand,
-                'price_acq' => $price_acq,
-                'date_acq' => $req->date_acq,
-                'qty' => $qty,
-                'condition' => $this->FunctionController->condition($req->condition),
-                'img' => $dataIMG,
-                'info' => $req->info,
-                'add' => $addPermissions == true ? 1 : 0,
-                'edit' => 0,
-                'del' => 0,
-            ]);
-
-            return $this->FunctionController->onlyUserProduction() == true ?
-                Redirect::route('production.index')
-                ->with([
-                    'status' => 'Data anda sedang di proses Admin, 
-                    silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
-                ]) :
-                Redirect::route('production.index');
+        // Image
+        if ($req->hasFile('img')) {
+            $dataIMG = json_encode(
+                $this->FunctionController->storedIMG(
+                    $req->code,
+                    $req->img,
+                    $req->file('img'),
+                    'production'
+                )
+            );
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            $dataIMG = null;
         }
+
+        // Permissions
+        $addPermissions = $this->FunctionController->add();
+
+        Production::create([
+            'code' => $req->code,
+            'name' => $req->name,
+            'brand' => $req->brand,
+            'price_acq' => $price_acq,
+            'date_acq' => $req->date_acq,
+            'qty' => $qty,
+            'condition' => $this->FunctionController->condition($req->condition),
+            'img' => $dataIMG,
+            'info' => $req->info,
+            'add' => $addPermissions == true ? 1 : 0,
+            'edit' => 0,
+            'del' => 0,
+        ]);
+
+        return $this->FunctionController->onlyUserProduction() == true ?
+            Redirect::route('production.index')
+            ->with([
+                'status' => 'Data anda sedang di proses Admin, 
+                    silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+            ]) :
+            Redirect::route('production.index');
     }
 
     public function edit($id)
     {
-        // Auth Roles Production        
         if (
-            $this->FunctionController->onlyAdminProduction() == true ||
+            $this->FunctionController->authAdmin() == true or
             $this->FunctionController->superAdmin() == true
         ) {
-            if (
-                $this->FunctionController->authAdmin() == true or
-                $this->FunctionController->superAdmin() == true
-            ) {
-                $production = Production::find($id);
-                return view('pages.data.production.updateProduction', [
-                    'production' => $production
-                ]);
-            } else {
-                return Redirect::route('home')
-                    ->with(['status' => 'Anda tidak punya akses disini.']);
-            }
+            $production = Production::find($id);
+            return view('pages.data.production.updateProduction', [
+                'production' => $production
+            ]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -195,104 +151,95 @@ class ProductionController extends Controller
 
     public function update($id, Request $req)
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyAdminProduction() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            Validator::make($req->all(), [
-                'name' => 'required',
-                'brand' => 'required',
-                'price_acq' => 'required',
-                'date_acq' => 'required|date',
-                'qty' => 'required',
-                'condition' => 'required',
-                'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|nullable',
-            ])->validate();
+        Validator::make($req->all(), [
+            'name' => 'required',
+            'brand' => 'required',
+            'price_acq' => 'required',
+            'date_acq' => 'required|date',
+            'qty' => 'required',
+            'condition' => 'required',
+            'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|nullable',
+        ])->validate();
 
-            // Remove Comma
-            $price_acq = $this->FunctionController->removeComma($req->price_acq);
-            $qty = $this->FunctionController->removeComma($req->qty);
+        // Remove Comma
+        $price_acq = $this->FunctionController->removeComma($req->price_acq);
+        $qty = $this->FunctionController->removeComma($req->qty);
 
-            // Initiation
-            $production = Production::find($id);
+        // Initiation
+        $production = Production::find($id);
 
-            // Add real data to temp 
-            if ($this->FunctionController->superAdmin() == false) {
-                TempProduction::create([
-                    'code' => $production->code,
-                    'name' => $production->name,
-                    'brand' => $production->brand,
-                    'qty' => $production->qty,
-                    'price_acq' => $production->price_acq,
-                    'date_acq' => $production->date_acq,
-                    'condition' => $production->condition,
-                    'img' => $production->img,
-                    'info' => $production->info
-                ]);
-            }
-
-            // Image
-            if ($req->hasFile('img')) {
-                if ($this->FunctionController->superAdmin() == false) {
-                    // Moving Original Files
-                    Storage::disk('public')->makeDirectory(
-                        "production-tmp/" . $production->code
-                    );
-                    $beginning = Storage::disk('public')->get("production/" . $production->code);
-                    $files = Storage::allFiles($beginning . '/public/production/' . $production->code);
-                    foreach ($files as $number => $path) {
-                        $file = pathinfo($path);
-                        Storage::move(
-                            $files[$number],
-                            'public/production-tmp/' . $production->code . '/' . $file['basename']
-                        );
-                    }
-                }
-
-                // Upload New Files
-                $dataIMG = json_encode(
-                    $this->FunctionController->storedIMG(
-                        $production->code,
-                        $req->img,
-                        $req->file('img'),
-                        'production'
-                    )
-                );
-            }
-
-            // Permissions
-            $editPermissions = $this->FunctionController->edit();
-
-            // Edit Data
-            $production->name = $req->name;
-            $production->brand = $req->brand;
-            $production->price_acq = $price_acq;
-            $production->date_acq = $req->date_acq;
-            $production->qty = $qty;
-            $production->condition = $this->FunctionController->condition($req->condition);
-            if ($req->hasFile('img')) {
-                $production->img = $dataIMG;
-            }
-            $production->info = $req->info;
-            $production->add = 0;
-            $production->edit = $editPermissions == true ? 1 : 0;
-            $production->del = 0;
-            $production->save();
-            return Redirect::route('production.index')->with([
-                'status' => 'Data anda berhasil diubah, 
-            silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+        // Add real data to temp 
+        if ($this->FunctionController->superAdmin() == false) {
+            TempProduction::create([
+                'code' => $production->code,
+                'name' => $production->name,
+                'brand' => $production->brand,
+                'qty' => $production->qty,
+                'price_acq' => $production->price_acq,
+                'date_acq' => $production->date_acq,
+                'condition' => $production->condition,
+                'img' => $production->img,
+                'info' => $production->info
             ]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
         }
+
+        // Image
+        if ($req->hasFile('img')) {
+            if ($this->FunctionController->superAdmin() == false) {
+                // Moving Original Files
+                Storage::disk('public')->makeDirectory(
+                    "production-tmp/" . $production->code
+                );
+                $beginning = Storage::disk('public')->get("production/" . $production->code);
+                $files = Storage::allFiles($beginning . '/public/production/' . $production->code);
+                foreach ($files as $number => $path) {
+                    $file = pathinfo($path);
+                    Storage::move(
+                        $files[$number],
+                        'public/production-tmp/' . $production->code . '/' . $file['basename']
+                    );
+                }
+            }
+
+            // Upload New Files
+            $dataIMG = json_encode(
+                $this->FunctionController->storedIMG(
+                    $production->code,
+                    $req->img,
+                    $req->file('img'),
+                    'production'
+                )
+            );
+        }
+
+        // Permissions
+        $editPermissions = $this->FunctionController->edit();
+
+        // Edit Data
+        $production->name = $req->name;
+        $production->brand = $req->brand;
+        $production->price_acq = $price_acq;
+        $production->date_acq = $req->date_acq;
+        $production->qty = $qty;
+        $production->condition = $this->FunctionController->condition($req->condition);
+        if ($req->hasFile('img')) {
+            $production->img = $dataIMG;
+        }
+        $production->info = $req->info;
+        $production->add = 0;
+        $production->edit = $editPermissions == true ? 1 : 0;
+        $production->del = 0;
+        $production->save();
+        return Redirect::route('production.index')->with([
+            'status' => 'Data anda berhasil diubah, 
+            silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
+        ]);
     }
 
     public function destroy($id)
     {
         $production = Production::find($id);
-        // Auth Roles Production        
+
         if ($this->FunctionController->superAdmin() == true) {
             Storage::disk('public')->deleteDirectory('production/' . $production->code);
             $production->delete();
@@ -305,7 +252,9 @@ class ProductionController extends Controller
             $production->del = 1;
             $production->save();
             return Redirect::route('production.index')
-                ->with(['status' => 'Penolakan dengan kode item ' . $production->code . __(' berhasil ditolak')]);
+                ->with([
+                    'status' => 'Penolakan dengan kode item ' . $production->code . __(' berhasil ditolak')
+                ]);
         } else {
             return Redirect::route('home')
                 ->with(['status' => 'Anda tidak punya akses disini.']);
@@ -314,23 +263,14 @@ class ProductionController extends Controller
 
     public function show($id)
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserProduction() == true ||
-            $this->FunctionController->onlyAdminProduction() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $production = Production::find($id);
-            return view('pages.data.production.showProduction', ['production' => $production]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        $production = Production::find($id);
+        return view('pages.data.production.showProduction', [
+            'production' => $production
+        ]);
     }
 
     public function approv()
     {
-        // Auth Roles Production        
         if ($this->FunctionController->onlyAdminProduction() == true) {
             $production = Production::where('add', 1)
                 ->get();
@@ -425,28 +365,18 @@ class ProductionController extends Controller
 
     public function reject($id)
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserProduction() == true ||
-            $this->FunctionController->onlyAdminProduction() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $production = Production::find($id);
-            if ($production->edit == 1) {
-                return $this->rejectEdit($id);
-            } elseif ($this->FunctionController->authAdmin() == true) {
-                $production->del = 1;
-                $production->add = 0;
-                $production->edit = 0;
-                $production->save();
-                return Redirect::route('production.index')
-                    ->with(['status' => 'Penolakan dengan kode item ' . $production->code . __(' berhasil ditolak')]);
-            } else {
-                return Redirect::route('production.index');
-            }
+        $production = Production::find($id);
+        if ($production->edit == 1) {
+            return $this->rejectEdit($id);
+        } elseif ($this->FunctionController->authAdmin() == true) {
+            $production->del = 1;
+            $production->add = 0;
+            $production->edit = 0;
+            $production->save();
+            return Redirect::route('production.index')
+                ->with(['status' => 'Penolakan dengan kode item ' . $production->code . __(' berhasil ditolak')]);
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            return Redirect::route('production.index');
         }
     }
 
