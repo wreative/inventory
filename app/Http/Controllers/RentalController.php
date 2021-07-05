@@ -17,7 +17,7 @@ class RentalController extends Controller
      */
     public function __construct(FunctionController $FunctionController)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'rental.auth']);
         $this->FunctionController = $FunctionController;
     }
 
@@ -38,119 +38,79 @@ class RentalController extends Controller
 
     public function index()
     {
-        // Auth Roles Rental   
-        if (
-            $this->FunctionController->onlyUserRental() == true ||
-            $this->FunctionController->onlyAdminRental() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            if ($this->FunctionController->authUser() == true) {
-                return view('pages.data.rental.indexRental', [
-                    'rental' => $this->getData(1),
-                    'total' => $this->FunctionController->total('rental'),
-                    'dtotal' => $this->FunctionController->dtotal('rental')
-                ]);
-            } else {
-                return view('pages.data.rental.indexRental', [
-                    'rental' => $this->getData(1),
-                    'total' => $this->FunctionController->total('rental'),
-                    'dtotal' => $this->FunctionController->dtotal('rental'),
-                    'notUser' => true
-                ]);
-            }
+        if ($this->FunctionController->authUser() == true) {
+            return view('pages.data.rental.indexRental', [
+                'rental' => $this->getData(1),
+                'total' => $this->FunctionController->total('rental'),
+                'dtotal' => $this->FunctionController->dtotal('rental')
+            ]);
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            return view('pages.data.rental.indexRental', [
+                'rental' => $this->getData(1),
+                'total' => $this->FunctionController->total('rental'),
+                'dtotal' => $this->FunctionController->dtotal('rental'),
+                'notUser' => true
+            ]);
         }
     }
 
     public function deny()
     {
-        // Auth Roles Rental
-        if (
-            $this->FunctionController->onlyUserRental() == true ||
-            $this->FunctionController->onlyAdminRental() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            return view('pages.data.rental.declineRental', [
-                'rental' => $this->getData(0),
-                'total' => $this->FunctionController->total('rental'),
-                'dtotal' => $this->FunctionController->dtotal('rental')
-            ]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        return view('pages.data.rental.declineRental', [
+            'rental' => $this->getData(0),
+            'total' => $this->FunctionController->total('rental'),
+            'dtotal' => $this->FunctionController->dtotal('rental')
+        ]);
     }
 
     public function create()
     {
-        // Auth Roles Rental   
-        if (
-            $this->FunctionController->onlyUserRental() == true ||
-            $this->FunctionController->onlyAdminRental() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $code = "RT-" . str_pad($this->FunctionController->getRandom('rental'), 5, '0', STR_PAD_LEFT);
-            return view('pages.data.rental.createRental', ['code' => $code]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        $code = "RT-" . str_pad($this->FunctionController->getRandom('rental'), 5, '0', STR_PAD_LEFT);
+        return view('pages.data.rental.createRental', ['code' => $code]);
     }
 
     public function store(Request $req)
     {
-        // Auth Roles Rental     
-        if (
-            $this->FunctionController->onlyUserRental() == true ||
-            $this->FunctionController->onlyAdminRental() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            Validator::make($req->all(), [
-                'code' => 'required',
-                'name' => 'required',
-                'address' => 'required',
-                'status' => 'required',
-                'pln' => 'required',
-                'pdam' => 'required',
-                'pbb' => 'required',
-                'wifi' => 'required',
-                'rental' => 'required',
-                'due' => 'required|date',
-            ])->validate();
+        Validator::make($req->all(), [
+            'code' => 'required',
+            'name' => 'required',
+            'address' => 'required',
+            'status' => 'required',
+            'pln' => 'required',
+            'pdam' => 'required',
+            'pbb' => 'required',
+            'wifi' => 'required',
+            'rental' => 'required',
+            'due' => 'required|date',
+        ])->validate();
 
-            // Permissions
-            $addPermissions = $this->FunctionController->add();
+        // Permissions
+        $addPermissions = $this->FunctionController->add();
 
-            Rental::create([
-                'code' => $req->code,
-                'name' => $req->name,
-                'address' => $req->address,
-                'status' => $req->status,
-                'pln' => $req->pln,
-                'pdam' => $req->pdam,
-                'pbb' => $req->pbb,
-                'wifi' => $req->wifi,
-                'rental' => $req->rental,
-                'due' => $req->due,
-                'info' => $req->info,
-                'add' => $addPermissions == true ? 1 : 0,
-                'edit' => 0,
-                'del' => 0
-            ]);
+        Rental::create([
+            'code' => $req->code,
+            'name' => $req->name,
+            'address' => $req->address,
+            'status' => $req->status,
+            'pln' => $req->pln,
+            'pdam' => $req->pdam,
+            'pbb' => $req->pbb,
+            'wifi' => $req->wifi,
+            'rental' => $req->rental,
+            'due' => $req->due,
+            'info' => $req->info,
+            'add' => $addPermissions == true ? 1 : 0,
+            'edit' => 0,
+            'del' => 0
+        ]);
 
-            return $this->FunctionController->onlyUserRental() == true ?
-                Redirect::route('rental.index')
-                ->with([
-                    'status' => 'Data anda sedang di proses Admin, 
+        return $this->FunctionController->onlyUserRental() == true ?
+            Redirect::route('rental.index')
+            ->with([
+                'status' => 'Data anda sedang di proses Admin, 
                     silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
-                ]) :
-                Redirect::route('rental.index');
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+            ]) :
+            Redirect::route('rental.index');
     }
 
     public function edit($id)
@@ -268,18 +228,8 @@ class RentalController extends Controller
 
     public function show($id)
     {
-        // Auth Roles Rental        
-        if (
-            $this->FunctionController->onlyUserRental() == true ||
-            $this->FunctionController->onlyAdminRental() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $rental = Rental::find($id);
-            return view('pages.data.rental.showRental', ['rental' => $rental]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        $rental = Rental::find($id);
+        return view('pages.data.rental.showRental', ['rental' => $rental]);
     }
 
     public function approv()
@@ -375,28 +325,18 @@ class RentalController extends Controller
 
     public function reject($id)
     {
-        // Auth Roles Rental        
-        if (
-            $this->FunctionController->onlyUserRental() == true ||
-            $this->FunctionController->onlyAdminRental() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $rental = Rental::find($id);
-            if ($rental->edit == 1) {
-                return $this->rejectEdit($id);
-            } elseif ($this->FunctionController->authAdmin() == true) {
-                $rental->del = 1;
-                $rental->add = 0;
-                $rental->edit = 0;
-                $rental->save();
-                return Redirect::route('rental.index')
-                    ->with(['status' => 'Penolakan dengan kode item ' . $rental->code . __(' berhasil ditolak')]);
-            } else {
-                return Redirect::route('rental.index');
-            }
+        $rental = Rental::find($id);
+        if ($rental->edit == 1) {
+            return $this->rejectEdit($id);
+        } elseif ($this->FunctionController->authAdmin() == true) {
+            $rental->del = 1;
+            $rental->add = 0;
+            $rental->edit = 0;
+            $rental->save();
+            return Redirect::route('rental.index')
+                ->with(['status' => 'Penolakan dengan kode item ' . $rental->code . __(' berhasil ditolak')]);
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            return Redirect::route('rental.index');
         }
     }
 
