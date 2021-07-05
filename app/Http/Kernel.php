@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'production.auth' => \App\Http\Middleware\ProductionAuth::class,
         'equipment.auth' => \App\Http\Middleware\EquipmentAuth::class,
         'rental.auth' => \App\Http\Middleware\RentalAuth::class,
+        'vehicle.auth' => \App\Http\Middleware\VehicleAuth::class,
     ];
 }

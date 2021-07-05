@@ -17,7 +17,7 @@ class VehicleController extends Controller
      */
     public function __construct(FunctionController $FunctionController)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'vehicle.auth']);
         $this->FunctionController = $FunctionController;
     }
 
@@ -38,123 +38,83 @@ class VehicleController extends Controller
 
     public function index()
     {
-        // Auth Roles Rental        
-        if (
-            $this->FunctionController->onlyUserVehicle() == true ||
-            $this->FunctionController->onlyAdminVehicle() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            if ($this->FunctionController->authUser() == true) {
-                return view('pages.data.vehicle.indexVehicle', [
-                    'vehicle' => $this->getData(1),
-                    'total' => $this->FunctionController->total('vehicle'),
-                    'dtotal' => $this->FunctionController->dtotal('vehicle')
-                ]);
-            } else {
-                return view('pages.data.vehicle.indexVehicle', [
-                    'vehicle' => $this->getData(1),
-                    'total' => $this->FunctionController->total('vehicle'),
-                    'dtotal' => $this->FunctionController->dtotal('vehicle'),
-                    'notUser' => true
-                ]);
-            }
+        if ($this->FunctionController->authUser() == true) {
+            return view('pages.data.vehicle.indexVehicle', [
+                'vehicle' => $this->getData(1),
+                'total' => $this->FunctionController->total('vehicle'),
+                'dtotal' => $this->FunctionController->dtotal('vehicle')
+            ]);
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            return view('pages.data.vehicle.indexVehicle', [
+                'vehicle' => $this->getData(1),
+                'total' => $this->FunctionController->total('vehicle'),
+                'dtotal' => $this->FunctionController->dtotal('vehicle'),
+                'notUser' => true
+            ]);
         }
     }
 
     public function deny()
     {
-        // Auth Roles Vehicle
-        if (
-            $this->FunctionController->onlyUserVehicle() == true ||
-            $this->FunctionController->onlyAdminVehicle() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            return view('pages.data.vehicle.declineVehicle', [
-                'vehicle' => $this->getData(0),
-                'total' => $this->FunctionController->total('vehicle'),
-                'dtotal' => $this->FunctionController->dtotal('vehicle')
-            ]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        return view('pages.data.vehicle.declineVehicle', [
+            'vehicle' => $this->getData(0),
+            'total' => $this->FunctionController->total('vehicle'),
+            'dtotal' => $this->FunctionController->dtotal('vehicle')
+        ]);
     }
 
     public function create()
     {
-        // Auth Roles Vehicle      
-        if (
-            $this->FunctionController->onlyUserVehicle() == true ||
-            $this->FunctionController->onlyAdminVehicle() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $code = "VH-" . str_pad($this->FunctionController->getRandom('vehicle'), 5, '0', STR_PAD_LEFT);
-            return view('pages.data.vehicle.createVehicle', ['code' => $code]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        $code = "VH-" . str_pad($this->FunctionController->getRandom('vehicle'), 5, '0', STR_PAD_LEFT);
+        return view('pages.data.vehicle.createVehicle', ['code' => $code]);
     }
 
     public function store(Request $req)
     {
-        // Auth Roles Vehicle        
-        if (
-            $this->FunctionController->onlyUserVehicle() == true ||
-            $this->FunctionController->onlyAdminVehicle() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            Validator::make($req->all(), [
-                'code' => 'required',
-                'name' => 'required',
-                'type' => 'required',
-                'brand' => 'required',
-                'plat' => 'required',
-                'step' => 'required',
-                'engine' => 'required',
-                'kir' => 'date',
-                'tax' => 'required|date',
-                'stnk' => 'required|date',
-            ])->validate();
+        Validator::make($req->all(), [
+            'code' => 'required',
+            'name' => 'required',
+            'type' => 'required',
+            'brand' => 'required',
+            'plat' => 'required',
+            'step' => 'required',
+            'engine' => 'required',
+            'kir' => 'date',
+            'tax' => 'required|date',
+            'stnk' => 'required|date',
+        ])->validate();
 
-            // Initiation KIR
-            $kir = $req->kir == date("Y-m-d") ? null : $req->kir;
+        // Initiation KIR
+        $kir = $req->kir == date("Y-m-d") ? null : $req->kir;
 
-            // Permissions
-            $addPermissions = $this->FunctionController->add();
+        // Permissions
+        $addPermissions = $this->FunctionController->add();
 
-            Vehicle::create([
-                'code' => $req->code,
-                'name' => $req->name,
-                'type' => $req->type,
-                'brand' => $req->brand,
-                'plat' => $req->plat,
-                'step' => $req->step,
-                'engine' => $req->engine,
-                'kir' => $kir,
-                'tax' => $req->tax,
-                'stnk' => $req->stnk,
-                'status' => $req->status,
-                'info' => $req->info,
-                'add' => $addPermissions == true ? 1 : 0,
-                'edit' => 0,
-                'del' => 0,
-            ]);
+        Vehicle::create([
+            'code' => $req->code,
+            'name' => $req->name,
+            'type' => $req->type,
+            'brand' => $req->brand,
+            'plat' => $req->plat,
+            'step' => $req->step,
+            'engine' => $req->engine,
+            'kir' => $kir,
+            'tax' => $req->tax,
+            'stnk' => $req->stnk,
+            'status' => $req->status,
+            'info' => $req->info,
+            'add' => $addPermissions == true ? 1 : 0,
+            'edit' => 0,
+            'del' => 0,
+        ]);
 
-            return $this->FunctionController->onlyUserVehicle() == true ?
-                Redirect::route('vehicle.index')
-                ->with([
-                    'status' => 'Data anda sedang di proses Admin, 
+        return $this->FunctionController->onlyUserVehicle() == true ?
+            Redirect::route('vehicle.index')
+            ->with([
+                'status' => 'Data anda sedang di proses Admin, 
                     silahkan menunggu atau melihat status data Anda di halaman persetujuan.'
-                ]) :
-                Redirect::route('vehicle.index');
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+            ]) :
+            Redirect::route('vehicle.index');
     }
 
     public function edit($id)
@@ -272,18 +232,8 @@ class VehicleController extends Controller
 
     public function show($id)
     {
-        // Auth Roles Production        
-        if (
-            $this->FunctionController->onlyUserVehicle() == true ||
-            $this->FunctionController->onlyAdminVehicle() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $vehicle = Vehicle::find($id);
-            return view('pages.data.vehicle.showVehicle', ['vehicle' => $vehicle]);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
-        }
+        $vehicle = Vehicle::find($id);
+        return view('pages.data.vehicle.showVehicle', ['vehicle' => $vehicle]);
     }
 
     public function approv()
@@ -377,28 +327,18 @@ class VehicleController extends Controller
 
     public function reject($id)
     {
-        // Auth Roles Vehicle        
-        if (
-            $this->FunctionController->onlyUserVehicle() == true ||
-            $this->FunctionController->onlyAdminVehicle() == true ||
-            $this->FunctionController->superAdmin() == true
-        ) {
-            $vehicle = Vehicle::find($id);
-            if ($vehicle->edit == 1) {
-                return $this->rejectEdit($id);
-            } elseif ($this->FunctionController->authAdmin() == true) {
-                $vehicle->del = 1;
-                $vehicle->add = 0;
-                $vehicle->edit = 0;
-                $vehicle->save();
-                return Redirect::route('vehicle.index')
-                    ->with(['status' => 'Penolakan dengan kode item ' . $vehicle->code . __(' berhasil ditolak')]);
-            } else {
-                return Redirect::route('vehicle.index');
-            }
+        $vehicle = Vehicle::find($id);
+        if ($vehicle->edit == 1) {
+            return $this->rejectEdit($id);
+        } elseif ($this->FunctionController->authAdmin() == true) {
+            $vehicle->del = 1;
+            $vehicle->add = 0;
+            $vehicle->edit = 0;
+            $vehicle->save();
+            return Redirect::route('vehicle.index')
+                ->with(['status' => 'Penolakan dengan kode item ' . $vehicle->code . __(' berhasil ditolak')]);
         } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+            return Redirect::route('vehicle.index');
         }
     }
 
