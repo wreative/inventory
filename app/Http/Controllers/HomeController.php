@@ -54,7 +54,7 @@ class HomeController extends Controller
                     ->where('edit', 0)
                     ->where('del', 0)
                     ->get();
-                dd($production);
+                return view('pages.print.productionPrint');
                 break;
             case 'rental':
                 $rental = Rental::where('add', 0)

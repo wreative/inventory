@@ -4,7 +4,7 @@
 @section('breadcrumb', __('Data'))
 @section('titleButton')
 <div class="section-header-button">
-    <a href="{{ route('print',__('production')) }}" class="btn btn-primary">
+    <a href="{{ route('print',__('production')) }}" target="_blank" class="btn btn-primary">
         {{ __('Print') }}
     </a>
 </div>
