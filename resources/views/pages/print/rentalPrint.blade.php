@@ -30,14 +30,10 @@
                 {{ $r->name }}
             </td>
             <td>
-                <span class="badge badge-info">
-                    {{ $r->status }}
-                </span>
+                {{ $r->status }}
             </td>
             <td>
-                <span class="badge badge-info">
-                    {{ $r->rental }}
-                </span>
+                {{ $r->rental }}
             </td>
             <td>
                 {{ date("m-Y", strtotime($r->due)) }}
