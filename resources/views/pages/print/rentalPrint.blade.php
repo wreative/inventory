@@ -22,10 +22,10 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($production as $number => $p)
+        @foreach($rental as $number => $r)
         <tr>
             <td>{{ $number + 1 }}</td>
-            <td class="w-25">{{ $p->code }}</td>
+            <td class="w-25">{{ $r->code }}</td>
             <td>
                 {{ $r->name }}
             </td>
