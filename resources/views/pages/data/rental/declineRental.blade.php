@@ -48,13 +48,12 @@
                         {{ __('Kode') }}
                     </th>
                     <th>{{ __('Nama Gedung') }}</th>
-                    <th>{{ __('Pembayaran') }}</th>
                     <th>{{ __('Status Gedung') }}</th>
                     <th>{{ __('Jatuh Tempo') }}</th>
                     <th>{{ __('No PBB') }}</th>
-                    <th>{{ __('No PLN') }}</th>
-                    <th>{{ __('No PDAM') }}</th>
-                    <th>{{ __('No Wifi') }}</th>
+                    <th>{{ __('PLN') }}</th>
+                    <th>{{ __('PDAM') }}</th>
+                    <th>{{ __('Indihome') }}</th>
                     <th>{{ __('Alamat') }}</th>
                     <th>{{ __('Info') }}</th>
                 </tr>
@@ -73,28 +72,26 @@
                     </td>
                     <td>
                         <span class="badge badge-info">
-                            {{ $r->status }}
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge badge-info">
                             {{ $r->rental }}
                         </span>
                     </td>
                     <td>
                         {{ date("m-Y", strtotime($r->due)) }}
+                        <span class="badge badge-info">
+                            {{ $r->due_type }}
+                        </span>
                     </td>
                     <td>
                         {{ $r->pbb }}
                     </td>
                     <td>
-                        {{ $r->pln }}
+                        {{ $r->pln.__('(').date("d-m-Y", strtotime($r->due_pln)).__(')') }}
                     </td>
                     <td>
-                        {{ $r->pdam }}
+                        {{ $r->pdam.__('(').date("d-m-Y", strtotime($r->due_pdam)).__(')') }}
                     </td>
                     <td>
-                        {{ $r->wifi }}
+                        {{ $r->wifi.__('(').date("d-m-Y", strtotime($r->due_wifi)).__(')') }}
                     </td>
                     <td>
                         {{ $r->address }}

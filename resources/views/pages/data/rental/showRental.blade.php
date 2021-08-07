@@ -24,84 +24,104 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label>{{ __('Nama Gedung') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->name }}" class="form-control" name="name" readonly>
+                    <label>{{ __('Nama Gedung') }}</label>
+                    <input type="text" value="{{ $rental->name }}" class="form-control" disabled>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label>{{ __('Alamat') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->address }}" class="form-control" name="address" readonly>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label>{{ __('No PBB') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->pbb }}" class="form-control" name="pbb" readonly>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label>{{ __('No Token PLN') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->pln }}" class="form-control" name="pln" readonly>
+                    <label>{{ __('Alamat') }}</label>
+                    <input type="text" value="{{ $rental->address }}" class="form-control " disabled>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label>{{ __('No PDAM') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->pdam }}" class="form-control" name="pdam" readonly>
+                    <label>{{ __('No PBB') }}</label>
+                    <input type="text" value="{{ $rental->pbb }}" class="form-control" disabled>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label>{{ __('No Wifi') }}<code>*</code></label>
-                    <input type="text" value="{{ $rental->wifi }}" class="form-control" name="wifi" readonly>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-label">{{ __('Status Pembayaran') }}<code>*</code></label>
-                    <div class="selectgroup w-100" id="status">
-                        <label class="selectgroup-item">
-                            <input type="radio" name="status" value="1" class="selectgroup-input"
-                                {{ $rental->status == 'Lunas' ? 'checked' : 'disabled' }}>
-                            <span class="selectgroup-button">{{ __('Lunas') }}</span>
-                        </label>
-                        <label class="selectgroup-item">
-                            <input type="radio" name="status" value="2" class="selectgroup-input"
-                                {{ $rental->status == 'Belum' ? 'checked' : 'disabled' }}>
-                            <span class="selectgroup-button">{{ __('Belum Lunas') }}</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-label">{{ __('Status Gedung') }}<code>*</code></label>
+                    <label class="form-label">{{ __('Status Gedung') }}</label>
                     <div class="selectgroup w-100" id="rental">
                         <label class="selectgroup-item">
                             <input type="radio" name="rental" value="1" class="selectgroup-input"
-                                {{ $rental->rental == 'Sewa' ? 'checked' : 'disabled' }}>
+                                {{ $rental->rental == 'Sewa' ? 'checked' : '' }} disabled>
                             <span class="selectgroup-button">{{ __('Sewa') }}</span>
                         </label>
                         <label class="selectgroup-item">
                             <input type="radio" name="rental" value="2" class="selectgroup-input"
-                                {{ $rental->rental == 'Hak Milik' ? 'checked' : 'disabled' }}>
+                                {{ $rental->rental == 'Hak Milik' ? 'checked' : '' }} disabled>
                             <span class="selectgroup-button">{{ __('Hak Milik') }}</span>
                         </label>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label>{{ __('Tanggal Jatuh Tempo') }}<code>*</code></label>
-            <input value="{{ $rental->due }}" type="date" class="form-control" name="due" readonly>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('No Token PLN') }}</label>
+                    <input type="text" value="{{ $rental->pln }}" class="form-control" disabled>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('Tanggal Jatuh Tempo PLN') }}</label>
+                    <input type="text" value="{{ $rental->due_pln }}" class="form-control datepicker" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('No PDAM') }}</label>
+                    <input type="text" value="{{ $rental->pdam }}" class="form-control" disabled>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('Tanggal Jatuh Tempo PDAM') }}</label>
+                    <input type="text" value="{{ $rental->due_pdam }}" class="form-control datepicker" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('No Indihome') }}</label>
+                    <input type="text" value="{{ $rental->wifi }}" class="form-control" disabled>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('Tanggal Jatuh Tempo Indihome') }}</label>
+                    <input type="text" value="{{ $rental->due_wifi }}" class="form-control datepicker" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('Tanggal Jatuh Tempo') }}</label>
+                    <input type="text" value="{{ $rental->due }}" class="form-control datepicker" disabled>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('Jenis Jatuh Tempo') }}</label>
+                    <select class="form-control" disabled>
+                        <option value="Bulanan" {{ $rental->due_type == 'Bulanan'  ? 'selected' : '' }}>
+                            {{ __('Bulanan') }}
+                        </option>
+                        <option value="Tahunan" {{ $rental->due_type == 'Tahunan'  ? 'selected' : '' }}>
+                            {{ __('Tahunan') }}
+                        </option>
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label>{{ __('Keterangan') }}</label>

@@ -75,13 +75,16 @@ class RentalController extends Controller
             'code' => 'required',
             'name' => 'required',
             'address' => 'required',
-            'status' => 'required',
             'pln' => 'required',
+            'due_pln' => 'required|date',
             'pdam' => 'required',
-            'pbb' => 'required',
+            'due_pdam' => 'required|date',
             'wifi' => 'required',
+            'due_wifi' => 'required|date',
+            'pbb' => 'required',
             'rental' => 'required',
             'due' => 'required|date',
+            'due_type' => 'required',
         ])->validate();
 
         // Permissions
@@ -91,13 +94,16 @@ class RentalController extends Controller
             'code' => $req->code,
             'name' => $req->name,
             'address' => $req->address,
-            'status' => $req->status,
             'pln' => $req->pln,
+            'due_pln' => $req->due_pln,
             'pdam' => $req->pdam,
-            'pbb' => $req->pbb,
+            'due_pdam' => $req->due_pdam,
             'wifi' => $req->wifi,
+            'due_wifi' => $req->due_wifi,
+            'pbb' => $req->pbb,
             'rental' => $req->rental,
             'due' => $req->due,
+            'due_type' => $req->due_type,
             'info' => $req->info,
             'add' => $addPermissions == true ? 1 : 0,
             'edit' => 0,
@@ -147,14 +153,18 @@ class RentalController extends Controller
         ) {
             Validator::make($req->all(), [
                 'name' => 'required',
+                'name' => 'required',
                 'address' => 'required',
-                'status' => 'required',
                 'pln' => 'required',
+                'due_pln' => 'required|date',
                 'pdam' => 'required',
-                'pbb' => 'required',
+                'due_pdam' => 'required|date',
                 'wifi' => 'required',
+                'due_wifi' => 'required|date',
+                'pbb' => 'required',
                 'rental' => 'required',
                 'due' => 'required|date',
+                'due_type' => 'required',
             ])->validate();
 
             // Initiation
@@ -166,14 +176,17 @@ class RentalController extends Controller
                     'code' => $rental->code,
                     'name' => $rental->name,
                     'address' => $rental->address,
-                    'status' => $rental->status,
                     'pln' => $rental->pln,
+                    'due_pln' => $rental->due_pln,
                     'pdam' => $rental->pdam,
-                    'pbb' => $rental->pbb,
+                    'due_pdam' => $rental->due_pdam,
                     'wifi' => $rental->wifi,
+                    'due_wifi' => $rental->due_wifi,
+                    'pbb' => $rental->pbb,
                     'rental' => $rental->rental,
                     'due' => $rental->due,
-                    'info' => $rental->info
+                    'due_type' => $rental->due_type,
+                    'info' => $rental->info,
                 ]);
             }
 
@@ -182,13 +195,16 @@ class RentalController extends Controller
 
             $rental->name = $req->name;
             $rental->address = $req->address;
-            $rental->status = $req->status;
             $rental->pln = $req->pln;
+            $rental->due_pln = $req->due_pln;
             $rental->pdam = $req->pdam;
-            $rental->pbb = $req->pbb;
+            $rental->due_pdam = $req->due_pdam;
             $rental->wifi = $req->wifi;
+            $rental->due_wifi = $req->due_wifi;
+            $rental->pbb = $req->pbb;
             $rental->rental = $req->rental;
             $rental->due = $req->due;
+            $rental->due_type = $req->due_type;
             $rental->info = $req->info;
             $rental->add = 0;
             $rental->edit = $editPermissions == true ? 1 : 0;
@@ -352,13 +368,16 @@ class RentalController extends Controller
         // Edit Data
         $rental->name = $rentalTemp->name;
         $rental->address = $rentalTemp->address;
-        $rental->status = $rentalTemp->status;
         $rental->pln = $rentalTemp->pln;
+        $rental->due_pln = $rentalTemp->due_pln;
         $rental->pdam = $rentalTemp->pdam;
-        $rental->pbb = $rentalTemp->pbb;
+        $rental->due_pdam = $rentalTemp->due_pdam;
         $rental->wifi = $rentalTemp->wifi;
+        $rental->due_wifi = $rentalTemp->due_wifi;
+        $rental->pbb = $rentalTemp->pbb;
         $rental->rental = $rentalTemp->rental;
         $rental->due = $rentalTemp->due;
+        $rental->due_type = $rentalTemp->due_type;
         $rental->info = $rentalTemp->info;
         $rental->add = 0;
         $rental->edit = 0;
