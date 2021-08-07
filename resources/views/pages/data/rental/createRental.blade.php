@@ -168,7 +168,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Jenis Jatuh Tempo') }}<code>*</code></label>
+                        <label>{{ __('Jenis Jatuh Tempo Gedung') }}<code>*</code></label>
                         <select class="form-control selectric @error('due_type') is-invalid @enderror" name="due_type"
                             required>
                             <option value="Bulanan">

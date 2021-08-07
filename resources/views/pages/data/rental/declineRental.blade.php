@@ -51,9 +51,12 @@
                     <th>{{ __('Status Gedung') }}</th>
                     <th>{{ __('Jatuh Tempo') }}</th>
                     <th>{{ __('No PBB') }}</th>
-                    <th>{{ __('PLN') }}</th>
+                    <th>{{ __('No PLN') }}</th>
+                    <th>{{ __('Jatuh Tempo PLN') }}</th>
                     <th>{{ __('PDAM') }}</th>
+                    <th>{{ __('Jatuh Tempo PDAM') }}</th>
                     <th>{{ __('Indihome') }}</th>
+                    <th>{{ __('Jatuh Tempo Indihome') }}</th>
                     <th>{{ __('Alamat') }}</th>
                     <th>{{ __('Info') }}</th>
                 </tr>
@@ -85,13 +88,22 @@
                         {{ $r->pbb }}
                     </td>
                     <td>
-                        {{ $r->pln.__('(').date("d-m-Y", strtotime($r->due_pln)).__(')') }}
+                        {{ $r->pln }}
                     </td>
                     <td>
-                        {{ $r->pdam.__('(').date("d-m-Y", strtotime($r->due_pdam)).__(')') }}
+                        {{ date("d-m-Y", strtotime($r->due_pln)) }}
                     </td>
                     <td>
-                        {{ $r->wifi.__('(').date("d-m-Y", strtotime($r->due_wifi)).__(')') }}
+                        {{ $r->pdam }}
+                    </td>
+                    <td>
+                        {{ date("d-m-Y", strtotime($r->due_pdam)) }}
+                    </td>
+                    <td>
+                        {{ $r->wifi }}
+                    </td>
+                    <td>
+                        {{ date("d-m-Y", strtotime($r->due_wifi)) }}
                     </td>
                     <td>
                         {{ $r->address }}
