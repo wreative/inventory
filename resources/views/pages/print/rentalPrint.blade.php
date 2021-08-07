@@ -10,13 +10,15 @@
             <th style="w-auto">{{ __('No') }}</th>
             <th class="w-auto">{{ __('Kode') }}</th>
             <th>{{ __('Nama Gedung') }}</th>
-            <th>{{ __('Pembayaran') }}</th>
             <th>{{ __('Status Gedung') }}</th>
             <th>{{ __('Jatuh Tempo') }}</th>
             <th>{{ __('No PBB') }}</th>
             <th>{{ __('No PLN') }}</th>
-            <th>{{ __('No PDAM') }}</th>
-            <th>{{ __('No Wifi') }}</th>
+            <th>{{ __('Jatuh Tempo PLN') }}</th>
+            <th>{{ __('PDAM') }}</th>
+            <th>{{ __('Jatuh Tempo PDAM') }}</th>
+            <th>{{ __('Indihome') }}</th>
+            <th>{{ __('Jatuh Tempo Indihome') }}</th>
             <th>{{ __('Alamat') }}</th>
             <th>{{ __('Info') }}</th>
         </tr>
@@ -30,13 +32,11 @@
                 {{ $r->name }}
             </td>
             <td>
-                {{ $r->status }}
-            </td>
-            <td>
                 {{ $r->rental }}
             </td>
             <td>
                 {{ date("m-Y", strtotime($r->due)) }}
+                {{ $r->due_type }}
             </td>
             <td>
                 {{ $r->pbb }}
@@ -45,10 +45,19 @@
                 {{ $r->pln }}
             </td>
             <td>
+                {{ date("d-m-Y", strtotime($r->due_pln)) }}
+            </td>
+            <td>
                 {{ $r->pdam }}
             </td>
             <td>
+                {{ date("d-m-Y", strtotime($r->due_pdam)) }}
+            </td>
+            <td>
                 {{ $r->wifi }}
+            </td>
+            <td>
+                {{ date("d-m-Y", strtotime($r->due_wifi)) }}
             </td>
             <td>
                 {{ $r->address }}
