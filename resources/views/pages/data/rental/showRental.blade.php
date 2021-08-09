@@ -60,6 +60,26 @@
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <label>{{ __('Kosongkan Kolom') }}</label>
+            <div class="selectgroup selectgroup-pills">
+                <label class="selectgroup-item">
+                    <input type="checkbox" name="pln_null" value="1" class="selectgroup-input"
+                        {{ $rental->pln == null ? 'checked' : '' }} disabled>
+                    <span class="selectgroup-button">{{ __('Kolom PLN') }}</span>
+                </label>
+                <label class="selectgroup-item">
+                    <input type="checkbox" name="pdam_null" value="1" class="selectgroup-input"
+                        {{ $rental->pdam == null ? 'checked' : '' }} disabled>
+                    <span class="selectgroup-button">{{ __('Kolom PDAM') }}</span>
+                </label>
+                <label class="selectgroup-item">
+                    <input type="checkbox" name="wifi_null" value="1" class="selectgroup-input"
+                        {{ $rental->wifi == null ? 'checked' : '' }} disabled>
+                    <span class="selectgroup-button">{{ __('Kolom Indihome') }}</span>
+                </label>
+            </div>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -70,7 +90,8 @@
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Tanggal Jatuh Tempo PLN') }}</label>
-                    <input type="text" value="{{ $rental->due_pln }}" class="form-control datepicker" disabled>
+                    <input type="text" value="{{ $rental->pln =='' ? '' : $rental->due_pln }}" class="form-control"
+                        disabled>
                 </div>
             </div>
         </div>
@@ -84,7 +105,8 @@
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Tanggal Jatuh Tempo PDAM') }}</label>
-                    <input type="text" value="{{ $rental->due_pdam }}" class="form-control datepicker" disabled>
+                    <input type="text" value="{{ $rental->pdam == '' ? '' : $rental->due_pln }}" class="form-control"
+                        disabled>
                 </div>
             </div>
         </div>
@@ -98,7 +120,8 @@
             <div class="col">
                 <div class="form-group">
                     <label>{{ __('Tanggal Jatuh Tempo Indihome') }}</label>
-                    <input type="text" value="{{ $rental->due_wifi }}" class="form-control datepicker" disabled>
+                    <input type="text" value="{{ $rental->pln == '' ? '' : $rental->due_pln }}" class="form-control"
+                        disabled>
                 </div>
             </div>
         </div>

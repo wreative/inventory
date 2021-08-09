@@ -46,8 +46,8 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('No PBB') }}<code>*</code></label>
-                        <input type="text" class="form-control @error('pbb') is-invalid @enderror" name="pbb" required>
+                        <label>{{ __('No PBB') }}</label>
+                        <input type="text" class="form-control @error('pbb') is-invalid @enderror" name="pbb">
                         @error('pbb')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -76,11 +76,28 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label>{{ __('Kosongkan Kolom') }}</label>
+                <div class="selectgroup selectgroup-pills">
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="pln_null" value="1" class="selectgroup-input">
+                        <span class="selectgroup-button">{{ __('Kolom PLN') }}</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="pdam_null" value="1" class="selectgroup-input">
+                        <span class="selectgroup-button">{{ __('Kolom PDAM') }}</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="wifi_null" value="1" class="selectgroup-input">
+                        <span class="selectgroup-button">{{ __('Kolom Indihome') }}</span>
+                    </label>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('No Token PLN') }}<code>*</code></label>
-                        <input type="text" class="form-control @error('pln') is-invalid @enderror" name="pln" required>
+                        <label>{{ __('No Token PLN') }}</label>
+                        <input type="text" class="form-control @error('pln') is-invalid @enderror" name="pln">
                         @error('pln')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -90,9 +107,9 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tanggal Jatuh Tempo PLN') }}<code>*</code></label>
+                        <label>{{ __('Tanggal Jatuh Tempo PLN') }}</label>
                         <input type="text" class="form-control datepicker @error('due_pln') is-invalid @enderror"
-                            name="due_pln" required>
+                            name="due_pln">
                         @error('due_pln')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -104,9 +121,8 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('No PDAM') }}<code>*</code></label>
-                        <input type="text" class="form-control @error('pdam') is-invalid @enderror" name="pdam"
-                            required>
+                        <label>{{ __('No PDAM') }}</label>
+                        <input type="text" class="form-control @error('pdam') is-invalid @enderror" name="pdam">
                         @error('pdam')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -116,9 +132,9 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tanggal Jatuh Tempo PDAM') }}<code>*</code></label>
+                        <label>{{ __('Tanggal Jatuh Tempo PDAM') }}</label>
                         <input type="text" class="form-control datepicker @error('due_pdam') is-invalid @enderror"
-                            name="due_pdam" required>
+                            name="due_pdam">
                         @error('due_pdam')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -130,9 +146,8 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('No Indihome') }}<code>*</code></label>
-                        <input type="text" class="form-control @error('wifi') is-invalid @enderror" name="wifi"
-                            required>
+                        <label>{{ __('No Indihome') }}</label>
+                        <input type="text" class="form-control @error('wifi') is-invalid @enderror" name="wifi">
                         @error('wifi')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -142,9 +157,9 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tanggal Jatuh Tempo Indihome') }}<code>*</code></label>
+                        <label>{{ __('Tanggal Jatuh Tempo Indihome') }}</label>
                         <input type="text" class="form-control datepicker @error('due_wifi') is-invalid @enderror"
-                            name="due_wifi" required>
+                            name="due_wifi">
                         @error('due_wifi')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -202,4 +217,7 @@
         </div>
     </form>
 </div>
+@endsection
+@section('script')
+<script src="{{ asset('pages/rentalStored.js') }}"></script>
 @endsection

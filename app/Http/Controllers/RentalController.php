@@ -75,13 +75,9 @@ class RentalController extends Controller
             'code' => 'required',
             'name' => 'required',
             'address' => 'required',
-            'pln' => 'required',
-            'due_pln' => 'required|date',
-            'pdam' => 'required',
-            'due_pdam' => 'required|date',
-            'wifi' => 'required',
-            'due_wifi' => 'required|date',
-            'pbb' => 'required',
+            'due_pln' => 'date',
+            'due_pdam' => 'date',
+            'due_wifi' => 'date',
             'rental' => 'required',
             'due' => 'required|date',
             'due_type' => 'required',
@@ -94,13 +90,13 @@ class RentalController extends Controller
             'code' => $req->code,
             'name' => $req->name,
             'address' => $req->address,
-            'pln' => $req->pln,
-            'due_pln' => $req->due_pln,
-            'pdam' => $req->pdam,
-            'due_pdam' => $req->due_pdam,
-            'wifi' => $req->wifi,
-            'due_wifi' => $req->due_wifi,
-            'pbb' => $req->pbb,
+            'pln' => $req->pln_null == 1 ? null : $req->pln,
+            'due_pln' => $req->pln_null == 1 ? null : $req->due_pln,
+            'pdam' => $req->pdam_null == 1 ? null : $req->pdam,
+            'due_pdam' => $req->pdam_null == 1 ? null : $req->due_pdam,
+            'wifi' => $req->wifi_null == 1 ? null : $req->wifi,
+            'due_wifi' => $req->wifi_null == 1 ? null : $req->due_wifi,
+            'pbb' => $req->pbb == null ? null : $req->pbb,
             'rental' => $req->rental,
             'due' => $req->due,
             'due_type' => $req->due_type,
@@ -153,15 +149,10 @@ class RentalController extends Controller
         ) {
             Validator::make($req->all(), [
                 'name' => 'required',
-                'name' => 'required',
                 'address' => 'required',
-                'pln' => 'required',
-                'due_pln' => 'required|date',
-                'pdam' => 'required',
-                'due_pdam' => 'required|date',
-                'wifi' => 'required',
-                'due_wifi' => 'required|date',
-                'pbb' => 'required',
+                'due_pln' => 'date',
+                'due_pdam' => 'date',
+                'due_wifi' => 'date',
                 'rental' => 'required',
                 'due' => 'required|date',
                 'due_type' => 'required',
@@ -193,23 +184,25 @@ class RentalController extends Controller
             // Permissions
             $editPermissions = $this->FunctionController->edit();
 
-            $rental->name = $req->name;
-            $rental->address = $req->address;
-            $rental->pln = $req->pln;
-            $rental->due_pln = $req->due_pln;
-            $rental->pdam = $req->pdam;
-            $rental->due_pdam = $req->due_pdam;
-            $rental->wifi = $req->wifi;
-            $rental->due_wifi = $req->due_wifi;
-            $rental->pbb = $req->pbb;
-            $rental->rental = $req->rental;
-            $rental->due = $req->due;
-            $rental->due_type = $req->due_type;
-            $rental->info = $req->info;
-            $rental->add = 0;
-            $rental->edit = $editPermissions == true ? 1 : 0;
-            $rental->del = 0;
-            $rental->save();
+            Rental::where('id', $id)
+                ->update([
+                    'name' => $req->name,
+                    'address' => $req->address,
+                    'pln' => $req->pln_null == 1 ? null : $req->pln,
+                    'due_pln' => $req->pln_null == 1 ? null : $req->due_pln,
+                    'pdam' => $req->pdam_null == 1 ? null : $req->pdam,
+                    'due_pdam' => $req->pdam_null == 1 ? null : $req->due_pdam,
+                    'wifi' => $req->wifi_null == 1 ? null : $req->wifi,
+                    'due_wifi' => $req->wifi_null == 1 ? null : $req->due_wifi,
+                    'pbb' => $req->pbb == null ? null : $req->pbb,
+                    'rental' => $req->rental,
+                    'due' => $req->due,
+                    'due_type' => $req->due_type,
+                    'info' => $req->info,
+                    'add' => 0,
+                    'edit' => $editPermissions == true ? 1 : 0,
+                    'del' => 0
+                ]);
             return Redirect::route('rental.index')->with([
                 'status' => 'Data anda berhasil diubah, 
             silahkan menunggu atau melihat status data Anda di halaman persetujuan.'

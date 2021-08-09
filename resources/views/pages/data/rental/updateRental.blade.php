@@ -46,7 +46,7 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('No PBB') }}<code>*</code></label>
+                        <label>{{ __('No PBB') }}</label>
                         <input type="text" value="{{ $rental->pbb }}"
                             class="form-control @error('pbb') is-invalid @enderror" name="pbb" required>
                         @error('pbb')
@@ -79,12 +79,33 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label>{{ __('Kosongkan Kolom') }}</label>
+                <div class="selectgroup selectgroup-pills">
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="pln_null" value="1" class="selectgroup-input"
+                            {{ $rental->pln == null ? 'checked' : '' }}>
+                        <span class="selectgroup-button">{{ __('Kolom PLN') }}</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="pdam_null" value="1" class="selectgroup-input"
+                            {{ $rental->pdam == null ? 'checked' : '' }}>
+                        <span class="selectgroup-button">{{ __('Kolom PDAM') }}</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="wifi_null" value="1" class="selectgroup-input"
+                            {{ $rental->wifi == null ? 'checked' : '' }}>
+                        <span class="selectgroup-button">{{ __('Kolom Indihome') }}</span>
+                    </label>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('No Token PLN') }}<code>*</code></label>
+                        <label>{{ __('No Token PLN') }}</label>
                         <input type="text" value="{{ $rental->pln }}"
-                            class="form-control @error('pln') is-invalid @enderror" name="pln" required>
+                            class="form-control @error('pln') is-invalid @enderror" name="pln"
+                            {{ $rental->pln == null ? 'readonly' : '' }}>
                         @error('pln')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -94,10 +115,10 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tanggal Jatuh Tempo PLN') }}<code>*</code></label>
+                        <label>{{ __('Tanggal Jatuh Tempo PLN') }}</label>
                         <input type="text" value="{{ $rental->due_pln }}"
                             class="form-control datepicker @error('due_pln') is-invalid @enderror" name="due_pln"
-                            required>
+                            {{ $rental->pln == null ? 'readonly' : '' }}>
                         @error('due_pln')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -109,9 +130,10 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('No PDAM') }}<code>*</code></label>
+                        <label>{{ __('No PDAM') }}</label>
                         <input type="text" value="{{ $rental->pdam }}"
-                            class="form-control @error('pdam') is-invalid @enderror" name="pdam" required>
+                            class="form-control @error('pdam') is-invalid @enderror" name="pdam"
+                            {{ $rental->pdam == null ? 'readonly' : '' }}>
                         @error('pdam')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -121,10 +143,10 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tanggal Jatuh Tempo PDAM') }}<code>*</code></label>
+                        <label>{{ __('Tanggal Jatuh Tempo PDAM') }}</label>
                         <input type="text" value="{{ $rental->due_pdam }}"
                             class="form-control datepicker @error('due_pdam') is-invalid @enderror" name="due_pdam"
-                            required>
+                            {{ $rental->pdam == null ? 'readonly' : '' }}>
                         @error('due_pdam')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -136,9 +158,10 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('No Indihome') }}<code>*</code></label>
+                        <label>{{ __('No Indihome') }}</label>
                         <input type="text" value="{{ $rental->wifi }}"
-                            class="form-control @error('wifi') is-invalid @enderror" name="wifi" required>
+                            class="form-control @error('wifi') is-invalid @enderror" name="wifi"
+                            {{ $rental->wifi == null ? 'readonly' : '' }}>
                         @error('wifi')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -148,10 +171,10 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tanggal Jatuh Tempo Indihome') }}<code>*</code></label>
+                        <label>{{ __('Tanggal Jatuh Tempo Indihome') }}</label>
                         <input type="text" value="{{ $rental->due_wifi }}"
                             class="form-control datepicker @error('due_wifi') is-invalid @enderror" name="due_wifi"
-                            required>
+                            {{ $rental->wifi == null ? 'readonly' : '' }}>
                         @error('due_wifi')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -211,4 +234,7 @@
         </div>
     </form>
 </div>
+@endsection
+@section('script')
+<script src="{{ asset('pages/rentalStored.js') }}"></script>
 @endsection

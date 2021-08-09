@@ -99,25 +99,25 @@
                         </span>
                     </td>
                     <td>
-                        {{ $r->pbb }}
+                        {{ $r->pbb == '' ? __('Tidak Ada') : $r->pbb }}
                     </td>
                     <td>
-                        {{ $r->pln }}
+                        {{ $r->pln == '' ? __('Tidak Ada') : $r->pbb }}
                     </td>
                     <td>
-                        {{ date("d-m-Y", strtotime($r->due_pln)) }}
+                        {{ $r->pln == '' ? __('Tidak Ada') : date("d-m-Y", strtotime($r->due_pln)) }}
                     </td>
                     <td>
-                        {{ $r->pdam }}
+                        {{ $r->pdam == '' ? __('Tidak Ada') : $r->pdam }}
                     </td>
                     <td>
-                        {{ date("d-m-Y", strtotime($r->due_pdam)) }}
+                        {{ $r->pdam == '' ? __('Tidak Ada') : date("d-m-Y", strtotime($r->due_pdam)) }}
                     </td>
                     <td>
-                        {{ $r->wifi }}
+                        {{ $r->wifi == '' ? __('Tidak Ada') : $r->wifi }}
                     </td>
                     <td>
-                        {{ date("d-m-Y", strtotime($r->due_wifi)) }}
+                        {{ $r->wifi == '' ? __('Tidak Ada') : date("d-m-Y", strtotime($r->due_wifi)) }}
                     </td>
                     <td>
                         {{ $r->address }}
