@@ -191,4 +191,9 @@ class FunctionController extends Controller
             ->where('del', '=', 1)
             ->count();
     }
+
+    public function notification()
+    {
+        return 'Function';
+    }
 }
