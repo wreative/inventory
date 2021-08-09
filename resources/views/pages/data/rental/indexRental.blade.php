@@ -102,7 +102,7 @@
                         {{ $r->pbb == '' ? __('Tidak Ada') : $r->pbb }}
                     </td>
                     <td>
-                        {{ $r->pln == '' ? __('Tidak Ada') : $r->pbb }}
+                        {{ $r->pln == '' ? __('Tidak Ada') : $r->pln }}
                     </td>
                     <td>
                         {{ $r->pln == '' ? __('Tidak Ada') : date("d-m-Y", strtotime($r->due_pln)) }}
