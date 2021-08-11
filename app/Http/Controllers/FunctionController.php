@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipment;
+use App\Models\Rental;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -194,6 +196,29 @@ class FunctionController extends Controller
 
     public function notification()
     {
-        return 'Function';
+        $data = [];
+        foreach (Rental::get(['due', 'code', 'due_type']) as $rental) {
+            $now = new DateTime();
+            $date = new DateTime($rental->due);
+
+            // return $date->diff($now)->format("%d days, %h hours and %i minutes");
+            $interval = date_diff($now, $date)->format('%R%a');
+            // return $interval;
+            // ->format('%R%a days');
+            // return abs(strtotime(date("Y-m-d")) - strtotime($rental->due));
+            // if ($interval <= -0 and $interval >= +7) {
+            if (
+                $interval == -0 or $interval == +1 or $interval == +2 or
+                $interval == +3 or $interval == +4 or $interval == +5 or
+                $interval == +6 or $interval == +7
+            ) {
+                $data[] = [
+                    'due' => $rental->due,
+                    'code' => $rental->code,
+                    'due_type' => $rental->due_type
+                ];
+            }
+        }
+        return json_encode($data);
     }
 }
