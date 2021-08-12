@@ -18,15 +18,16 @@ class RentalAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role_id == 8) {
-            return $next($request);
-        } else if (Auth::user()->role_id == 4) {
-            return $next($request);
-        } else if (Auth::user()->role_id == 1) {
-            return $next($request);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+        switch (Auth::user()->role_id) {
+            case 8:
+                return $next($request);
+            case 4:
+                return $next($request);
+            case 1:
+                return $next($request);
+            default:
+                return Redirect::route('home')
+                    ->with(['status' => 'Anda tidak punya akses disini.']);
         }
     }
 }

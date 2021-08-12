@@ -5,7 +5,7 @@
             <li>
                 <a href="javascript:void:0" data-toggle="sidebar" class="nav-link nav-link-lg">
                     <i class="fas fa-bars"></i>
-                    2</a>
+                </a>
             </li>
         </ul>
     </form>

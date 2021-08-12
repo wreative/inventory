@@ -100,6 +100,28 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown {{ Request::route()->getName() == 'website.index' ? 'active' : (
+                Request::route()->getName() == 'website.create' ? 'active' : (
+                    Request::route()->getName() == 'website.approv' ? 'active' : (
+                        Request::route()->getName() == 'website.edit' ? 'active' : (
+                            Request::route()->getName() == 'website.show' ? 'active' : (
+                                Request::route()->getName() == 'website.deny' ? 'active' : ''))))) }}">
+                <a href="{{ route('website.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-globe"></i>
+                    <span>{{ __('Website') }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::route()->getName() == 'website.index' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('website.index') }}">{{ __('Daftar') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'website.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('website.create') }}">{{ __('Tambah') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'website.approv' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('website.approv') }}">{{ __('Persetujuan') }}</a>
+                    </li>
+                </ul>
+            </li>
             @if (Auth::user()->role_id == 1)
             <li class="{{ Request::route()->getName() == 'users.index' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i>

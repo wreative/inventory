@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Equipment;
 use App\Models\Rental;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
@@ -91,12 +90,38 @@ class FunctionController extends Controller
 
     public function authAdmin()
     {
-        return Auth::user()->role_id == 2 ? true : (Auth::user()->role_id == 3 ? true : (Auth::user()->role_id == 4 ? true : (Auth::user()->role_id == 5 ? true : false)));
+        switch (Auth::user()->role_id) {
+            case 2:
+                return true;
+            case 3:
+                return true;
+            case 4:
+                return true;
+            case 5:
+                return true;
+            case 11:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public function authUser()
     {
-        return Auth::user()->role_id == 6 ? true : (Auth::user()->role_id == 7 ? true : (Auth::user()->role_id == 8 ? true : (Auth::user()->role_id == 9 ? true : false)));
+        switch (Auth::user()->role_id) {
+            case 6:
+                return true;
+            case 7:
+                return true;
+            case 8:
+                return true;
+            case 9:
+                return true;
+            case 10:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public function removeComma($number)
@@ -142,6 +167,11 @@ class FunctionController extends Controller
         return Auth::user()->role_id == 9 ? true : false;
     }
 
+    public function onlyUserWebsite()
+    {
+        return Auth::user()->role_id == 10 ? true : false;
+    }
+
     public function onlyAdminProduction()
     {
         return Auth::user()->role_id == 2 ? true : false;
@@ -160,6 +190,11 @@ class FunctionController extends Controller
     public function onlyAdminVehicle()
     {
         return Auth::user()->role_id == 5 ? true : false;
+    }
+
+    public function onlyAdminWebsite()
+    {
+        return Auth::user()->role_id == 11 ? true : false;
     }
 
     public function superAdmin()
@@ -200,13 +235,7 @@ class FunctionController extends Controller
         foreach (Rental::get(['due', 'code', 'due_type']) as $rental) {
             $now = new DateTime();
             $date = new DateTime($rental->due);
-
-            // return $date->diff($now)->format("%d days, %h hours and %i minutes");
             $interval = date_diff($now, $date)->format('%R%a');
-            // return $interval;
-            // ->format('%R%a days');
-            // return abs(strtotime(date("Y-m-d")) - strtotime($rental->due));
-            // if ($interval <= -0 and $interval >= +7) {
             if (
                 $interval == -0 or $interval == +1 or $interval == +2 or
                 $interval == +3 or $interval == +4 or $interval == +5 or

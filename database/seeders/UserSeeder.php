@@ -79,6 +79,20 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('user4'),
                 'role_id' => '9'
             ],
+            [
+                'id' => '10',
+                'name' => 'User Website',
+                'username' => 'user5',
+                'password' => Hash::make('user5'),
+                'role_id' => '10'
+            ],
+            [
+                'id' => '11',
+                'name' => 'Admin Website',
+                'username' => 'admin5',
+                'password' => Hash::make('admin5'),
+                'role_id' => '11'
+            ],
         ]);
     }
 }

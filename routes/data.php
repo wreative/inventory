@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductionController;
+use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\VehicleController;
@@ -56,6 +57,18 @@ Route::get('vehicle/accept/{id}', [VehicleController::class, 'accept'])
     ->name('vehicle.acc');
 Route::get('vehicle/reject/{id}', [VehicleController::class, 'reject'])
     ->name('vehicle.reject');
+
+// Website
+Route::resource('website', WebsiteController::class);
+Route::get('/approve/website', [WebsiteController::class, 'approv'])
+    ->name('website.approv');
+Route::get('/deny/website', [WebsiteController::class, 'deny'])
+    ->name('website.deny');
+// Special Action Website
+Route::get('website/accept/{id}', [WebsiteController::class, 'accept'])
+    ->name('website.acc');
+Route::get('website/reject/{id}', [WebsiteController::class, 'reject'])
+    ->name('website.reject');
 
 // Room
 Route::resource('room', RoomController::class)->except([

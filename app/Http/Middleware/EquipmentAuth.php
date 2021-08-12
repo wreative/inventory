@@ -18,15 +18,16 @@ class EquipmentAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role_id == 7) {
-            return $next($request);
-        } else if (Auth::user()->role_id == 3) {
-            return $next($request);
-        } else if (Auth::user()->role_id == 1) {
-            return $next($request);
-        } else {
-            return Redirect::route('home')
-                ->with(['status' => 'Anda tidak punya akses disini.']);
+        switch (Auth::user()->role_id) {
+            case 7:
+                return $next($request);
+            case 3:
+                return $next($request);
+            case 1:
+                return $next($request);
+            default:
+                return Redirect::route('home')
+                    ->with(['status' => 'Anda tidak punya akses disini.']);
         }
     }
 }

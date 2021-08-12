@@ -51,6 +51,14 @@ class RolesSeeder extends Seeder
                 'id' => '9',
                 'name' => 'User Kendaraan',
             ],
+            [
+                'id' => '10',
+                'name' => 'User Website',
+            ],
+            [
+                'id' => '11',
+                'name' => 'Admin Website',
+            ],
         ]);
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
-class VehicleAuth
+class WebsiteAuth
 {
     /**
      * Handle an incoming request.
@@ -19,9 +19,9 @@ class VehicleAuth
     public function handle(Request $request, Closure $next)
     {
         switch (Auth::user()->role_id) {
-            case 9:
+            case 10:
                 return $next($request);
-            case 5:
+            case 11:
                 return $next($request);
             case 1:
                 return $next($request);

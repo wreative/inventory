@@ -74,5 +74,6 @@ class Kernel extends HttpKernel
         'equipment.auth' => \App\Http\Middleware\EquipmentAuth::class,
         'rental.auth' => \App\Http\Middleware\RentalAuth::class,
         'vehicle.auth' => \App\Http\Middleware\VehicleAuth::class,
+        'website.auth' => \App\Http\Middleware\WebsiteAuth::class,
     ];
 }
