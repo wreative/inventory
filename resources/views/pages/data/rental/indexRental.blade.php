@@ -69,7 +69,7 @@
                     <th>{{ __('Indihome') }}</th>
                     <th>{{ __('Jatuh Tempo Indihome') }}</th>
                     <th>{{ __('Alamat') }}</th>
-                    <th>{{ __('Info') }}</th>
+                    <th>{{ __('Keterangan') }}</th>
                     @isset($notUser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
@@ -93,7 +93,7 @@
                         </span>
                     </td>
                     <td>
-                        {{ date("m-Y", strtotime($r->due)) }}
+                        {{ date("d-m-Y", strtotime($r->due)) }}
                         <span class="badge badge-info">
                             {{ $r->due_type }}
                         </span>

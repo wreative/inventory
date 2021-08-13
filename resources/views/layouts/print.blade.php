@@ -45,15 +45,22 @@
     </div>
 
     @yield('section')
-
     <div class="text-center row mt-5">
         <div class="col">
-            <div class="mb-5">{{ __('Pembuat') }}</div>
-            <div class="mt-5">{{ __('(.........................)') }}</div>
+            <div class="mb-5">
+                <h6>{{ __('Pembuat') }}</h6>
+            </div>
+            <div class="mt-5">
+                <h6>{{ __('(.........................)') }}</h6>
+            </div>
         </div>
         <div class="col">
-            <div class="mb-5">{{ __('Mengetahui') }}</div>
-            <div class="mt-5">{{ __('(.........................)') }}</div>
+            <div class="mb-5">
+                <h6>{{ __('Mengetahui') }}</h6>
+            </div>
+            <div class="mt-5">
+                <h6>{{ __('(.........................)') }}</h6>
+            </div>
         </div>
     </div>
 </body>

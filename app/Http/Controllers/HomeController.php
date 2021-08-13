@@ -6,6 +6,7 @@ use App\Models\Equipment;
 use App\Models\Production;
 use App\Models\Vehicle;
 use App\Models\Rental;
+use App\Models\Website;
 use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
@@ -50,7 +51,6 @@ class HomeController extends Controller
                 return view('pages.print.equipmentPrint', [
                     'equipment' => $equipment
                 ]);
-                break;
             case 'production':
                 $production = Production::where('add', 0)
                     ->where('edit', 0)
@@ -59,7 +59,6 @@ class HomeController extends Controller
                 return view('pages.print.productionPrint', [
                     'production' => $production
                 ]);
-                break;
             case 'rental':
                 $rental = Rental::where('add', 0)
                     ->where('edit', 0)
@@ -68,7 +67,6 @@ class HomeController extends Controller
                 return view('pages.print.rentalPrint', [
                     'rental' => $rental
                 ]);
-                break;
             case 'vehicle':
                 $vehicle = Vehicle::where('add', 0)
                     ->where('edit', 0)
@@ -77,7 +75,14 @@ class HomeController extends Controller
                 return view('pages.print.vehiclePrint', [
                     'vehicle' => $vehicle
                 ]);
-                break;
+            case 'website':
+                $website = Website::where('add', 0)
+                    ->where('edit', 0)
+                    ->where('del', 0)
+                    ->get();
+                return view('pages.print.websitePrint', [
+                    'website' => $website
+                ]);
             default:
                 return Redirect::route('home')
                     ->with(['status' => 'Terdapat error hubungi Administrator.']);

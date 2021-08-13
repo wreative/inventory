@@ -7,27 +7,32 @@
 <table class='table '>
     <thead>
         <tr>
-            <th style="w-auto">{{ __('No') }}</th>
-            <th class="w-auto">{{ __('Kode') }}</th>
+            <th class="w-auto">
+                {{ __('NO') }}
+            </th>
+            <th class="w-auto">
+                {{ __('Kode') }}
+            </th>
             <th>{{ __('Nama Gedung') }}</th>
             <th>{{ __('Status Gedung') }}</th>
             <th>{{ __('Jatuh Tempo') }}</th>
             <th>{{ __('No PBB') }}</th>
-            <th>{{ __('No PLN') }}</th>
-            <th>{{ __('Jatuh Tempo PLN') }}</th>
+            <th>{{ __('PLN') }}</th>
             <th>{{ __('PDAM') }}</th>
-            <th>{{ __('Jatuh Tempo PDAM') }}</th>
             <th>{{ __('Indihome') }}</th>
-            <th>{{ __('Jatuh Tempo Indihome') }}</th>
             <th>{{ __('Alamat') }}</th>
-            <th>{{ __('Info') }}</th>
+            <th style="width: 100%">{{ __('Keterangan') }}</th>
         </tr>
     </thead>
     <tbody>
         @foreach($rental as $number => $r)
         <tr>
-            <td>{{ $number + 1 }}</td>
-            <td class="w-25">{{ $r->code }}</td>
+            <td class="w-auto">
+                {{ $number+1 }}
+            </td>
+            <td class="w-auto">
+                {{ $r->code }}
+            </td>
             <td>
                 {{ $r->name }}
             </td>
@@ -35,34 +40,30 @@
                 {{ $r->rental }}
             </td>
             <td>
-                {{ date("m-Y", strtotime($r->due)) }}
-                {{ $r->due_type }}
+                {{ date("d-m-Y", strtotime($r->due)).__(' (').$r->due_type.__(')') }}
             </td>
             <td>
-                {{ $r->pbb }}
+                {{ $r->pbb == '' ? __('Tidak Ada') : $r->pbb }}
             </td>
             <td>
-                {{ $r->pln }}
+                {{ $r->pln == '' ? __('Tidak Ada') : $r->pln }}
+                <br />
+                {{ $r->pln == '' ? __('Tidak Ada') : __(' (').date("d-m-Y", strtotime($r->due_pln)).__(')') }}
             </td>
             <td>
-                {{ date("d-m-Y", strtotime($r->due_pln)) }}
+                {{ $r->pdam == '' ? __('Tidak Ada') : $r->pdam }}
+                <br />
+                {{ $r->pdam == '' ? __('Tidak Ada') : __(' (').date("d-m-Y", strtotime($r->due_pdam)).__(')') }}
             </td>
             <td>
-                {{ $r->pdam }}
-            </td>
-            <td>
-                {{ date("d-m-Y", strtotime($r->due_pdam)) }}
-            </td>
-            <td>
-                {{ $r->wifi }}
-            </td>
-            <td>
-                {{ date("d-m-Y", strtotime($r->due_wifi)) }}
+                {{ $r->wifi == '' ? __('Tidak Ada') : $r->wifi }}
+                <br />
+                {{ $r->wifi == '' ? __('Tidak Ada') : __(' (').date("d-m-Y", strtotime($r->due_wifi)).__(')') }}
             </td>
             <td>
                 {{ $r->address }}
             </td>
-            <td>
+            <td style="width: 100%">
                 {{ $r->info }}
             </td>
         </tr>
