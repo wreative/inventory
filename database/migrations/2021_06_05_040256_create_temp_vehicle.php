@@ -22,7 +22,7 @@ class CreateTempVehicle extends Migration
             $table->string('plat');
             $table->string('step');
             $table->string('engine');
-            $table->date('kir');
+            $table->date('kir')->nullable();
             $table->date('tax');
             $table->date('stnk');
             $table->longText('info')->nullable();

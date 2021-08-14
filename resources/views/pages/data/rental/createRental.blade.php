@@ -91,6 +91,10 @@
                         <input type="checkbox" name="wifi_null" value="1" class="selectgroup-input">
                         <span class="selectgroup-button">{{ __('Kolom Indihome') }}</span>
                     </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="due_null" value="1" class="selectgroup-input">
+                        <span class="selectgroup-button">{{ __('Tanggal Jatuh Tempo') }}</span>
+                    </label>
                 </div>
             </div>
             <div class="row">
@@ -171,7 +175,7 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tanggal Jatuh Tempo') }}<code>*</code></label>
+                        <label>{{ __('Tanggal Jatuh Tempo') }}</label>
                         <input type="text" class="form-control datepicker @error('due') is-invalid @enderror" name="due"
                             required>
                         @error('due')

@@ -26,7 +26,7 @@ class CreateRental extends Migration
             $table->date('due_wifi')->nullable();
             $table->string('pbb')->nullable();
             $table->enum('rental', ['Sewa', 'Hak Milik']);
-            $table->date('due');
+            $table->date('due')->nullable();
             $table->enum('due_type', ['Bulanan', 'Tahunan']);
             $table->longText('info')->nullable();
             $table->boolean('add')->nullable();

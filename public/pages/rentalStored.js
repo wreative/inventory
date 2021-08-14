@@ -29,3 +29,11 @@ $('[name="wifi_null"]').on("change", function () {
         $('[name="due_wifi"]').prop("readonly", false);
     }
 });
+
+$('[name="due_null"]').on("change", function () {
+    if ($(this).is(":checked")) {
+        $('[name="due"]').prop("readonly", true);
+    } else {
+        $('[name="due"]').prop("readonly", false);
+    }
+});

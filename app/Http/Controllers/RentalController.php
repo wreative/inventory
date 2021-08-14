@@ -79,7 +79,7 @@ class RentalController extends Controller
             'due_pdam' => 'date',
             'due_wifi' => 'date',
             'rental' => 'required',
-            'due' => 'required|date',
+            'due' => 'date',
             'due_type' => 'required',
         ])->validate();
 
@@ -98,7 +98,7 @@ class RentalController extends Controller
             'due_wifi' => $req->wifi_null == 1 ? null : $req->due_wifi,
             'pbb' => $req->pbb == null ? null : $req->pbb,
             'rental' => $req->rental,
-            'due' => $req->due,
+            'due' => $req->due_null == 1 ? null : $req->due,
             'due_type' => $req->due_type,
             'info' => $req->info,
             'add' => $addPermissions == true ? 1 : 0,
@@ -154,7 +154,7 @@ class RentalController extends Controller
                 'due_pdam' => 'date',
                 'due_wifi' => 'date',
                 'rental' => 'required',
-                'due' => 'required|date',
+                'due' => 'date',
                 'due_type' => 'required',
             ])->validate();
 
@@ -175,7 +175,7 @@ class RentalController extends Controller
                     'due_wifi' => $rental->due_wifi,
                     'pbb' => $rental->pbb,
                     'rental' => $rental->rental,
-                    'due' => $rental->due,
+                    'due' => $req->due_null == 1 ? null : $req->due,
                     'due_type' => $rental->due_type,
                     'info' => $rental->info,
                 ]);
