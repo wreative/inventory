@@ -198,9 +198,8 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Jenis Jatuh Tempo') }}<code>*</code></label>
-                        <select class="form-control selectric @error('due_type') is-invalid @enderror" name="due_type"
-                            required>
+                        <label>{{ __('Jenis Jatuh Tempo') }}</label>
+                        <select class="form-control selectric @error('due_type') is-invalid @enderror" name="due_type">
                             <option value="Bulanan" {{ $rental->due_type == 'Bulanan'  ? 'selected' : '' }}>
                                 {{ __('Bulanan') }}
                             </option>

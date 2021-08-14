@@ -176,8 +176,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label>{{ __('Tanggal Jatuh Tempo') }}</label>
-                        <input type="text" class="form-control datepicker @error('due') is-invalid @enderror" name="due"
-                            required>
+                        <input type="text" class="form-control datepicker @error('due') is-invalid @enderror"
+                            name="due">
                         @error('due')
                         <span class="text-danger" role="alert">
                             {{ $message }}

@@ -40,7 +40,12 @@
                 {{ $r->rental }}
             </td>
             <td>
-                {{ date("d-m-Y", strtotime($r->due)).__(' (').$r->due_type.__(')') }}
+                @if ($r->due == null)
+                {{ __('Tidak Ada') }}
+                @else
+                {{ date("d-m-Y", strtotime($r->due)) }}
+                @endif
+                {{ __(' (').$r->due_type.__(')') }}
             </td>
             <td>
                 {{ $r->pbb == '' ? __('Tidak Ada') : $r->pbb }}

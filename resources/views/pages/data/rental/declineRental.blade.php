@@ -79,7 +79,11 @@
                         </span>
                     </td>
                     <td>
+                        @if ($r->due == null)
+                        {{ __('Tidak Ada') }}
+                        @else
                         {{ date("d-m-Y", strtotime($r->due)) }}
+                        @endif
                         <span class="badge badge-info">
                             {{ $r->due_type }}
                         </span>
