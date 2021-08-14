@@ -87,7 +87,11 @@
                         {{ $v->engine }}
                     </td>
                     <td>
+                        @if ($v->kir != null)
                         {{ date("d-m-Y", strtotime($v->kir)) }}
+                        @else
+                        {{ __('Tidak Ada') }}
+                        @endif
                     </td>
                     <td>
                         {{ date("d-m-Y", strtotime($v->tax)) }}

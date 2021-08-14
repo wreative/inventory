@@ -112,7 +112,7 @@
                             @enderror
                         </div>
                         <label class="custom-switch mt-2">
-                            <input type="checkbox" name="kir_null" class="custom-switch-input">
+                            <input type="checkbox" name="kir_null" value="1" class="custom-switch-input">
                             <span class="custom-switch-indicator"></span>
                             <span class="custom-switch-description">
                                 {{ __('Kosongkan Tanggal Kir') }}
@@ -177,4 +177,7 @@
         </div>
     </form>
 </div>
+@endsection
+@section('script')
+<script src="{{ asset('pages/vehicleStored.js') }}"></script>
 @endsection

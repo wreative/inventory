@@ -84,9 +84,6 @@ class VehicleController extends Controller
             'stnk' => 'required|date',
         ])->validate();
 
-        // Initiation KIR
-        $kir = $req->kir == date("Y-m-d") ? null : $req->kir;
-
         // Permissions
         $addPermissions = $this->FunctionController->add();
 
@@ -98,7 +95,7 @@ class VehicleController extends Controller
             'plat' => $req->plat,
             'step' => $req->step,
             'engine' => $req->engine,
-            'kir' => $kir,
+            'kir' => $req->kir_null == 1 ? null : $req->kir,
             'tax' => $req->tax,
             'stnk' => $req->stnk,
             'status' => $req->status,
@@ -161,7 +158,6 @@ class VehicleController extends Controller
 
             // Initiation
             $vehicle = Vehicle::find($id);
-            $kir = $req->kir == date("Y-m-d") ? null : $req->kir;
 
             // Add real data to temp 
             if ($this->FunctionController->superAdmin() == false) {
@@ -190,7 +186,7 @@ class VehicleController extends Controller
             $vehicle->plat = $req->plat;
             $vehicle->step = $req->step;
             $vehicle->engine = $req->engine;
-            $vehicle->kir = $kir;
+            $vehicle->kir = $req->kir_null == 1 ? null : $req->kir;
             $vehicle->tax = $req->tax;
             $vehicle->stnk = $req->stnk;
             $vehicle->info = $req->info;
