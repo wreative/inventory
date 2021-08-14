@@ -48,17 +48,23 @@
             <td>
                 {{ $r->pln == '' ? __('Tidak Ada') : $r->pln }}
                 <br />
-                {{ $r->pln == '' ? __('Tidak Ada') : __(' (').date("d-m-Y", strtotime($r->due_pln)).__(')') }}
+                @if ($r->pln != '')
+                {{ __(' (').date("d-m-Y", strtotime($r->due_pln)).__(')') }}
+                @endif
             </td>
             <td>
                 {{ $r->pdam == '' ? __('Tidak Ada') : $r->pdam }}
                 <br />
-                {{ $r->pdam == '' ? __('Tidak Ada') : __(' (').date("d-m-Y", strtotime($r->due_pdam)).__(')') }}
+                @if ($r->pdam != '')
+                {{ __(' (').date("d-m-Y", strtotime($r->due_pdam)).__(')') }}
+                @endif
             </td>
             <td>
                 {{ $r->wifi == '' ? __('Tidak Ada') : $r->wifi }}
                 <br />
-                {{ $r->wifi == '' ? __('Tidak Ada') : __(' (').date("d-m-Y", strtotime($r->due_wifi)).__(')') }}
+                @if ($r->wifi != '')
+                {{ __(' (').date("d-m-Y", strtotime($r->due_wifi)).__(')') }}
+                @endif
             </td>
             <td>
                 {{ $r->address }}

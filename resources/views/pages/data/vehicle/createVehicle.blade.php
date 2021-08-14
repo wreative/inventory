@@ -111,6 +111,15 @@
                             </span>
                             @enderror
                         </div>
+                        <label class="custom-switch mt-2">
+                            <input type="checkbox" name="kir_null" class="custom-switch-input">
+                            <span class="custom-switch-indicator"></span>
+                            <span class="custom-switch-description">
+                                {{ __('Kosongkan Tanggal Kir') }}
+                            </span>
+                        </label>
+                    </div>
+                    <div class="form-group">
                     </div>
                 </div>
                 <div class="col">

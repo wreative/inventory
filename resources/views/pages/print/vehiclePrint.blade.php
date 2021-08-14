@@ -48,7 +48,7 @@
                 @if ($v->kir != null)
                 {{ date("d-m-Y", strtotime($v->kir)) }}
                 @else
-                {{ __('Tidak di isi') }}
+                {{ __('Tidak Ada') }}
                 @endif
             </td>
             <td>
