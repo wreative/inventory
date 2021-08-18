@@ -85,12 +85,14 @@ Route::get('device/reject/{id}', [DeviceController::class, 'reject'])
     ->name('device.reject');
 
 // Division
-Route::resource('division', DivisionController::class);
+Route::resource('division', DivisionController::class)->except([
+    'show', 'destroy'
+]);
 
 // Room
 Route::resource('room', RoomController::class)->except([
-    'show'
-]);;
+    'show', 'destroy'
+]);
 
 // Print
 Route::get('/print/{name}', [HomeController::class, 'printPage'])

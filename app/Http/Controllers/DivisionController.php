@@ -73,10 +73,4 @@ class DivisionController extends Controller
 
         return Redirect::route('division.index');
     }
-
-    public function destroy($id)
-    {
-        Division::destroy($id);
-        return Redirect::route('division.index');
-    }
 }

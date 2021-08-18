@@ -37,17 +37,6 @@
                             data-toggle="tooltip" title="Edit">
                             <i class="fas fa-pencil-alt"></i>
                         </a>
-                        <form id="del-data{{ $r->id }}" action="{{ route('room.destroy',$r->id) }}" method="POST"
-                            class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer"
-                                data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                data-confirm-yes="document.getElementById('del-data{{ $r->id }}').submit();"
-                                data-toggle="tooltip" title="Hapus">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </form>
                     </td>
                 </tr>
                 @endforeach

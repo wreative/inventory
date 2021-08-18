@@ -69,10 +69,4 @@ class RoomController extends Controller
         $room->save();
         return Redirect::route('room.index');
     }
-
-    public function destroy($id)
-    {
-        Room::find($id)->delete();
-        return Redirect::route('room.index');
-    }
 }
