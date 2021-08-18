@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TempWeb extends Migration
+class CreateDivision extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class TempWeb extends Migration
      */
     public function up()
     {
-        Schema::create('temp_web', function (Blueprint $table) {
+        Schema::create('division', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
             $table->string('name');
-            $table->enum('category', ['Domain', 'Hosting']);
-            $table->date('due');
         });
     }
 
@@ -29,6 +26,6 @@ class TempWeb extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('temp_web');
+        Schema::dropIfExists('division');
     }
 }

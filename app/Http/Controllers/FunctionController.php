@@ -101,6 +101,8 @@ class FunctionController extends Controller
                 return true;
             case 11:
                 return true;
+            case 13:
+                return true;
             default:
                 return false;
         }
@@ -118,6 +120,8 @@ class FunctionController extends Controller
             case 9:
                 return true;
             case 10:
+                return true;
+            case 12:
                 return true;
             default:
                 return false;
@@ -172,6 +176,11 @@ class FunctionController extends Controller
         return Auth::user()->role_id == 10 ? true : false;
     }
 
+    public function onlyUserDevice()
+    {
+        return Auth::user()->role_id == 12 ? true : false;
+    }
+
     public function onlyAdminProduction()
     {
         return Auth::user()->role_id == 2 ? true : false;
@@ -195,6 +204,11 @@ class FunctionController extends Controller
     public function onlyAdminWebsite()
     {
         return Auth::user()->role_id == 11 ? true : false;
+    }
+
+    public function onlyAdminDevice()
+    {
+        return Auth::user()->role_id == 13 ? true : false;
     }
 
     public function superAdmin()

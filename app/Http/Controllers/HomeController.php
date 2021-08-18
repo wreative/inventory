@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Device;
 use App\Models\Equipment;
 use App\Models\Production;
 use App\Models\Vehicle;
@@ -82,6 +83,14 @@ class HomeController extends Controller
                     ->get();
                 return view('pages.print.websitePrint', [
                     'website' => $website
+                ]);
+            case 'device':
+                $device = Device::where('add', 0)
+                    ->where('edit', 0)
+                    ->where('del', 0)
+                    ->get();
+                return view('pages.print.devicePrint', [
+                    'device' => $device
                 ]);
             default:
                 return Redirect::route('home')

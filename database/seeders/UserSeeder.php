@@ -93,6 +93,20 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('admin5'),
                 'role_id' => '11'
             ],
+            [
+                'id' => '12',
+                'name' => 'User Device',
+                'username' => 'user6',
+                'password' => Hash::make('user6'),
+                'role_id' => '12'
+            ],
+            [
+                'id' => '13',
+                'name' => 'Admin Device',
+                'username' => 'admin6',
+                'password' => Hash::make('admin6'),
+                'role_id' => '13'
+            ],
         ]);
     }
 }

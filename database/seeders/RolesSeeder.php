@@ -59,6 +59,14 @@ class RolesSeeder extends Seeder
                 'id' => '11',
                 'name' => 'Admin Website',
             ],
+            [
+                'id' => '12',
+                'name' => 'User Device',
+            ],
+            [
+                'id' => '13',
+                'name' => 'Admin Device',
+            ],
         ]);
     }
 }

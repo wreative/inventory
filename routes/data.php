@@ -7,6 +7,8 @@ use App\Http\Controllers\RentalController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\DivisionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -69,6 +71,21 @@ Route::get('website/accept/{id}', [WebsiteController::class, 'accept'])
     ->name('website.acc');
 Route::get('website/reject/{id}', [WebsiteController::class, 'reject'])
     ->name('website.reject');
+
+// Device
+Route::resource('device', DeviceController::class);
+Route::get('/approve/device', [DeviceController::class, 'approv'])
+    ->name('device.approv');
+Route::get('/deny/device', [DeviceController::class, 'deny'])
+    ->name('device.deny');
+// Special Action Device
+Route::get('device/accept/{id}', [DeviceController::class, 'accept'])
+    ->name('device.acc');
+Route::get('device/reject/{id}', [DeviceController::class, 'reject'])
+    ->name('device.reject');
+
+// Division
+Route::resource('division', DivisionController::class);
 
 // Room
 Route::resource('room', RoomController::class)->except([

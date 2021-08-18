@@ -122,14 +122,48 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown {{ Request::route()->getName() == 'device.index' ? 'active' : (
+                Request::route()->getName() == 'device.create' ? 'active' : (
+                    Request::route()->getName() == 'device.approv' ? 'active' : (
+                        Request::route()->getName() == 'device.edit' ? 'active' : (
+                            Request::route()->getName() == 'device.show' ? 'active' : (
+                                Request::route()->getName() == 'device.deny' ? 'active' : ''))))) }}">
+                <a href="{{ route('device.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>{{ __('Device') }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::route()->getName() == 'device.index' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('device.index') }}">{{ __('Daftar') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'device.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('device.create') }}">{{ __('Tambah') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'device.approv' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('device.approv') }}">{{ __('Persetujuan') }}</a>
+                    </li>
+                </ul>
+            </li>
             @if (Auth::user()->role_id == 1)
-            <li class="{{ Request::route()->getName() == 'users.index' ? 'active' : '' }}">
+            <li class="{{ Request::route()->getName() == 'users.index' ? 'active' : (
+                Request::route()->getName() == 'users.create' ? 'active' : (
+                    Request::route()->getName() == 'users.edit' ? 'active' : '')) }}">
                 <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i>
                     <span>{{ __('Pengguna') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'room.index' ? 'active' : '' }}">
+            <li class="{{ Request::route()->getName() == 'room.index' ? 'active' : (
+                Request::route()->getName() == 'room.create' ? 'active' : (
+                    Request::route()->getName() == 'room.edit' ? 'active' : '')) }}">
                 <a class="nav-link" href="{{ route('room.index') }}"><i class="fas fa-map-marker-alt"></i>
                     <span>{{ __('Ruangan') }}</span></a>
+            </li>
+            <li class="{{ Request::route()->getName() == 'division.index' ? 'active' : (
+                Request::route()->getName() == 'division.create' ? 'active' : (
+                    Request::route()->getName() == 'division.edit' ? 'active' : '')) }}">
+                <a class="nav-link" href="{{ route('division.index') }}">
+                    <i class="fas fa-user-tag"></i>
+                    <span>{{ __('Divisi') }}</span>
+                </a>
             </li>
             @endif
         </ul>
