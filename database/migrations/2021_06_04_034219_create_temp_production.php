@@ -24,6 +24,7 @@ class CreateTempProduction extends Migration
             $table->enum('condition', ['Ada', 'Tidak Ada', 'Rusak', 'Hilang']);
             $table->json('img');
             $table->longText('info')->nullable();
+            $table->foreignId('category');
         });
     }
 

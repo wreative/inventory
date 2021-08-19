@@ -28,8 +28,14 @@ class Production extends Model
         'condition',
         'img',
         'info',
+        'category',
         'add',
         'edit',
         'del'
     ];
+
+    public function relationCategory()
+    {
+        return $this->belongsTo('App\Models\CategoryProduction', 'category', 'id');
+    }
 }

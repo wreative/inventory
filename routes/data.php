@@ -9,6 +9,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\CategoryProductionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,6 +24,10 @@ Route::get('production/accept/{id}', [ProductionController::class, 'accept'])
     ->name('production.acc');
 Route::get('production/reject/{id}', [ProductionController::class, 'reject'])
     ->name('production.reject');
+// Category
+Route::resource('category-production', CategoryProductionController::class)->except([
+    'show', 'destroy'
+]);
 
 // Equipment
 Route::resource('equipment', EquipmentController::class);

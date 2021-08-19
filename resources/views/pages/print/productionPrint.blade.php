@@ -14,6 +14,7 @@
             <th>{{ __('Harga Perolehan') }}</th>
             <th>{{ __('Tanggal Perolehan') }}</th>
             <th>{{ __('Qty') }}</th>
+            <th>{{ __('Kategori') }}</th>
             <th>{{ __('Kondisi') }}</th>
             <th>{{ __('Info') }}</th>
         </tr>
@@ -37,6 +38,13 @@
             </td>
             <td>
                 {{ $p->qty }}
+            </td>
+            <td>
+                @if ($p->category == null or $p->category == '')
+                {{ __('Tidak Ada') }}
+                @else
+                {{ $p->relationCategory->name }}
+                @endif
             </td>
             <td>
                 {{ $p->condition }}

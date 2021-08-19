@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TempProduction extends Model
+class CategoryProduction extends Model
 {
     use HasFactory;
     /**
@@ -14,20 +14,16 @@ class TempProduction extends Model
      * @var array
      */
 
-    protected $table = 'temp_prod';
+    protected $table = 'cat_production';
     public $remember_token = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'code',
-        'name',
-        'brand',
-        'qty',
-        'price_acq',
-        'date_acq',
-        'condition',
-        'img',
-        'info',
-        'category'
+        'name'
     ];
+
+    public function relationProduction()
+    {
+        return $this->hasMany('App\Models\Production', 'category', 'id');
+    }
 }

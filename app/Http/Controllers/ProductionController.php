@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryProduction;
 use App\Models\Production;
 use App\Models\TempProduction;
 use Illuminate\Http\Request;
@@ -72,7 +73,10 @@ class ProductionController extends Controller
             '0',
             STR_PAD_LEFT
         );
-        return view('pages.data.production.createProduction', ['code' => $code]);
+        return view('pages.data.production.createProduction', [
+            'code' => $code,
+            'category' => CategoryProduction::all()
+        ]);
     }
 
     public function store(Request $req)
@@ -86,6 +90,7 @@ class ProductionController extends Controller
             'qty' => 'required',
             'condition' => 'required',
             'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
+            'category' => 'required'
         ])->validate();
 
         // Remove Comma
@@ -119,6 +124,7 @@ class ProductionController extends Controller
             'condition' => $this->FunctionController->condition($req->condition),
             'img' => $dataIMG,
             'info' => $req->info,
+            'category' => $req->category,
             'add' => $addPermissions == true ? 1 : 0,
             'edit' => 0,
             'del' => 0,
@@ -141,7 +147,8 @@ class ProductionController extends Controller
         ) {
             $production = Production::find($id);
             return view('pages.data.production.updateProduction', [
-                'production' => $production
+                'production' => $production,
+                'category' => CategoryProduction::all()
             ]);
         } else {
             return Redirect::route('home')
@@ -159,6 +166,7 @@ class ProductionController extends Controller
             'qty' => 'required',
             'condition' => 'required',
             'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|nullable',
+            'category' => 'required'
         ])->validate();
 
         // Remove Comma
@@ -179,7 +187,8 @@ class ProductionController extends Controller
                 'date_acq' => $production->date_acq,
                 'condition' => $production->condition,
                 'img' => $production->img,
-                'info' => $production->info
+                'info' => $production->info,
+                'category' => $production->category
             ]);
         }
 
@@ -226,6 +235,7 @@ class ProductionController extends Controller
             $production->img = $dataIMG;
         }
         $production->info = $req->info;
+        $production->category = $req->category;
         $production->add = 0;
         $production->edit = $editPermissions == true ? 1 : 0;
         $production->del = 0;
@@ -265,7 +275,8 @@ class ProductionController extends Controller
     {
         $production = Production::find($id);
         return view('pages.data.production.showProduction', [
-            'production' => $production
+            'production' => $production,
+            'category' => CategoryProduction::all()
         ]);
     }
 
@@ -398,6 +409,7 @@ class ProductionController extends Controller
         $production->condition = $productionTemp->condition;
         $production->img = $productionTemp->img;
         $production->info = $productionTemp->info;
+        $production->category = $productionTemp->category;
         $production->add = 0;
         $production->edit = 0;
         $production->del = 0;

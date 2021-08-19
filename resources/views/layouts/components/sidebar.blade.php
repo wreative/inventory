@@ -13,12 +13,16 @@
                         class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Data') }}</li>
-            <li class="nav-item dropdown {{ Request::route()->getName() == 'production.index' ? 'active' : (
+            <li
+                class="nav-item dropdown {{ Request::route()->getName() == 'production.index' ? 'active' : (
                 Request::route()->getName() == 'production.create' ? 'active' : (
                     Request::route()->getName() == 'production.approv' ? 'active' : (
                         Request::route()->getName() == 'production.edit' ? 'active' : (
                             Request::route()->getName() == 'production.show' ? 'active' : (
-                                Request::route()->getName() == 'production.deny' ? 'active' : ''))))) }}">
+                                Request::route()->getName() == 'production.deny' ? 'active' : (
+                                    Request::route()->getName() == 'category-production.index' ? 'active' : (
+                                        Request::route()->getName() == 'category-production.create' ? 'active' : (
+                                            Request::route()->getName() == 'category-production.edit' ? 'active' : '')))))))) }}">
                 <a href="{{ route('production.index') }}" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-tools"></i>
                     <span>{{ __('Alat Produksi') }}</span>
@@ -32,6 +36,11 @@
                     </li>
                     <li class="{{ Request::route()->getName() == 'production.approv' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('production.approv') }}">{{ __('Persetujuan') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'category-production.index' ? 'active' : (
+                        Request::route()->getName() == 'category-production.edit' ? 'active' : (
+                            Request::route()->getName() == 'category-production.create' ? 'active' : '')) }}">
+                        <a class="nav-link" href="{{ route('category-production.index') }}">{{ __('Kategori') }}</a>
                     </li>
                 </ul>
             </li>

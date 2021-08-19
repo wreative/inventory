@@ -120,6 +120,21 @@
                 @enderror
             </div>
             <div class="form-group">
+                <label>{{ __('Kategori') }}<code>*</code></label>
+                <select class="form-control select2 @error('category') is-invalid @enderror" name="category" required>
+                    @foreach ($category as $c)
+                    <option value="{{ $c->id }}" {{ $production->category == $c->id ? 'selected' : '' }}>
+                        {{ $c->name }}
+                    </option>
+                    @endforeach
+                </select>
+                @error('category')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label>{{ __('Keterangan') }}</label>
                 <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
                     rows="10" style="height: 77px;">

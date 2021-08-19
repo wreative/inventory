@@ -23,6 +23,7 @@
                     <th>{{ __('Harga Perolehan') }}</th>
                     <th>{{ __('Tanggal Perolehan') }}</th>
                     <th>{{ __('Qty') }}</th>
+                    <th>{{ __('Kategori') }}</th>
                     <th>{{ __('Kondisi') }}</th>
                     @if (Auth::user()->role_id == 1)
                     <th>{{ __('Perubahan') }}</th>
@@ -55,6 +56,13 @@
                     </td>
                     <td>
                         {{ $p->qty }}
+                    </td>
+                    <td>
+                        @if ($p->category == null or $p->category == '')
+                        {{ __('Tidak Ada') }}
+                        @else
+                        {{ $p->relationCategory->name }}
+                        @endif
                     </td>
                     <td>
                         <span class="badge badge-info">
