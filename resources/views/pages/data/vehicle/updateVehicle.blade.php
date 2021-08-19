@@ -104,7 +104,8 @@
                                 </div>
                             </div>
                             <input type="text" value="{{ $vehicle->kir }}"
-                                class="form-control datepicker @error('kir') is-invalid @enderror" name="kir">
+                                class="form-control datepicker @error('kir') is-invalid @enderror" name="kir"
+                                {{ $vehicle->kir == null ? 'readonly' : '' }}>
                             @error('kir')
                             <span class="text-danger" role="alert">
                                 {{ $message }}
@@ -112,7 +113,8 @@
                             @enderror
                         </div>
                         <label class="custom-switch mt-2">
-                            <input type="checkbox" name="kir_null" value="1" class="custom-switch-input">
+                            <input type="checkbox" name="kir_null" value="1" class="custom-switch-input"
+                                {{ $vehicle->kir == null ? 'checked' : '' }}>
                             <span class="custom-switch-indicator"></span>
                             <span class="custom-switch-description">
                                 {{ __('Kosongkan Tanggal Kir') }}
@@ -130,13 +132,22 @@
                                 </div>
                             </div>
                             <input type="text" value="{{ $vehicle->tax }}"
-                                class="form-control datepicker @error('tax') is-invalid @enderror" name="tax" required>
+                                class="form-control datepicker @error('tax') is-invalid @enderror" name="tax"
+                                {{ $vehicle->tax == null ? 'readonly' : '' }}>
                             @error('tax')
                             <span class="text-danger" role="alert">
                                 {{ $message }}
                             </span>
                             @enderror
                         </div>
+                        <label class="custom-switch mt-2">
+                            <input type="checkbox" name="tax_null" value="1" class="custom-switch-input"
+                                {{ $vehicle->tax == null ? 'checked' : '' }}>
+                            <span class="custom-switch-indicator"></span>
+                            <span class="custom-switch-description">
+                                {{ __('Kosongkan Tanggal Pajak Tahunan') }}
+                            </span>
+                        </label>
                     </div>
                 </div>
                 <div class="col">
@@ -150,13 +161,21 @@
                             </div>
                             <input type="text" value="{{ $vehicle->stnk }}"
                                 class="form-control datepicker @error('stnk') is-invalid @enderror" name="stnk"
-                                required>
+                                {{ $vehicle->stnk == null ? 'readonly' : '' }}>
                             @error('stnk')
                             <span class="text-danger" role="alert">
                                 {{ $message }}
                             </span>
                             @enderror
                         </div>
+                        <label class="custom-switch mt-2">
+                            <input type="checkbox" name="stnk_null" value="1" class="custom-switch-input"
+                                {{ $vehicle->stnk == null ? 'checked' : '' }}>
+                            <span class="custom-switch-indicator"></span>
+                            <span class="custom-switch-description">
+                                {{ __('Kosongkan Tanggal STNK') }}
+                            </span>
+                        </label>
                     </div>
                 </div>
             </div>

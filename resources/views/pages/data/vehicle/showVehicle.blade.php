@@ -71,8 +71,8 @@
                                 <i class="far fa-calendar"></i>
                             </div>
                         </div>
-                        <input type="text" value="{{ $vehicle->kir }}" class="form-control datepicker" name="kir"
-                            readonly>
+                        <input type="text" value="{{ $vehicle->kir == null ? 'Tidak Ada' : $vehicle->kir }}"
+                            class="form-control" name="kir" readonly>
                     </div>
                 </div>
             </div>
@@ -85,8 +85,8 @@
                                 <i class="far fa-calendar"></i>
                             </div>
                         </div>
-                        <input type="text" value="{{ $vehicle->tax }}" class="form-control datepicker" name="tax"
-                            readonly>
+                        <input type="text" value="{{ $vehicle->tax == null ? 'Tidak Ada' : $vehicle->tax }}"
+                            class="form-control" name="tax" readonly>
                     </div>
                 </div>
             </div>
@@ -99,8 +99,8 @@
                                 <i class="far fa-calendar"></i>
                             </div>
                         </div>
-                        <input type="text" value="{{ $vehicle->stnk }}" class="form-control datepicker" name="stnk"
-                            readonly>
+                        <input type="text" value="{{ $vehicle->stnk == null ? 'Tidak Ada' : $vehicle->stnk }}"
+                            class="form-control" name="stnk" readonly>
                     </div>
                 </div>
             </div>

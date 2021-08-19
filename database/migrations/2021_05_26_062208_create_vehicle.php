@@ -23,8 +23,8 @@ class CreateVehicle extends Migration
             $table->string('step');
             $table->string('engine');
             $table->date('kir')->nullable();
-            $table->date('tax');
-            $table->date('stnk');
+            $table->date('tax')->nullable();
+            $table->date('stnk')->nullable();
             $table->longText('info')->nullable();
             $table->boolean('add')->nullable();
             $table->boolean('edit')->nullable();

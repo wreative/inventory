@@ -52,10 +52,18 @@
                 @endif
             </td>
             <td>
+                @if ($v->tax != null)
                 {{ date("d-m-Y", strtotime($v->tax)) }}
+                @else
+                {{ __('Tidak Ada') }}
+                @endif
             </td>
             <td>
+                @if ($v->stnk != null)
                 {{ date("d-m-Y", strtotime($v->stnk)) }}
+                @else
+                {{ __('Tidak Ada') }}
+                @endif
             </td>
             <td>
                 {{ $v->info }}

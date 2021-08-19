@@ -80,8 +80,8 @@ class VehicleController extends Controller
             'step' => 'required',
             'engine' => 'required',
             'kir' => 'date',
-            'tax' => 'required|date',
-            'stnk' => 'required|date',
+            'tax' => 'date',
+            'stnk' => 'date',
         ])->validate();
 
         // Permissions
@@ -96,8 +96,8 @@ class VehicleController extends Controller
             'step' => $req->step,
             'engine' => $req->engine,
             'kir' => $req->kir_null == 1 ? null : $req->kir,
-            'tax' => $req->tax,
-            'stnk' => $req->stnk,
+            'tax' => $req->tax_null == 1 ? null : $req->tax,
+            'stnk' => $req->stnk_null == 1 ? null : $req->stnk,
             'status' => $req->status,
             'info' => $req->info,
             'add' => $addPermissions == true ? 1 : 0,
@@ -152,8 +152,8 @@ class VehicleController extends Controller
                 'brand' => 'required',
                 'plat' => 'required',
                 'kir' => 'date',
-                'tax' => 'required|date',
-                'stnk' => 'required|date',
+                'tax' => 'date',
+                'stnk' => 'date',
             ])->validate();
 
             // Initiation
@@ -187,8 +187,8 @@ class VehicleController extends Controller
             $vehicle->step = $req->step;
             $vehicle->engine = $req->engine;
             $vehicle->kir = $req->kir_null == 1 ? null : $req->kir;
-            $vehicle->tax = $req->tax;
-            $vehicle->stnk = $req->stnk;
+            $vehicle->tax = $req->tax_null == 1 ? null : $req->tax;
+            $vehicle->stnk = $req->stnk_null == 1 ? null : $req->stnk;
             $vehicle->info = $req->info;
             $vehicle->add = 0;
             $vehicle->edit = $editPermissions == true ? 1 : 0;
