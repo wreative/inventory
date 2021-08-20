@@ -61,8 +61,8 @@
                     <th>{{ __('Nama Pemegang HP') }}</th>
                     <th>{{ __('Nomor HP') }}</th>
                     <th>{{ __('Kode HP') }}</th>
+                    <th>{{ __('Kode Kartu') }}</th>
                     <th>{{ __('Masa Aktif') }}</th>
-                    <th>{{ __('Masa Tenggang') }}</th>
                     @isset($notUser)
                     <th>{{ __('Aksi') }}</th>
                     @endisset
@@ -87,10 +87,10 @@
                         {{ $d->code_phone }}
                     </td>
                     <td>
-                        {{ date("d-m-Y", strtotime($d->active)) }}
+                        {{ $d->code_card }}
                     </td>
                     <td>
-                        {{ date("d-m-Y", strtotime($d->grace)) }}
+                        {{ date("d-m-Y", strtotime($d->active)) }}
                     </td>
                     @isset($notUser)
                     <td>

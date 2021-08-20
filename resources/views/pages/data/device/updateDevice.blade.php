@@ -32,7 +32,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Tipe') }}<code>*</code></label>
+                        <label>{{ __('Merk') }}<code>*</code></label>
                         <input type="text" value="{{ $device->type }}"
                             class="form-control @error('type') is-invalid @enderror" name="type" required>
                         @error('type')
@@ -44,18 +44,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label>{{ __('Kode HP') }}<code>*</code></label>
-                        <input type="text" value="{{ $device->code_phone }}"
-                            class="form-control @error('code_phone') is-invalid @enderror" name="code_phone" required>
-                        @error('code_phone')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                    </div>
-                </div>
                 <div class="col">
                     <div class="form-group">
                         <label>{{ __('No HP') }}<code>*</code></label>
@@ -94,6 +82,32 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
+                        <label>{{ __('Kode HP') }}<code>*</code></label>
+                        <input type="text" value="{{ $device->code_phone }}"
+                            class="form-control @error('code_phone') is-invalid @enderror" name="code_phone" required>
+                        @error('code_phone')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>{{ __('Kode Kartu') }}<code>*</code></label>
+                        <input type="text" value="{{ $device->code_card }}"
+                            class="form-control @error('code_card') is-invalid @enderror" name="code_card" required>
+                        @error('code_card')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
                         <label>{{ __('Masa Aktif') }}<code>*</code></label>
                         <input type="text" value="{{ $device->active }}"
                             class="form-control datepicker @error('active') is-invalid @enderror" name="active"
@@ -106,47 +120,23 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="col">
-                        <div class="form-group">
-                            <label>{{ __('Masa Tenggang') }}<code>*</code></label>
-                            <input type="text" value="{{ $device->grace }}"
-                                class="form-control datepicker @error('grace') is-invalid @enderror" name="grace"
-                                required>
-                            @error('grace')
-                            <span class="text-danger" role="alert">
-                                {{ $message }}
-                            </span>
-                            @enderror
-                        </div>
+                    <div class="form-group">
+                        <label>{{ __('Divisi') }}<code>*</code></label>
+                        <select class="form-control select2 @error('division') is-invalid @enderror" name="division"
+                            required>
+                            @foreach ($division as $d)
+                            <option value="{{ $d->id }}" {{ $device->division == $d->id ? 'selected' : '' }}>
+                                {{ $d->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('division')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>{{ __('Divisi') }}<code>*</code></label>
-                <select class="form-control select2 @error('division') is-invalid @enderror" name="division" required>
-                    @foreach ($division as $d)
-                    <option value="{{ $d->id }}" {{ $device->division == $d->id ? 'selected' : '' }}>
-                        {{ $d->name }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('division')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Aksesoris') }}</label>
-                <textarea type="text" class="form-control @error('acc') is-invalid @enderror" name="acc" cols="150"
-                    rows="10" style="height: 77px;">
-                {{ $device->acc }}
-                </textarea>
-                @error('acc')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
             </div>
         </div>
         <div class="card-footer text-right">

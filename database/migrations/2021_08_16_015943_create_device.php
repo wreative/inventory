@@ -19,11 +19,10 @@ class CreateDevice extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('code_phone');
+            $table->string('code_card');
             $table->string('no');
             $table->enum('wa', ['Ya', 'Tidak']);
             $table->date('active');
-            $table->date('grace');
-            $table->longText('acc')->nullable();
             $table->foreignId('division');
             $table->boolean('add')->nullable();
             $table->boolean('edit')->nullable();

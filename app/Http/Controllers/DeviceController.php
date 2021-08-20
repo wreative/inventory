@@ -85,10 +85,10 @@ class DeviceController extends Controller
             'name' => 'required',
             'type' => 'required',
             'code_phone' => 'required',
+            'code_card' => 'required',
             'no' => 'required',
             'wa' => 'required',
             'active' => 'required|date',
-            'grace' => 'required|date',
             'division' => 'required',
         ])->validate();
 
@@ -100,12 +100,11 @@ class DeviceController extends Controller
             'name' => $req->name,
             'type' => $req->type,
             'code_phone' => $req->code_phone,
+            'code_card' => $req->code_card,
             'no' => $req->no,
             'wa' => $req->wa,
             'active' => $req->active,
-            'grace' => $req->grace,
             'division' => $req->division,
-            'acc' => $req->acc,
             'add' => $addPermissions == true ? 1 : 0,
             'edit' => 0,
             'del' => 0
@@ -157,10 +156,10 @@ class DeviceController extends Controller
                 'name' => 'required',
                 'type' => 'required',
                 'code_phone' => 'required',
+                'code_card' => 'required',
                 'no' => 'required',
                 'wa' => 'required',
                 'active' => 'required|date',
-                'grace' => 'required|date',
                 'division' => 'required',
             ])->validate();
 
@@ -174,12 +173,11 @@ class DeviceController extends Controller
                     'name' => $device->name,
                     'type' => $device->type,
                     'code_phone' => $device->code_phone,
+                    'code_card' => $req->code_card,
                     'no' => $device->no,
                     'wa' => $device->wa,
                     'active' => $req->active,
-                    'grace' => $req->grace,
                     'division' => $req->division,
-                    'acc' => $req->acc,
                 ]);
             }
 
@@ -192,12 +190,11 @@ class DeviceController extends Controller
                     'name' => $req->name,
                     'type' => $req->type,
                     'code_phone' => $req->code_phone,
+                    'code_card' => $req->code_card,
                     'no' => $req->no,
                     'wa' => $req->wa,
                     'active' => $req->active,
-                    'grace' => $req->grace,
                     'division' => $req->division,
-                    'acc' => $req->acc,
                     'add' => 0,
                     'edit' => $editPermissions == true ? 1 : 0,
                     'del' => 0
@@ -365,12 +362,11 @@ class DeviceController extends Controller
                 'name' => $deviceTemp->name,
                 'type' => $deviceTemp->type,
                 'code_phone' => $deviceTemp->code_phone,
+                'code_card' => $deviceTemp->code_card,
                 'no' => $deviceTemp->no,
                 'wa' => $deviceTemp->wa,
                 'active' => $deviceTemp->active,
-                'grace' => $deviceTemp->grace,
                 'division' => $deviceTemp->division,
-                'acc' => $deviceTemp->acc,
                 'add' => 0,
                 'edit' => 0,
                 'del' => 0

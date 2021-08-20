@@ -23,11 +23,10 @@ class TempDevice extends Model
         'name',
         'type',
         'code_phone',
+        'code_card',
         'no',
         'wa',
         'active',
-        'grace',
-        'acc',
         'division',
     ];
 }
