@@ -21,6 +21,7 @@
     </thead>
     <tbody>
         @foreach($production as $number => $p)
+        @if ($p->relationProduction->count() != 0)
         <tr>
             <td rowspan="{{ $p->relationProduction->count() }}">
                 {{ $p->name }}
@@ -84,6 +85,7 @@
                 </td>
             </tr>
             @endfor
+            @endif
             @endforeach
     </tbody>
 </table>
