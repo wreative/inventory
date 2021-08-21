@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryProduction;
 use App\Models\Device;
 use App\Models\Equipment;
 use App\Models\Production;
 use App\Models\Vehicle;
 use App\Models\Rental;
 use App\Models\Website;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
@@ -53,12 +55,10 @@ class HomeController extends Controller
                     'equipment' => $equipment
                 ]);
             case 'production':
-                $production = Production::where('add', 0)
-                    ->where('edit', 0)
-                    ->where('del', 0)
+                $production = CategoryProduction::with('relationProduction')
                     ->get();
                 return view('pages.print.productionPrint', [
-                    'production' => $production
+                    'production' => $production,
                 ]);
             case 'rental':
                 $rental = Rental::where('add', 0)
