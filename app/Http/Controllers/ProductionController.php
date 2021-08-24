@@ -89,7 +89,7 @@ class ProductionController extends Controller
             'date_acq' => 'required|date',
             'qty' => 'required',
             'condition' => 'required',
-            'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|nullable',
+            'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|nullable',
             'category' => 'required'
         ])->validate();
 

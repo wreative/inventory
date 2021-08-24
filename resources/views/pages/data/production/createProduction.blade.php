@@ -143,7 +143,7 @@
             <div class="form-group">
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" name="img[]"
-                        accept="image/png, image/jpeg, image/jpg, image/svg" id="img" multiple required>
+                        accept="image/png, image/jpeg, image/jpg, image/svg" id="img" multiple>
                     <label class="custom-file-label" for="img" id="img_label">{{ __('Pilih File') }}</label>
                 </div>
                 @error('img')
