@@ -119,7 +119,7 @@ class ProductionController extends Controller
             'name' => $req->name,
             'brand' => $req->brand,
             'price_acq' => $price_acq,
-            'date_acq' => $req->date_acq,
+            'date_acq' => date("Y-m-d", strtotime($req->date_acq)),
             'qty' => $qty,
             'condition' => $this->FunctionController->condition($req->condition),
             'img' => $dataIMG,
@@ -228,7 +228,7 @@ class ProductionController extends Controller
         $production->name = $req->name;
         $production->brand = $req->brand;
         $production->price_acq = $price_acq;
-        $production->date_acq = $req->date_acq;
+        $production->date_acq = date("Y-m-d", strtotime($req->date_acq));
         $production->qty = $qty;
         $production->condition = $this->FunctionController->condition($req->condition);
         if ($req->hasFile('img')) {
