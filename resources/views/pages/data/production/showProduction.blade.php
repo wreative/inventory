@@ -24,20 +24,42 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label>{{ __('Nama Alat Produksi') }}</label>
-                    <input type="text" class="form-control" value="{{ $production->name }}" name="name" readonly>
+                    <label>{{ __('Nama Alat Produksi') }}<code>*</code></label>
+                    <input type="text" class="form-control" value="{{ $production->name }}" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label>{{ __('Merk') }}</label>
-                    <input type="text" class="form-control" value="{{ $production->brand }}" name="brand" readonly>
+                    <label>{{ __('Merk') }}<code>*</code></label>
+                    <input type="text" class="form-control" value="{{ $production->brand }}" readonly>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label>{{ __('Jumlah') }}</label>
-                    <input type="text" class="form-control" value="{{ $production->qty }}" name="qty" readonly>
+                    <label>{{ __('Jumlah') }}<code>*</code></label>
+                    <input type="text" class="form-control" value="{{ $production->qty }}" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('Harga Perolehan') }}<code>*</code></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                {{ __('Rp.') }}
+                            </div>
+                        </div>
+                        <input type="text" value="{{ $production->price_acq }}" class="form-control currency" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>{{ __('Tanggal Perolehan') }}<code>*</code></label>
+                    <input type="month" value="{{ date("Y-m", strtotime($production->date_acq)) }}" class="form-control"
+                        readonly>
                 </div>
             </div>
         </div>
@@ -75,11 +97,6 @@
                 </option>
                 @endforeach
             </select>
-            @error('category')
-            <span class="text-danger" role="alert">
-                {{ $message }}
-            </span>
-            @enderror
         </div>
         <div class="form-group">
             <label>{{ __('Keterangan') }}</label>

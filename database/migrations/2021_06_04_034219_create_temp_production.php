@@ -22,7 +22,7 @@ class CreateTempProduction extends Migration
             $table->bigInteger('price_acq');
             $table->date('date_acq');
             $table->enum('condition', ['Ada', 'Tidak Ada', 'Rusak', 'Hilang']);
-            $table->json('img');
+            $table->json('img')->nullable();
             $table->longText('info')->nullable();
             $table->foreignId('category');
         });

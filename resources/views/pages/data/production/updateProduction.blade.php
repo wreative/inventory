@@ -79,7 +79,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label>{{ __('Tanggal Perolehan') }}<code>*</code></label>
-                        <input type="month" value="{{ $production->date_acq }}"
+                        <input type="month" value="{{ date("Y-m", strtotime($production->date_acq)) }}"
                             class="form-control @error('date_acq') is-invalid @enderror" name="date_acq" required>
                         @error('date_acq')
                         <span class="text-danger" role="alert">
@@ -147,12 +147,14 @@
                 @enderror
             </div>
             <div class="section-title mt-0">{{ __('Gambar') }}</div>
+            @if($production->img != null)
             <div class="gallery" data-item-height="100">
                 @foreach(json_decode($production->img) as $i )
                 <div class="gallery-item" data-image="{{ asset('storage')."/production/".$production->code."/".$i }}">
                 </div>
                 @endforeach
             </div>
+            @endif
             <div class="form-group">
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" name="img[]"

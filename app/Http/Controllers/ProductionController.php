@@ -96,6 +96,7 @@ class ProductionController extends Controller
         // Remove Comma
         $price_acq = $this->FunctionController->removeComma($req->price_acq);
         $qty = $this->FunctionController->removeComma($req->qty);
+        dd($req->date_acq);
 
         // Image
         if ($req->hasFile('img')) {
